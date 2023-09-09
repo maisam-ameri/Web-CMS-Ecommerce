@@ -35,6 +35,7 @@ namespace Cms.Core
 
         [Display(Name = "تکرار رمز عبور")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
+        [Compare("Password",ErrorMessage ="رمز عبور مغایرت دارد")]
         public string RePassword { get; set; }
 
         [Display(Name = "آدرس")]

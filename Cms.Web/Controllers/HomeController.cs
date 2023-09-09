@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Cms.Core.Security;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Cms.Web.Controllers
 {

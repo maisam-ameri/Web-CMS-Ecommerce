@@ -8,7 +8,7 @@
 <div class="container">
     <nav aria-label="breadcrumb">
         <ul class="breadcrumb">
-            <li class="breadcrumb-item"><a href="#">Cms</a></li>
+            <li class="breadcrumb-item"><a href="/">Cms</a></li>
             <li class="breadcrumb-item active" aria-current="page">عضویت در سایت</li>
         </ul>
     </nav>
@@ -45,35 +45,35 @@
 
                 <div class="input-group">
                     <span class="input-group-addon" id="password"><i class="zmdi zmdi-lock"></i></span>
-                    <input asp-for="Password" type="text" class="form-control" placeholder="رمز عبور " aria-describedby="password">
+                    <input asp-for="Password" type="password" class="form-control" placeholder="رمز عبور " aria-describedby="password">
                 </div>
 
                 <div class="input-group">
                     <span class="input-group-addon" id="rePassword"><i class="zmdi zmdi-lock"></i></span>
-                    <input asp-for="RePassword" type="text" class="form-control" placeholder="تکرار رمز عبور " aria-describedby="password">
+                    <input asp-for="RePassword" type="password" class="form-control" placeholder="تکرار رمز عبور " aria-describedby="password">
                 </div>
 
                 <div class="input-group">
-                    <span class="input-group-addon" id="address"><i class="zmdi zmdi-email"></i></span>
+                    <span class="input-group-addon" id="address"><i class="zmdi zmdi-my-location"></i></span>
                     <input asp-for="Address" type="text" class="form-control" placeholder="آدرس" aria-describedby="email-address">
                 </div>
 
                 <div class="input-group">
-                    <span class="input-group-addon" id="phone"><i class="zmdi zmdi-email"></i></span>
+                    <span class="input-group-addon" id="phone"><i class="zmdi zmdi-phone"></i></span>
                     <input asp-for="Phone" type="text" class="form-control" placeholder="شماره تماس" aria-describedby="email-address">
                 </div>
 
                 <div class="input-group">
-                    <span class="input-group-addon" id="avatar"><i class="zmdi zmdi-email"></i></span>
+                    <span class="input-group-addon" id="avatar"><i class="zmdi zmdi-image"></i></span>
                     <input asp-for="Avatar" type="text" class="form-control" placeholder="نمایه" aria-describedby="email-address">
                 </div>
 
                 <div class="input-group">
-                    <span class="input-group-addon" id="avatar"><i class="zmdi zmdi-email"></i></span>
+                    <span class="input-group-addon" id="avatar"><i class="zmdi zmdi-calendar"></i></span>
                     <input asp-for="BirthDate" type="date" class="form-control" placeholder="تاریخ تولد" aria-describedby="email-address">
                 </div>
 
-
+                <div class=" alert-danger" asp-validation-summary="All"></div>
                 
                 <div class="link">
                     <a href="/Login"> <i class="zmdi zmdi-account"></i> ورود به سایت </a>

@@ -1,3 +1,4 @@
+using Cms.Core.Services;
 using Cms.DataLayer.Context;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,6 +14,12 @@ builder.Services.AddDbContext<CmsContext>(option =>
 {
     option.UseSqlServer(builder.Configuration.GetConnectionString("CmsConnection"));
 });
+#endregion
+
+#region Ioc
+
+builder.Services.AddScoped<IUserService, UserService>();
+
 #endregion
 
 var app = builder.Build();
