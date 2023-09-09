@@ -17,6 +17,8 @@ namespace Cms.Web.Controllers
             _userService = userService;
         }
 
+        #region Register
+
         [Route("Register")]
         public IActionResult Register()
         {
@@ -64,5 +66,18 @@ namespace Cms.Web.Controllers
 
             return View("RegisterCompleted", user);
         }
+
+        #endregion
+
+        #region Login
+
+        [Route("Login")]
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        #endregion
+
     }
 }
