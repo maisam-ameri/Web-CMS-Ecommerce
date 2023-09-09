@@ -5,6 +5,7 @@ using Cms.Core.Security;
 using Cms.Core.Services;
 using Cms.DataLayer;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Cms.Web.Controllers
 {
@@ -16,6 +17,8 @@ namespace Cms.Web.Controllers
         {
             _userService = userService;
         }
+
+
 
         #region Register
 
@@ -50,7 +53,7 @@ namespace Cms.Web.Controllers
             {
                 UserName = register.UserName,
                 Email = register.Email.FixEmail(),
-                Password = PasswordHash.CreateHash(register.Password),
+                Password = PasswordHash.EncodePasswordMd5(register.Password),
                 IsActive = false,
                 Address = register.Address,
                 Avatar = register.Avatar,
@@ -74,6 +77,50 @@ namespace Cms.Web.Controllers
         [Route("Login")]
         public IActionResult Login()
         {
+            return View();
+        }
+
+        [Route("Login")]
+        [HttpPost]
+        public IActionResult Login(LoginDto login)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return View(login);
+
+            }
+
+            var user = _userService.LoginUser(login);
+            if(user == null)
+            {
+                ModelState.AddModelError("UserName", "اطلاعات وارد شده نا معتبر است");
+                return View(login);
+            }
+
+            if (user.IsActive)
+            {
+
+                // TODO: Login the user
+                ViewBag.LoginSuccessed = true;
+            }
+            else
+            {
+                ModelState.AddModelError("UserName", "حساب کاربری شما فعال نمی باشد");
+            }
+
+
+            return View(login);
+        }
+
+
+        #endregion
+
+        #region Active Account
+
+        public IActionResult ActiveAccount(string id)
+        {
+            ViewBag.IsActive = _userService.ActiveAccount(id);
             return View();
         }
 

@@ -19,6 +19,19 @@
 
         <header><h2> ورود به سایت </h2></header>
 
+        @if (ViewBag.LoginSuccessed != null)
+        {
+            <div class="alert alert-success">
+                <p class="help-block" >@Model.UserName عزیز ، خوش آمدید</p>
+                <script>
+                    // Your delay in milliseconds
+                    var delay = 3000;
+                    setTimeout(function () { window.location = "/"; }, delay);
+                </script>
+            </div>
+        }
+
+
         <div class="form-layer">
 
             <form action="/Login" method="post">
@@ -27,13 +40,13 @@
                     <span class="input-group-addon" id="username"><i class="zmdi zmdi-account"></i></span>
                     <input asp-for="UserName" type="text" class="form-control" placeholder="نام کاربری" aria-describedby="account">
                 </div>
+                <span asp-validation-for="UserName" class="text-danger"></span>
 
                 <div class="input-group">
                     <span class="input-group-addon" id="password"><i class="zmdi zmdi-lock"></i></span>
                     <input asp-for="Password" type="password" class="form-control" placeholder="رمز عبور " aria-describedby="password">
                 </div>
-
-                <div asp-validation-summary="All" class="alert-danger"></div>
+                <span asp-validation-for="Password" class="text-danger"></span>
 
                 <div class="remember-me">
                     <label><input asp-for="RememberMe" type="checkbox" name="">  مرا بخاطر بسپار </label>
