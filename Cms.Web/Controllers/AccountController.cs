@@ -4,6 +4,8 @@ using Cms.Core.Generators;
 using Cms.Core.Security;
 using Cms.Core.Services;
 using Cms.DataLayer;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
@@ -92,7 +94,7 @@ namespace Cms.Web.Controllers
             }
 
             var user = _userService.LoginUser(login);
-            if(user == null)
+            if (user == null)
             {
                 ModelState.AddModelError("UserName", "اطلاعات وارد شده نا معتبر است");
                 return View(login);
@@ -102,7 +104,23 @@ namespace Cms.Web.Controllers
             {
 
                 // TODO: Login the user
+                var claims = new List<Claim>();
+                claims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
+                claims.Add(new Claim(ClaimTypes.Name, user.FirstName.ToString()));
+
+                var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                var pricipal = new ClaimsPrincipal(identity);
+                var properties = new AuthenticationProperties
+                {
+                    IsPersistent = login.RememberMe,
+                };
+
+                 HttpContext.SignInAsync(pricipal, properties);
+
+
                 ViewBag.LoginSuccessed = true;
+                //return View(login);
             }
             else
             {
@@ -122,6 +140,17 @@ namespace Cms.Web.Controllers
         {
             ViewBag.IsActive = _userService.ActiveAccount(id);
             return View();
+        }
+
+        #endregion
+
+        #region Logout
+
+        [Route("Logout")]
+        public IActionResult Logout()
+        {
+            HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return Redirect("/Login");
         }
 
         #endregion
