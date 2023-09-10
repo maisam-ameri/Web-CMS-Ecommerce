@@ -40,7 +40,7 @@ namespace Cms.Core.Services
         {
             var hashPassword = PasswordHash.EncodePasswordMd5(login.Password);
 
-            var user = _context.Users.SingleOrDefault(u => u.UserName == u.UserName && u.Password == hashPassword);
+            var user = _context.Users.SingleOrDefault(u => u.UserName == login.UserName && u.Password == hashPassword);
 
             return user;
         }

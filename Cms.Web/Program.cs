@@ -1,3 +1,4 @@
+using Cms.Core.Convertors;
 using Cms.Core.Services;
 using Cms.DataLayer.Context;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -36,7 +37,8 @@ builder.Services.AddAuthentication(options =>
 
 #region Ioc
 
-builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddTransient<IUserService, UserService>();
+builder.Services.AddTransient<IViewRenderService, RenderViewToString>();
 
 #endregion
 

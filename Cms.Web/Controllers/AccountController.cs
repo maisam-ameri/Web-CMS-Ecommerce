@@ -1,12 +1,14 @@
 ﻿using Cms.Core;
 using Cms.Core.Convertors;
 using Cms.Core.Generators;
+using Cms.Core.Providers;
 using Cms.Core.Security;
 using Cms.Core.Services;
 using Cms.DataLayer;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Win32;
 using System.Security.Claims;
 
 namespace Cms.Web.Controllers
@@ -15,9 +17,12 @@ namespace Cms.Web.Controllers
     {
         private IUserService _userService;
 
-        public AccountController(IUserService userService)
+        private IViewRenderService _viewRenderService;
+
+        public AccountController(IUserService userService, IViewRenderService viewRenderService)
         {
             _userService = userService;
+            _viewRenderService = viewRenderService;
         }
 
 
@@ -69,8 +74,12 @@ namespace Cms.Web.Controllers
 
             _userService.CreateUser(user);
 
+            var body = _viewRenderService.RenderToStringAsync("_ActiveEmail", user);
+            SendEmail.Send(user.Email, "فعالسازی", body);
             return View("RegisterCompleted", user);
         }
+
+        
 
         #endregion
 
@@ -141,6 +150,8 @@ namespace Cms.Web.Controllers
             ViewBag.IsActive = _userService.ActiveAccount(id);
             return View();
         }
+
+      
 
         #endregion
 
