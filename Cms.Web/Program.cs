@@ -60,7 +60,13 @@ app.UseAuthorization();
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapDefaultControllerRoute();
+    endpoints.MapControllerRoute(
+            name: "userPanel",
+            pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+          );
+
     app.MapRazorPages();
+
 });
 
 app.Run();
