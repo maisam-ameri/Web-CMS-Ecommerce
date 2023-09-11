@@ -1,4 +1,5 @@
-﻿using Cms.Core.Generators;
+﻿using Cms.Core.Convertors;
+using Cms.Core.Generators;
 using Cms.Core.Security;
 using Cms.DataLayer;
 using Cms.DataLayer.Context;
@@ -60,6 +61,23 @@ namespace Cms.Core.Services
 
             return true;
 
+        }
+
+        public User GetUserByEmail(string email)
+        {
+
+            return _context.Users.SingleOrDefault(u => u.Email == email);
+        }
+
+        public User GetUserByActiveCode(string activeCode)
+        {
+            return _context.Users.SingleOrDefault(u => u.ActivateCode == activeCode);
+        }
+
+        public void UpdateUser(User user)
+        {
+            _context.Update(user);
+            _context.SaveChanges();
         }
     }
 }

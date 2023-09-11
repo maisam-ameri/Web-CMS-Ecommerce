@@ -13,6 +13,9 @@ namespace Cms.Core.Services
         bool IsExistEmail(string email);
         int CreateUser(User user);
         User LoginUser(LoginDto login);
+        User GetUserByEmail(string email);
+        User GetUserByActiveCode(string activeCode);
+        void UpdateUser(User user);
 
         bool ActiveAccount(string activeCode);
     }

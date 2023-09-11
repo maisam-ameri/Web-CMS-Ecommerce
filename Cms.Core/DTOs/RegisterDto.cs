@@ -27,6 +27,8 @@ namespace Cms.Core
 
         [Display(Name = "ایمیل")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
+        [MaxLength(200, ErrorMessage = "{0} نمیتواند بیستر از {1} باشد")]
+        [EmailAddress(ErrorMessage ="ایمیل وارد شده معتبر نمی باشد")]
         public string Email { get; set; }
 
         [Display(Name = "رمز عبور")]

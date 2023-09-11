@@ -79,7 +79,7 @@ namespace Cms.Web.Controllers
             return View("RegisterCompleted", user);
         }
 
-        
+
 
         #endregion
 
@@ -125,7 +125,7 @@ namespace Cms.Web.Controllers
                     IsPersistent = login.RememberMe,
                 };
 
-                 HttpContext.SignInAsync(pricipal, properties);
+                HttpContext.SignInAsync(pricipal, properties);
 
 
                 ViewBag.LoginSuccessed = true;
@@ -151,7 +151,7 @@ namespace Cms.Web.Controllers
             return View();
         }
 
-      
+
 
         #endregion
 
@@ -164,6 +164,75 @@ namespace Cms.Web.Controllers
             return Redirect("/Login");
         }
 
+        #endregion
+
+        #region Forgot Password
+        [Route("ForgotPassword")]
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        [Route("ForgotPassword")]
+        [HttpPost]
+        public IActionResult ForgotPassword(ForgotPasswordDto forgotModel)
+        {
+            var user = _userService.GetUserByEmail(StringFixer.FixEmail(forgotModel.Email));
+
+            if (!ModelState.IsValid)
+            {
+                return View(forgotModel);
+            }
+
+            if (user == null)
+            {
+                ModelState.AddModelError("Email", "کاربری با ایمیل وارد شده موجود نیست");
+                return View(forgotModel);
+            }
+            var body = _viewRenderService.RenderToStringAsync("_ForgotPassword", user);
+
+            SendEmail.Send(forgotModel.Email, "بازیابی کلمه عبور", body);
+
+            ViewBag.IsSuccessed = true;
+
+            return View();
+
+        }
+
+
+        #endregion
+
+        #region Reset Password
+
+        public IActionResult ResetPassword(string id)
+        {
+            return View(new ResetPasswordDto { ActiveCode = id });
+        }
+
+        [Route("ResetPassword")]
+        [HttpPost]
+        public IActionResult ResetPassword(ResetPasswordDto resetModel)
+        {
+           if(!ModelState.IsValid)
+            {
+                return View(resetModel);
+            }
+
+            var user = _userService.GetUserByActiveCode(resetModel.ActiveCode);
+
+            if (user == null)
+                return NotFound();
+
+            var hashPassword = PasswordHash.EncodePasswordMd5(resetModel.Password);
+            user.Password = hashPassword;
+             
+            _userService.UpdateUser(user);
+
+            return Redirect("/Login");
+
+        }
+
+        
         #endregion
 
     }

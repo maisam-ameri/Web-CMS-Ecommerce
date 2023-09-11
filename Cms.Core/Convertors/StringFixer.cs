@@ -8,6 +8,6 @@ namespace Cms.Core.Convertors
 {
     public static class StringFixer
     {
-        public static string FixEmail(this string email) => email.Trim();
+        public static string FixEmail(this string email) => email.Trim().ToLower();
     }
 }
