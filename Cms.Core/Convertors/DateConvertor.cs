@@ -10,13 +10,13 @@ namespace Cms.Core.Convertors
     public static class DateConvertor
     {
         
-        public static string MiladiToShamsi(this string date)
+        public static string MiladiToShamsi(this DateTime date)
         {
             PersianCalendar persianCalendar = new PersianCalendar();
-            DateTime dateTime = DateTime.Parse(date);
-            var year = persianCalendar.GetYear(dateTime);
-            var month = persianCalendar.GetMonth(dateTime);
-            var day = persianCalendar.GetDayOfMonth(dateTime);
+            DateTime persianDate = date;
+            var year = persianCalendar.GetYear(persianDate);
+            var month = persianCalendar.GetMonth(persianDate);
+            var day = persianCalendar.GetDayOfMonth(persianDate);
             return $"{year}/{month}/{day}";
         }
     }
