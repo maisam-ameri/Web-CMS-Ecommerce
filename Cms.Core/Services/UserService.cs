@@ -1,4 +1,5 @@
 ﻿using Cms.Core.Convertors;
+using Cms.Core.DTOs;
 using Cms.Core.Generators;
 using Cms.Core.Security;
 using Cms.DataLayer;
@@ -79,5 +80,29 @@ namespace Cms.Core.Services
             _context.Update(user);
             _context.SaveChanges();
         }
+
+        
+        #region User Panel
+        public InformationUserDto GetUserInformation(string username)
+        {
+            var user = GetUserByUserName(username);
+
+            InformationUserDto userInfo = new InformationUserDto
+            {
+                Email = user.Email,
+                UserName = user.UserName,
+                RegisterDate = user.RegisteredDate,
+                Wallet = 0
+            };
+
+            return userInfo;
+        }
+
+        public User GetUserByUserName(string username)
+        {
+            return _context.Users.SingleOrDefault(u => u.UserName == username);
+        }
+
+        #endregion
     }
 }

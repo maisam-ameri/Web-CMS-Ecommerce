@@ -115,7 +115,7 @@ namespace Cms.Web.Controllers
                 // TODO: Login the user
                 var claims = new List<Claim>();
                 claims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
-                claims.Add(new Claim(ClaimTypes.Name, user.FirstName.ToString()));
+                claims.Add(new Claim(ClaimTypes.Name, user.UserName.ToString()));
 
                 var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 

@@ -1,4 +1,5 @@
-﻿using Cms.DataLayer;
+﻿using Cms.Core.DTOs;
+using Cms.DataLayer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,9 +15,13 @@ namespace Cms.Core.Services
         int CreateUser(User user);
         User LoginUser(LoginDto login);
         User GetUserByEmail(string email);
+        User GetUserByUserName(string username);
         User GetUserByActiveCode(string activeCode);
         void UpdateUser(User user);
-
         bool ActiveAccount(string activeCode);
+
+        #region User Panel
+        InformationUserDto GetUserInformation(string username);
+        #endregion
     }
 }
