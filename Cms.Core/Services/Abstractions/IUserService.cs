@@ -23,6 +23,8 @@ namespace Cms.Core.Services
         #region User Panel
         InformationUserDto GetUserInformation(string username);
         SideBarUserPanelDto GetSidebarUserPanel(string username);
+        EditProfileDto GetEditUserProfile(string username);
+
         #endregion
     }
 }

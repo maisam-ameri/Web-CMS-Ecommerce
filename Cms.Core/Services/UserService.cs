@@ -113,6 +113,17 @@ namespace Cms.Core.Services
             }).Single();
         }
 
+        public EditProfileDto GetEditUserProfile(string username)
+        {
+            return _context.Users.Where(u => u.UserName == username).Select(k => new EditProfileDto
+            {
+                UserName = k.UserName,
+                AvatarName = k.Avatar,
+                Email = k.Email,
+            }).Single();
+        }
+
+
         #endregion
     }
 }

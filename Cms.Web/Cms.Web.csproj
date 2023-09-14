@@ -37,4 +37,8 @@
     <ProjectReference Include="..\Cms.DataLayer\Cms.DataLayer.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\images\user\avatar\" />
+  </ItemGroup>
+
 </Project>

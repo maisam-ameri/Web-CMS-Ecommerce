@@ -1,5 +1,8 @@
-﻿using Cms.Core.Services;
+﻿using Cms.Core.DTOs;
+using Cms.Core.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Drawing.Imaging;
+using System.Text;
 
 namespace Cms.Web.Areas.UserPanel.Controllers
 {
@@ -8,10 +11,12 @@ namespace Cms.Web.Areas.UserPanel.Controllers
     {
 
         private IUserService _userService;
+        private IWebHostEnvironment _webHostEnvironment;
 
-        public HomeController(IUserService userService)
+        public HomeController(IUserService userService, IWebHostEnvironment webHostEnvironment)
         {
             _userService = userService;
+            _webHostEnvironment = webHostEnvironment;
         }
         public IActionResult Index()
         {
@@ -19,11 +24,77 @@ namespace Cms.Web.Areas.UserPanel.Controllers
             return View(user);
         }
 
-        public IActionResult Details()
+        [Route("UserPanel/EditProfile")]
+        public IActionResult EditProfile()
         {
-            return View();
+            var userProfile = _userService.GetEditUserProfile(User.Identity.Name);
+            return View(userProfile);
         }
 
+        [Route("UserPanel/EditProfile")]
+        [HttpPost]
+        public IActionResult EditProfile(EditProfileDto profile)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(profile);
+            }
+            var user = _userService.GetUserByUserName(profile.UserName);
+
+            if(_userService.IsExistUserName(profile.UserName) && profile.UserName != user.UserName)
+            {
+                ModelState.AddModelError("UserName", "نام کاربری وارد شده تکراری می باشد");
+                return View(profile);
+            }
+            if(_userService.IsExistEmail(profile.Email) && profile.Email != user.Email)
+            {
+                ModelState.AddModelError("UserName", "ایمیل وارد شده تکراری می باشد");
+                return View(profile);
+            }
+
+            var newAvatarName = UploadAvatar(profile.AvatarName, profile.Avatar);
+            user.Avatar = newAvatarName;
+            user.UserName = profile.UserName;
+            user.Email = profile.Email;
+
+            _userService.UpdateUser(user);
+
+
+            // redirect to the login page
+            return Redirect("/Login");
+            return Json(profile);
+        }
+
+
+
+        private string UploadAvatar(string oldname, IFormFile file)
+        {
+
+            var avatarName = $"{Guid.NewGuid()}{DateTime.Now.ToString("yymmssfff")}{Path.GetExtension(file.FileName)}";
+            var rootPath = _webHostEnvironment.WebRootPath;
+            var oldPath = Path.Combine(rootPath, "images/user/avatar/", oldname);
+            var path = Path.Combine(rootPath, "images/user/avatar/", avatarName.ToString());
+            RemoveLastAvatar(oldPath);
+            
+
+            using (FileStream stream = new FileStream(path,FileMode.Create))
+            {
+                file.CopyTo(stream);
+                stream.Close();
+            }
+
+            return avatarName;
+        }
+
+        private void RemoveLastAvatar(string path)
+        {
+            var fileInfo = new FileInfo(path);
+            if(fileInfo.Exists)
+            {
+                fileInfo.Delete();
+            }
+
+        }
 
     }
 }
