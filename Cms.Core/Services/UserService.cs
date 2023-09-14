@@ -103,6 +103,16 @@ namespace Cms.Core.Services
             return _context.Users.SingleOrDefault(u => u.UserName == username);
         }
 
+        public SideBarUserPanelDto GetSidebarUserPanel(string username)
+        {
+            return _context.Users.Where(u => u.UserName == username).Select(k => new SideBarUserPanelDto
+            {
+                UserName = k.UserName,
+                Avatar = k.Avatar,
+                RegisterDate = k.RegisteredDate,
+            }).Single();
+        }
+
         #endregion
     }
 }
