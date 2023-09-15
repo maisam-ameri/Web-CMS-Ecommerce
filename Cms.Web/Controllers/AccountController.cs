@@ -161,7 +161,13 @@ namespace Cms.Web.Controllers
         public IActionResult Logout()
         {
             HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+            var isProfileEdited = HttpContext.Request.Query["isProfileEdited"].ToString();
+            if (isProfileEdited != string.Empty)
+                return Redirect($"/Login?isProfileEdited={isProfileEdited}");
+
             return Redirect("/Login");
+
         }
 
         #endregion
@@ -213,7 +219,7 @@ namespace Cms.Web.Controllers
         [HttpPost]
         public IActionResult ResetPassword(ResetPasswordDto resetModel)
         {
-           if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return View(resetModel);
             }
@@ -225,14 +231,14 @@ namespace Cms.Web.Controllers
 
             var hashPassword = PasswordHash.EncodePasswordMd5(resetModel.Password);
             user.Password = hashPassword;
-             
+
             _userService.UpdateUser(user);
 
             return Redirect("/Login");
 
         }
 
-        
+
         #endregion
 
     }

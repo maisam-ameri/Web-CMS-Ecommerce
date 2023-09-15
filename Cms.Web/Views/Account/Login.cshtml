@@ -19,10 +19,22 @@
 
         <header><h2> ورود به سایت </h2></header>
 
+        @{
+            var isProfileEdited = Context.Request.Query["isProfileEdited"].ToString();
+            if (isProfileEdited != string.Empty)
+            {
+                <div class="alert alert-warning">
+                    <p class="help-block">به دلیل ویرایش پروفایل ، مجددا وارد شوید</p>
+
+                </div>
+            }
+        }
+
+
         @if (ViewBag.LoginSuccessed != null)
         {
             <div class="alert alert-success">
-                <p class="help-block" >@Model.UserName عزیز ، خوش آمدید</p>
+                <p class="help-block">@Model.UserName عزیز ، خوش آمدید</p>
                 <script>
                     // Your delay in milliseconds
                     var delay = 3000;

@@ -39,7 +39,7 @@ namespace Cms.Web.Areas.UserPanel.Controllers
             {
                 return View(profile);
             }
-            var user = _userService.GetUserByUserName(profile.UserName);
+            var user = _userService.GetUserByUserName(User.Identity.Name);
 
             if(_userService.IsExistUserName(profile.UserName) && profile.UserName != user.UserName)
             {
@@ -56,13 +56,12 @@ namespace Cms.Web.Areas.UserPanel.Controllers
             user.Avatar = newAvatarName;
             user.UserName = profile.UserName;
             user.Email = profile.Email;
-
+            profile.AvatarName = newAvatarName;
             _userService.UpdateUser(user);
 
-
             // redirect to the login page
-            return Redirect("/Login");
-            return Json(profile);
+           
+            return Redirect("/Logout?isProfileEdited=true");
         }
 
 
