@@ -123,6 +123,15 @@ namespace Cms.Core.Services
             }).Single();
         }
 
+        public bool CheckCurrentPassword(string username, string password)
+        {
+            var user = GetUserByUserName(username);
+
+            return user.Password == password? true : false;
+        }
+
+
+
 
         #endregion
     }

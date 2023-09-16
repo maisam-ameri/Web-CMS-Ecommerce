@@ -1,4 +1,5 @@
 ﻿using Cms.Core.DTOs;
+using Cms.Core.Security;
 using Cms.Core.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Drawing.Imaging;
@@ -24,6 +25,9 @@ namespace Cms.Web.Areas.UserPanel.Controllers
             return View(user);
         }
 
+        #region Edit Profile
+
+
         [Route("UserPanel/EditProfile")]
         public IActionResult EditProfile()
         {
@@ -41,12 +45,12 @@ namespace Cms.Web.Areas.UserPanel.Controllers
             }
             var user = _userService.GetUserByUserName(User.Identity.Name);
 
-            if(_userService.IsExistUserName(profile.UserName) && profile.UserName != user.UserName)
+            if (_userService.IsExistUserName(profile.UserName) && profile.UserName != user.UserName)
             {
                 ModelState.AddModelError("UserName", "نام کاربری وارد شده تکراری می باشد");
                 return View(profile);
             }
-            if(_userService.IsExistEmail(profile.Email) && profile.Email != user.Email)
+            if (_userService.IsExistEmail(profile.Email) && profile.Email != user.Email)
             {
                 ModelState.AddModelError("UserName", "ایمیل وارد شده تکراری می باشد");
                 return View(profile);
@@ -60,7 +64,7 @@ namespace Cms.Web.Areas.UserPanel.Controllers
             _userService.UpdateUser(user);
 
             // redirect to the login page
-           
+
             return Redirect("/Logout?isProfileEdited=true");
         }
 
@@ -74,9 +78,9 @@ namespace Cms.Web.Areas.UserPanel.Controllers
             var oldPath = Path.Combine(rootPath, "images/user/avatar/", oldname);
             var path = Path.Combine(rootPath, "images/user/avatar/", avatarName.ToString());
             RemoveLastAvatar(oldPath);
-            
 
-            using (FileStream stream = new FileStream(path,FileMode.Create))
+
+            using (FileStream stream = new FileStream(path, FileMode.Create))
             {
                 file.CopyTo(stream);
                 stream.Close();
@@ -88,12 +92,50 @@ namespace Cms.Web.Areas.UserPanel.Controllers
         private void RemoveLastAvatar(string path)
         {
             var fileInfo = new FileInfo(path);
-            if(fileInfo.Exists)
+            if (fileInfo.Exists)
             {
                 fileInfo.Delete();
             }
 
         }
 
+        #endregion
+
+        #region Edit Password
+
+        [Route("UserPanel/EditPassword")]
+        public IActionResult EditPassword()
+        {
+            return View();
+        }
+
+        [Route("UserPanel/EditPassword")]
+        [HttpPost]
+        public IActionResult EditPassword(EditPasswordDto editPassword)
+        {
+            if(!ModelState.IsValid)
+            {
+                return View(editPassword);
+            }
+
+            var hashPassword = PasswordHash.EncodePasswordMd5(editPassword.CurrentPassword);
+            var isPasswordCorrect = _userService.CheckCurrentPassword(User.Identity.Name, hashPassword);
+
+
+
+            if(isPasswordCorrect)
+            {
+                var user = _userService.GetUserByUserName(User.Identity.Name);
+                user.Password = PasswordHash.EncodePasswordMd5(editPassword.NewPassword);
+                _userService.UpdateUser(user);
+
+                ViewBag.isSuccess = true;
+                return View();
+                return Redirect("/Logout?isProfileEdited=true");
+            }
+
+            return View(editPassword);
+        }
+        #endregion
     }
 }

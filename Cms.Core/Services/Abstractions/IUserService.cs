@@ -25,6 +25,8 @@ namespace Cms.Core.Services
         SideBarUserPanelDto GetSidebarUserPanel(string username);
         EditProfileDto GetEditUserProfile(string username);
 
+        bool CheckCurrentPassword(string username,string password);
+
         #endregion
     }
 }
