@@ -131,7 +131,6 @@ namespace Cms.Web.Areas.UserPanel.Controllers
 
                 ViewBag.isSuccess = true;
                 return View();
-                return Redirect("/Logout?isProfileEdited=true");
             }
 
             return View(editPassword);
