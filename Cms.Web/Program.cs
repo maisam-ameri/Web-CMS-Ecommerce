@@ -1,5 +1,6 @@
 using Cms.Core.Convertors;
 using Cms.Core.Services;
+using Cms.Core.Services.Abstractions;
 using Cms.DataLayer.Context;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
@@ -39,6 +40,7 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<IViewRenderService, RenderViewToString>();
+builder.Services.AddTransient<IAdminService, AdminService>();
 
 #endregion
 
