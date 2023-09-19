@@ -2,6 +2,7 @@
 using Cms.Core.Services.Abstractions;
 using Cms.DataLayer;
 using Cms.DataLayer.Context;
+using Cms.DataLayer.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,9 @@ namespace Cms.Core.Services
         {
             _context = context;
         }
+
+
+
         public UsersDto GetUsers(int pageId = 1, string filterByEmail = "", string filterByUserName = "")
         {
             IQueryable<User> users = _context.Users;

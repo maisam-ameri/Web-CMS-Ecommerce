@@ -41,6 +41,7 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<IViewRenderService, RenderViewToString>();
 builder.Services.AddTransient<IAdminService, AdminService>();
+builder.Services.AddTransient<IPermissionService, PermissionService>();
 
 #endregion
 

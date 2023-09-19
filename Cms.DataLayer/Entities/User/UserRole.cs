@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Cms.DataLayer
+namespace Cms.DataLayer.Entities
 {
 
     public class UserRole

@@ -1,6 +1,7 @@
 ﻿using Cms.Core.DTOs;
 using Cms.Core.Security;
 using Cms.Core.Services;
+using Cms.Core.Services.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 using System.Drawing.Imaging;
 using System.Text;

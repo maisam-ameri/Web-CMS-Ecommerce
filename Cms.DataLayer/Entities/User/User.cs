@@ -6,7 +6,7 @@ using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Cms.DataLayer
+namespace Cms.DataLayer.Entities
 {
     public class User
     {

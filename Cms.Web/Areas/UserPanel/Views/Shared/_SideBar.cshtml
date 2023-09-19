@@ -1,6 +1,6 @@
 ﻿@using Cms.Core.DTOs
 @using Cms.Core.Convertors
-@inject Cms.Core.Services.IUserService _userService
+@inject Cms.Core.Services.Abstractions.IUserService _userService
 @{
     SideBarUserPanelDto userModel = _userService.GetSidebarUserPanel(User.Identity.Name);
 }
