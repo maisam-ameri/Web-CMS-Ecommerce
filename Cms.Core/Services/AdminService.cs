@@ -31,12 +31,13 @@ namespace Cms.Core.Services
                 users = users.Where(u => u.UserName.Contains(filterByUserName));
             }
 
+            
             int take = 10;
-            int skip = Math.Abs( (pageId - 1)) * take;
+            int skip = Math.Abs(pageId - 1) * take;
             var result = new UsersDto();
             //result.Users = users;
             result.CurrentPage = pageId;
-            result.TotalPage = users.Count() / take;
+            result.TotalPage =  users.Count() / take < 1 ? 1 : users.Count() / take;
             result.Users = users.OrderBy( k => k.RegisteredDate).Skip(skip).Take(take).ToList();
 
 

@@ -7,7 +7,6 @@ namespace Cms.Web.Pages.Admin.Users
 {
     public class IndexModel : PageModel
     {
-        public int Num;
         public UsersDto Users{ get; set; }
 
         private IAdminService _adminService;
@@ -16,9 +15,9 @@ namespace Cms.Web.Pages.Admin.Users
         {
             _adminService = adminService;
         }
-        public void OnGet()
+        public void OnGet(int pageId = 1,string emailFilter="",string usernameFilter = "")
         {
-            Users = _adminService.GetUsers();
+            Users = _adminService.GetUsers(pageId,emailFilter, usernameFilter);
         }
     }
 }
