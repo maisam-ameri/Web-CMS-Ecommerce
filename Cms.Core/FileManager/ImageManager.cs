@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +10,16 @@ namespace Cms.Core.FileManager
 {
     public class ImageManager
     {
+        private IWebHostEnvironment _webHostEnvi;
+
+        public ImageManager(IWebHostEnvironment webHostEnvironment)
+        {
+                _webHostEnvi = webHostEnvironment;
+        }
         public string UploadAvatar(string oldname, IFormFile file)
         {
             var avatarName = $"{Guid.NewGuid()}{DateTime.Now.ToString("yymmssfff")}{Path.GetExtension(file.FileName)}";
-            var rootPath = Directory.GetCurrentDirectory();
+            var rootPath = _webHostEnvi.WebRootPath;
             var oldPath = Path.Combine(rootPath, "images/user/avatar/", oldname);
             var path = Path.Combine(rootPath, "images/user/avatar/", avatarName.ToString());
             RemoveLastAvatar(oldPath);
