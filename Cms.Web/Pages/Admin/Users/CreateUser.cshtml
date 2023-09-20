@@ -3,8 +3,9 @@
 @model Cms.Web.Pages.Admin.Users.CreateUserModel
 @{
 
-    ViewData["Title"] = "افزودن کاربر";
     List<Role> roles = ViewData["Roles"] as List<Role>;
+    ViewData["Title"] = "افزودن کاربر";
+
 }
 
 <div class="row">
@@ -46,7 +47,7 @@
                         {
                             <div class="checkbox">
                                 <label>
-                                    <input type="checkbox" asp-for="TestCheckboxes[item.RoleId - 1]" value="@item.RoleId">@item.RoleTitle
+                                    <input type="checkbox" name="selectedRoles" value="@item.RoleId">@item.RoleTitle
                                 </label>
                             </div>
                         }
@@ -72,7 +73,7 @@
                     <img id="imgAvatar" class="thumbnail" src="/images/pic/avatar.jpg" />
                     <div class="form-group">
                         <label>انتخاب تصویر</label>
-                        <input type="file" asp-for="CreateUser.Avatar">
+                        <input type="file" asp-for="CreateUser.Avatar" value="default.jpg">
                     </div>
                 </div>
                 <!-- /.panel-body -->

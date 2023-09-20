@@ -1,5 +1,6 @@
 ﻿using Cms.Core.Convertors;
 using Cms.Core.DTOs;
+using Cms.Core.FileManager;
 using Cms.Core.Generators;
 using Cms.Core.Providers;
 using Cms.Core.Security;
@@ -16,34 +17,35 @@ namespace Cms.Web.Pages.Admin.Users
 {
     public class CreateUserModel : PageModel
     {
-        public IPermissionService _permissionService{ get; set; }
-        public IUserService _userService { get; set; }
-        private IWebHostEnvironment _webHostEnvironment { get; set; }
-        
-
         [BindProperty]
-        public CreateUserDto  CreateUser{ get; set; }
+        public CreateUserDto CreateUser { get; set; }
 
-        [BindProperty]
-        public List<string> TestCheckboxes { get; set; }
 
-        public CreateUserModel(IPermissionService permissionService, IUserService userService)
+        private IPermissionService _permissionService { get; set; }
+        private IUserService _userService { get; set; }
+        private ImageManager _imageManager { get; set; }
+
+
+        public CreateUserModel(IPermissionService permissionService, IUserService userService, ImageManager imageManager)
         {
             _permissionService = permissionService;
             _userService = userService;
+            _imageManager = imageManager;
 
         }
 
         public void OnGet()
         {
             ViewData["Roles"] = _permissionService.GetRoles().ToList();
+
         }
 
-        public IActionResult OnPost()
+        public IActionResult OnPost(List<int> selectedRoles)
         {
+            ViewData["Roles"] = _permissionService.GetRoles().ToList();
+
             if (!ModelState.IsValid)
             {
-                ViewData["Roles"] = _permissionService.GetRoles().ToList();
                 return Page();
             }
 
@@ -58,6 +60,9 @@ namespace Cms.Web.Pages.Admin.Users
                 return Page();
             }
 
+            var userAvatar = _imageManager.UploadAvatar("", CreateUser.Avatar);
+
+            //var roles = _permissionService.GetUserRoles(CreateUser.UserName, selectedRoles).ToList();
 
             var user = new User
             {
@@ -66,42 +71,20 @@ namespace Cms.Web.Pages.Admin.Users
                 Password = PasswordHash.EncodePasswordMd5(CreateUser.Password),
                 IsActive = true,
                 Address = string.Empty,
-                //Avatar = register.Avatar,
+                Avatar = userAvatar,
                 RegisteredDate = DateTime.Now,
-                ActivateCode = NameGenerator.GenerateName()
+                ActivateCode = NameGenerator.GenerateName(),
+                //UserRoles = roles
+                FirstName = string.Empty,
+                LastName = string.Empty,
+                BirthDate = DateTime.Now,
+                Phone = string.Empty,
             };
 
             _userService.CreateUser(user);
+            _permissionService.CreateUserRole(user.Id, selectedRoles);
 
             return Page();
-        }
-
-        private string UploadAvatar(string oldname, IFormFile file)
-        {
-            var avatarName = $"{Guid.NewGuid()}{DateTime.Now.ToString("yymmssfff")}{Path.GetExtension(file.FileName)}";
-            var rootPath = _webHostEnvironment.WebRootPath;
-            var oldPath = Path.Combine(rootPath, "images/user/avatar/", oldname);
-            var path = Path.Combine(rootPath, "images/user/avatar/", avatarName.ToString());
-            RemoveLastAvatar(oldPath);
-
-
-            using (FileStream stream = new FileStream(path, FileMode.Create))
-            {
-                file.CopyTo(stream);
-                stream.Close();
-            }
-
-            return avatarName;
-        }
-
-        private void RemoveLastAvatar(string path)
-        {
-            var fileInfo = new FileInfo(path);
-            if (fileInfo.Exists)
-            {
-                fileInfo.Delete();
-            }
-
         }
     }
 }

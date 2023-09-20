@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,9 +27,8 @@ namespace Cms.Core.DTOs
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
         public string Password { get; set; }
 
-
         public IFormFile Avatar { get; set; }
 
-        public List<int> SelectedRoles { get; set; }
+        //public List<int> SelectedRoles { get; set; }
     }
 }

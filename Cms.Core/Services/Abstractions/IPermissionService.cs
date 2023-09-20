@@ -11,6 +11,8 @@ namespace Cms.Core.Services.Abstractions
     public interface IPermissionService
     {
         IEnumerable<Role> GetRoles();
+        IEnumerable<UserRole> GetUserRoles(string username, List<int> roles);
+        UserRole CreateUserRole(int userId,List<int> roleId);
 
     }
 }
