@@ -1,4 +1,5 @@
 ﻿using Cms.Core.DTOs;
+using Cms.Core.FileManager;
 using Cms.Core.Security;
 using Cms.Core.Services;
 using Cms.Core.Services.Abstractions;
@@ -14,11 +15,12 @@ namespace Cms.Web.Areas.UserPanel.Controllers
 
         private IUserService _userService;
         private IWebHostEnvironment _webHostEnvironment;
-
-        public HomeController(IUserService userService, IWebHostEnvironment webHostEnvironment)
+        private ImageManager _imageManager;
+        public HomeController(IUserService userService, IWebHostEnvironment webHostEnvironment, ImageManager imageManager)
         {
             _userService = userService;
             _webHostEnvironment = webHostEnvironment;
+            _imageManager = imageManager;
         }
         public IActionResult Index()
         {
@@ -57,7 +59,7 @@ namespace Cms.Web.Areas.UserPanel.Controllers
                 return View(profile);
             }
 
-            var newAvatarName = UploadAvatar(profile.AvatarName, profile.Avatar);
+            var newAvatarName = _imageManager.UploadAvatar(profile.AvatarName, profile.Avatar);
             user.Avatar = newAvatarName;
             user.UserName = profile.UserName;
             user.Email = profile.Email;
@@ -71,34 +73,34 @@ namespace Cms.Web.Areas.UserPanel.Controllers
 
 
 
-        private string UploadAvatar(string oldname, IFormFile file)
-        {
+        //private string UploadAvatar(string oldname, IFormFile file)
+        //{
 
-            var avatarName = $"{Guid.NewGuid()}{DateTime.Now.ToString("yymmssfff")}{Path.GetExtension(file.FileName)}";
-            var rootPath = _webHostEnvironment.WebRootPath;
-            var oldPath = Path.Combine(rootPath, "images/user/avatar/", oldname);
-            var path = Path.Combine(rootPath, "images/user/avatar/", avatarName.ToString());
-            RemoveLastAvatar(oldPath);
+        //    var avatarName = $"{Guid.NewGuid()}{DateTime.Now.ToString("yymmssfff")}{Path.GetExtension(file.FileName)}";
+        //    var rootPath = _webHostEnvironment.WebRootPath;
+        //    var oldPath = Path.Combine(rootPath, "images/user/avatar/", oldname);
+        //    var path = Path.Combine(rootPath, "images/user/avatar/", avatarName.ToString());
+        //    RemoveLastAvatar(oldPath);
 
 
-            using (FileStream stream = new FileStream(path, FileMode.Create))
-            {
-                file.CopyTo(stream);
-                stream.Close();
-            }
+        //    using (FileStream stream = new FileStream(path, FileMode.Create))
+        //    {
+        //        file.CopyTo(stream);
+        //        stream.Close();
+        //    }
 
-            return avatarName;
-        }
+        //    return avatarName;
+        //}
 
-        private void RemoveLastAvatar(string path)
-        {
-            var fileInfo = new FileInfo(path);
-            if (fileInfo.Exists)
-            {
-                fileInfo.Delete();
-            }
+        //private void RemoveLastAvatar(string path)
+        //{
+        //    var fileInfo = new FileInfo(path);
+        //    if (fileInfo.Exists)
+        //    {
+        //        fileInfo.Delete();
+        //    }
 
-        }
+        //}
 
         #endregion
 

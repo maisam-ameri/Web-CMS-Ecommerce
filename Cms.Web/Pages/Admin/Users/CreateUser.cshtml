@@ -39,7 +39,24 @@
                     </div>
 
 
+                    <div class="form-group">
+                        <label>انتخاب نقش کاربر</label>
+
+                        @foreach (var item in roles)
+                        {
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" asp-for="TestCheckboxes[item.RoleId - 1]" value="@item.RoleId">@item.RoleTitle
+                                </label>
+                            </div>
+                        }
+
+                    </div>
+
+                    <input asp-page="/Admin/Users/CreateUser" type="submit" class="btn btn-success" value="ذخیره" />
+                
                 </div>
+
                 <!-- /.panel-body -->
             </div>
         </div>
@@ -61,30 +78,7 @@
                 <!-- /.panel-body -->
             </div>
 
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    نقش های کاربر
-                </div>
-                <!-- /.panel-heading -->
-                <div class="panel-body">
 
-                    <div class="form-group">
-                        <label>نقش ها</label>
-
-                        @foreach (var item in roles)
-                        {
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox" name="SelectedRoles" value="@item.RoleId">@item.RoleTitle
-                                </label>
-                            </div>
-                        }
-
-                    </div>
-
-                </div>
-                <!-- /.panel-body -->
-            </div>
         </div>
     </form>
 </div>

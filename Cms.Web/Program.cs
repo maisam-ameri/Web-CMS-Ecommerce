@@ -1,4 +1,5 @@
 using Cms.Core.Convertors;
+using Cms.Core.FileManager;
 using Cms.Core.Services;
 using Cms.Core.Services.Abstractions;
 using Cms.DataLayer.Context;
@@ -42,6 +43,7 @@ builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<IViewRenderService, RenderViewToString>();
 builder.Services.AddTransient<IAdminService, AdminService>();
 builder.Services.AddTransient<IPermissionService, PermissionService>();
+builder.Services.AddTransient<ImageManager>();
 
 #endregion
 
