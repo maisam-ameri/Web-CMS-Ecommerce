@@ -1,4 +1,5 @@
 ﻿using Cms.Core.DTOs;
+using Cms.Core.DTOs.AdminPanel;
 using Cms.Core.Services.Abstractions;
 using Cms.DataLayer;
 using Cms.DataLayer.Context;
@@ -20,7 +21,17 @@ namespace Cms.Core.Services
             _context = context;
         }
 
-
+        public EditUserDto GetUserForEdit(int userId)
+        {
+            return _context.Users.Where(u => u.Id == userId).Select(user => new EditUserDto
+            {
+                UserName = user.UserName,
+                Email = user.Email,
+                //Password = user.Password,
+                AvatarName = user.Avatar,
+                RoleIds = user.UserRoles.Select(r => r.RoleId).ToList(),
+            }).Single();
+        }
 
         public UsersDto GetUsers(int pageId = 1, string filterByEmail = "", string filterByUserName = "")
         {

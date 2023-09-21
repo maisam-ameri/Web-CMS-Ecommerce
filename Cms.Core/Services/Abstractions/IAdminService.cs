@@ -1,4 +1,5 @@
 ﻿using Cms.Core.DTOs;
+using Cms.Core.DTOs.AdminPanel;
 using Cms.DataLayer;
 using System;
 using System.Collections.Generic;
@@ -12,5 +13,6 @@ namespace Cms.Core.Services.Abstractions
     {
         UsersDto GetUsers(int pageId=1, string filterByEmail="", string filterByUserName="");
 
+        EditUserDto GetUserForEdit(int userId);
     }
 }

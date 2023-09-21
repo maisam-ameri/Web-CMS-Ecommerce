@@ -21,22 +21,23 @@ namespace Cms.Core.Services
             _context = context;
         }
 
-        public UserRole CreateUserRole(int userId, List<int> roles)
+        public UserRole AssignUserRoles(int userId, List<int> roles)
         {
-            var user = _context.Users.SingleOrDefault(u => u.Id == userId);
-            var newUserRole = new List<UserRole>();
+            UnassignUserRoles(userId);
+                    var newUserRole = new List<UserRole>();
             foreach (var role in roles)
             {
                 newUserRole.Add(new UserRole { RoleId = role, UserId = userId });
-                //newUserRole.UserId = userId;
-                //newUserRole.RoleId = role;
             }
                 _context.UserRoles.AddRange(newUserRole);
             _context.SaveChanges();
 
-
-
             return null;
+        }
+
+        public void UnassignUserRoles(int userId)
+        {
+            _context.UserRoles.RemoveRange(_context.UserRoles.Where(u => u.UserId == userId));
         }
 
         public IEnumerable<Role> GetRoles()

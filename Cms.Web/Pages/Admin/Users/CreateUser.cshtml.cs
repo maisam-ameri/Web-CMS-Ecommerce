@@ -1,5 +1,6 @@
 ﻿using Cms.Core.Convertors;
 using Cms.Core.DTOs;
+using Cms.Core.DTOs.AdminPanel;
 using Cms.Core.FileManager;
 using Cms.Core.Generators;
 using Cms.Core.Providers;
@@ -82,9 +83,9 @@ namespace Cms.Web.Pages.Admin.Users
             };
 
             _userService.CreateUser(user);
-            _permissionService.CreateUserRole(user.Id, selectedRoles);
+            _permissionService.AssignUserRoles(user.Id, selectedRoles);
 
-            return Page();
+            return Redirect("/Admin/Users");
         }
     }
 }

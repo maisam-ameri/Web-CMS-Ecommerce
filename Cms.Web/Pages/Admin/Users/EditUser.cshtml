@@ -1,0 +1,111 @@
+﻿@page "{userId}"
+@using Cms.DataLayer.Entities
+@model Cms.Web.Pages.Admin.Users.EditUserModel
+@{
+    List<Role> roles = ViewData["Roles"] as List<Role>;
+    ViewData["Title"] = "ویرایش کاربر";
+}
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">ویرایش کاربر</h1>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+
+<div class="row">
+    <form method="post" enctype="multipart/form-data">
+        <input type="hidden" asp-for="EditUser.UserName" />
+        <div class="col-md-8">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    اطلاعات کاربر
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+
+                    <div class="form-group">
+                        <label>نام کاربری</label>
+                        <label asp-for="EditUser.UserName" class="form-control">@Model.EditUser.UserName</label>
+                    </div>
+                    <div class="form-group">
+                        <label>ایمیل</label>
+                        <input type="email" asp-for="EditUser.Email" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>رمز عبور</label>
+                        <input type="text" asp-for="EditUser.Password" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label>انتخاب نقش کاربر</label>
+
+                        @foreach (var item in roles)
+                        {
+                            <div class="checkbox">
+                                <label>
+                                    @{
+                                        var isActive = Model.EditUser.RoleIds.Any(r => r == item.RoleId);
+                                        <input type="checkbox" name="selectedRoles" value="@item.RoleId" @(isActive ? "checked" : "")>
+
+                                        @item.RoleTitle
+                                    }
+                                </label>
+                            </div>
+                        }
+
+                    </div>
+
+                    <input asp-page="EditUser" type="submit" class="btn btn-success" value="ذخیره" />
+
+                </div>
+
+                <!-- /.panel-body -->
+            </div>
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    تصویر پروفایل
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <img id="imgAvatar" class="thumbnail" src="/images/user/avatar/@Model.EditUser.AvatarName" />
+                    <div class="form-group">
+                        <label>انتخاب تصویر</label>
+
+                        <input type="file" asp-for="EditUser.Avatar" value="@Model.EditUser.AvatarName">
+                    </div>
+                </div>
+                <!-- /.panel-body -->
+            </div>
+
+
+        </div>
+    </form>
+</div>
+
+@section Scripts{
+    <script>
+        function readURL(input) {
+
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#imgAvatar').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $("#EditUser_Avatar").change(function () {
+            readURL(this);
+        });
+
+    </script>
+}

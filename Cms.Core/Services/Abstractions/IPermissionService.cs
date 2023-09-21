@@ -12,7 +12,8 @@ namespace Cms.Core.Services.Abstractions
     {
         IEnumerable<Role> GetRoles();
         IEnumerable<UserRole> GetUserRoles(string username, List<int> roles);
-        UserRole CreateUserRole(int userId,List<int> roleId);
+        UserRole AssignUserRoles(int userId,List<int> roleId);
+        void UnassignUserRoles(int userId);
 
     }
 }

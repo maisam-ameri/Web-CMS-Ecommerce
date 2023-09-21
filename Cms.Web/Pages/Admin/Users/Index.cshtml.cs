@@ -1,4 +1,5 @@
 using Cms.Core.DTOs;
+using Cms.Core.DTOs.AdminPanel;
 using Cms.Core.Services.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;

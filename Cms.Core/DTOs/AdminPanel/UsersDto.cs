@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Cms.Core.DTOs
+namespace Cms.Core.DTOs.AdminPanel
 {
     public class UsersDto
     {
