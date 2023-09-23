@@ -25,6 +25,6 @@ namespace Cms.DataLayer.Entities
         public bool IsDelete { get; set; }
 
 
-        public virtual List<UserRole> UserRoles{ get; set; }
+        public virtual List<UserRole>? UserRoles{ get; set; }
     }
 }

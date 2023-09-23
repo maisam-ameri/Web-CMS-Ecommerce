@@ -1,6 +1,5 @@
 using Cms.Core.DTOs.AdminPanel;
 using Cms.Core.FileManager;
-using Cms.Core.Services;
 using Cms.Core.Services.Abstractions;
 using Cms.DataLayer.Entities;
 using Microsoft.AspNetCore.Mvc;
@@ -8,30 +7,34 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Cms.Web.Pages.Admin.Roles
 {
-    public class EditRoleModel : PageModel
+    public class CreateRoleModel : PageModel
     {
         [BindProperty]
         public Role Role { get; set; }
 
-        private IPermissionService _permissionService;
 
-        public EditRoleModel(IPermissionService permissionService)
+        private IPermissionService _permissionService { get; set; }
+
+
+        public CreateRoleModel(IPermissionService permissionService)
         {
             _permissionService = permissionService;
         }
 
-        public IActionResult OnGet(int id)
+
+        public void OnGet()
         {
-            Role = _permissionService.GetRole(id);
-            return Page();
+
         }
 
         public IActionResult OnPost()
         {
-            if (!ModelState.IsValid){
+            if (!ModelState.IsValid)
+            {
                 return Page();
             }
-            _permissionService.UpdateRole(Role);
+
+            _permissionService.CreateRole(Role);
             return RedirectToPage("Index");
         }
     }

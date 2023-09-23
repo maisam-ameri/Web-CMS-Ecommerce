@@ -18,7 +18,7 @@ namespace Cms.Core.Services.Abstractions
         #region Role CRUD
 
         Role GetRole(int roleId);
-        void CreateRole(Role role);
+        int CreateRole(Role role);
         void UpdateRole(Role role);
         void DeleteRole(int roleId);
 

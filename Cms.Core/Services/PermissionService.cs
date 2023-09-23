@@ -75,9 +75,11 @@ namespace Cms.Core.Services
             return _context.Roles.SingleOrDefault(r => r.RoleId == roleId);
         }
 
-        public void CreateRole(Role role)
+        public int CreateRole(Role role)
         {
-            throw new NotImplementedException();
+            _context.Roles.Add(role);
+            _context.SaveChanges();
+            return role.RoleId;
         }
 
         public void UpdateRole(Role role)
@@ -92,5 +94,6 @@ namespace Cms.Core.Services
             role.IsDelete = true;
             UpdateRole(role);
         }
+
     }
 }
