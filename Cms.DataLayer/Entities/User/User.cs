@@ -63,6 +63,8 @@ namespace Cms.DataLayer.Entities
 
         public DateTime RegisteredDate { get; set; }
 
+        public bool IsDeleted { get; set; }
+
 
 
         public virtual List<UserRole> UserRoles { get; set; }

@@ -1,5 +1,6 @@
 ﻿using Cms.Core.Convertors;
 using Cms.Core.DTOs;
+using Cms.Core.DTOs.UserPanel;
 using Cms.Core.Generators;
 using Cms.Core.Security;
 using Cms.Core.Services.Abstractions;
@@ -19,10 +20,12 @@ namespace Cms.Core.Services
     public class UserService : IUserService
     {
         private CmsContext _context;
+        private IPermissionService _permissionService;
 
-        public UserService(CmsContext context)
+        public UserService(CmsContext context, IPermissionService permissionService)
         {
             _context = context;
+            _permissionService = permissionService;
         }
         public bool IsExistUserName(string username)
         {
@@ -66,6 +69,11 @@ namespace Cms.Core.Services
 
         }
 
+        public User GetUserById(int userId)
+        {
+
+            return _context.Users.SingleOrDefault(u => u.Id == userId);
+        }
         public User GetUserByEmail(string email)
         {
 
@@ -83,11 +91,36 @@ namespace Cms.Core.Services
             _context.SaveChanges();
         }
 
-        
+        public void DeleteUser(int userId)
+        {
+            var user = GetUserById(userId);
+            if(user != null)
+            {
+                user.IsDeleted = true;
+                UpdateUser(user);
+            }
+        }
+
+
         #region User Panel
         public InformationUserDto GetUserInformation(string username)
         {
             var user = GetUserByUserName(username);
+
+            InformationUserDto userInfo = new InformationUserDto
+            {
+                Email = user.Email,
+                UserName = user.UserName,
+                RegisterDate = user.RegisteredDate,
+                Wallet = 0
+            };
+
+            return userInfo;
+        }
+
+        public InformationUserDto GetUserInformation(int userId)
+        {
+            var user = GetUserById(userId);
 
             InformationUserDto userInfo = new InformationUserDto
             {
@@ -131,6 +164,7 @@ namespace Cms.Core.Services
 
             return user.Password == password? true : false;
         }
+
 
 
 

@@ -1,0 +1,34 @@
+﻿@page "{id}"
+@using Cms.Core.DTOs.UserPanel
+@using Cms.Core.Convertors
+@model Cms.Web.Pages.Admin.Users.DeleteUserModel
+@{
+    ViewData["Title"] = "حذف کاربر";
+    var userInfo = ViewData["UserInfo"] as InformationUserDto;
+}
+
+<div class="col-md-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            حذف کاربر
+        </div>
+        <div class="panel-body">
+            <form method="post">
+                <dl class="dl-horizontal">
+                    <dt>نام کاربری : </dt>
+                    <dd>@userInfo.UserName</dd>
+                    <dt>ایمیل : </dt>
+                    <dd>@userInfo.Email</dd>
+                    <dt>تاریخ ثبت نام : </dt>
+                    <dd>@userInfo.RegisterDate.MiladiToShamsi()</dd>
+                    <dt>کیف پول : </dt>
+                    <dd>@userInfo.Wallet</dd>
+                    <dt> <button type="submit" class="btn btn-danger" style="margin: 10px 0">حذف</button></dt>
+                </dl>
+
+            </form>
+        </div>
+        <!-- /.panel-body -->
+    </div>
+    <!-- /.panel -->
+</div>

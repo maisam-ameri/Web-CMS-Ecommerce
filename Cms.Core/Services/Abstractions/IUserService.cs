@@ -1,4 +1,5 @@
 ﻿using Cms.Core.DTOs;
+using Cms.Core.DTOs.UserPanel;
 using Cms.DataLayer;
 using Cms.DataLayer.Entities;
 using System;
@@ -14,15 +15,18 @@ namespace Cms.Core.Services.Abstractions
         bool IsExistUserName(string username);
         bool IsExistEmail(string email);
         int CreateUser(User user);
+        void UpdateUser(User user);
+        void DeleteUser(int userId);
         User LoginUser(LoginDto login);
+        User GetUserById(int userId);
         User GetUserByEmail(string email);
         User GetUserByUserName(string username);
         User GetUserByActiveCode(string activeCode);
-        void UpdateUser(User user);
         bool ActiveAccount(string activeCode);
 
         #region User Panel
         InformationUserDto GetUserInformation(string username);
+        InformationUserDto GetUserInformation(int userId);
         SideBarUserPanelDto GetSidebarUserPanel(string username);
         EditProfileDto GetEditUserProfile(string username);
 

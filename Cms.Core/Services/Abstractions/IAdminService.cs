@@ -13,6 +13,8 @@ namespace Cms.Core.Services.Abstractions
     {
         UsersDto GetUsers(int pageId=1, string filterByEmail="", string filterByUserName="");
 
+        UsersDto GetDeletedUsers(int pageId = 1, string filterByEmail = "", string filterByUserName = "");
+
         EditUserDto GetUserForEdit(int userId);
     }
 }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Cms.Core
+namespace Cms.Core.DTOs.UserPanel
 {
     public class InformationUserDto
     {
