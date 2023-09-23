@@ -20,12 +20,10 @@ namespace Cms.Core.Services
     public class UserService : IUserService
     {
         private CmsContext _context;
-        private IPermissionService _permissionService;
 
         public UserService(CmsContext context, IPermissionService permissionService)
         {
             _context = context;
-            _permissionService = permissionService;
         }
         public bool IsExistUserName(string username)
         {
