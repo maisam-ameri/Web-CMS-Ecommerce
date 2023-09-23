@@ -1,0 +1,14 @@
+﻿@page "{id}"
+@model Cms.Web.Pages.Admin.Roles.DeleteRoleModel
+@{
+    ViewData["Title"] = "حذف نقش";
+}
+
+
+<div class="help-block danger">
+    <p>آیا از حذف " @Model.Role.RoleTitle " مطمئن هستید ؟</p>
+    <form method="post">
+        <input type="hidden" asp-for="Role.RoleId" />
+        <input type="submit" value="بلی" class="btn btn-danger" />
+    </form>
+</div>

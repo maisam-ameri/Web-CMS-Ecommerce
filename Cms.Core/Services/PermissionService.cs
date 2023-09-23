@@ -24,12 +24,12 @@ namespace Cms.Core.Services
         public UserRole AssignUserRoles(int userId, List<int> roles)
         {
             UnassignUserRoles(userId);
-                    var newUserRole = new List<UserRole>();
+            var newUserRole = new List<UserRole>();
             foreach (var role in roles)
             {
                 newUserRole.Add(new UserRole { RoleId = role, UserId = userId });
             }
-                _context.UserRoles.AddRange(newUserRole);
+            _context.UserRoles.AddRange(newUserRole);
             _context.SaveChanges();
 
             return null;
@@ -63,6 +63,34 @@ namespace Cms.Core.Services
                 });
             }
             return userRoles;
+        }
+
+        public void DeleteUserRoles(int userId)
+        {
+            UnassignUserRoles(userId);
+        }
+
+        public Role GetRole(int roleId)
+        {
+            return _context.Roles.SingleOrDefault(r => r.RoleId == roleId);
+        }
+
+        public void CreateRole(Role role)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateRole(Role role)
+        {
+            _context.Update(role);
+            _context.SaveChanges();
+        }
+
+        public void DeleteRole(int roleId)
+        {
+            var role = GetRole(roleId);
+            role.IsDelete = true;
+            UpdateRole(role);
         }
     }
 }
