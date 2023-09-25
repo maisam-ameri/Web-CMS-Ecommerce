@@ -22,16 +22,18 @@ namespace Cms.Web.Pages.Admin.Roles
 
         public IActionResult OnGet(int id)
         {
+            ViewData["Permissions"] = _permissionService.GetPermissions().ToList();
+            ViewData["SelectedPermissions"] = _permissionService.GetPermissionsRole(id);
             Role = _permissionService.GetRole(id);
             return Page();
         }
 
-        public IActionResult OnPost()
+        public IActionResult OnPost(List<int> selectedPermissions)
         {
             if (!ModelState.IsValid){
                 return Page();
             }
-            _permissionService.UpdateRole(Role);
+            _permissionService.UpdateRole(Role, selectedPermissions);
             return RedirectToPage("Index");
         }
     }

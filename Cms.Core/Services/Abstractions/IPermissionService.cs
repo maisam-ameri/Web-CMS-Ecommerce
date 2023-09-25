@@ -20,7 +20,7 @@ namespace Cms.Core.Services.Abstractions
 
         Role GetRole(int roleId);
         int CreateRole(Role role);
-        void UpdateRole(Role role);
+        void UpdateRole(Role role, List<int> permissions);
         void DeleteRole(int roleId);
 
         #endregion
@@ -29,6 +29,9 @@ namespace Cms.Core.Services.Abstractions
 
         List<Permission> GetPermissions();
         void AssignPermissionToRole(int roleId, List<int> selectedPermission);
+        void UnassignedPermissionRole(int roleId);
+        List<int> GetPermissionsRole(int roleId);
+
 
         #endregion
 

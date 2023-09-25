@@ -85,8 +85,9 @@ namespace Cms.Core.Services
             return role.RoleId;
         }
 
-        public void UpdateRole(Role role)
+        public void UpdateRole(Role role,List<int> permissions = null)
         {
+            AssignPermissionToRole(role.RoleId, permissions);
             _context.Update(role);
             _context.SaveChanges();
         }
@@ -108,11 +109,12 @@ namespace Cms.Core.Services
             return _context.Permissions.ToList();
         }
 
-        public void AssignPermissionToRole(int roleId, List<int> selectedPermission)
+        public void AssignPermissionToRole(int roleId, List<int> selectedPermission = null)
         {
+            UnassignedPermissionRole(roleId);
             var permissions = new List<RolePermission>();
 
-            if (selectedPermission.Count > 0)
+            if (selectedPermission != null)
             {
 
                 selectedPermission.ForEach(p =>
@@ -127,6 +129,16 @@ namespace Cms.Core.Services
             }
             _context.RolePermissions.AddRange(permissions);
             _context.SaveChanges();
+        }
+
+        public List<int> GetPermissionsRole(int roleId)
+        {
+            return _context.RolePermissions.Where(p => p.RoleId == roleId).Select(k => k.PermissionId).ToList();
+        }
+
+        public void UnassignedPermissionRole(int roleId)
+        {
+            _context.RolePermissions.RemoveRange(_context.RolePermissions.Where(u => u.RoleId == roleId));
         }
         #endregion
     }
