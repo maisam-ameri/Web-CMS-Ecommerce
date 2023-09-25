@@ -1,5 +1,6 @@
 ﻿using Cms.DataLayer;
 using Cms.DataLayer.Entities;
+using Cms.DataLayer.Entities.Permission;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +22,13 @@ namespace Cms.Core.Services.Abstractions
         int CreateRole(Role role);
         void UpdateRole(Role role);
         void DeleteRole(int roleId);
+
+        #endregion
+
+        #region Permissions
+
+        List<Permission> GetPermissions();
+        void AssignPermissionToRole(int roleId, List<int> selectedPermission);
 
         #endregion
 

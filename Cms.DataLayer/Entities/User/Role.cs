@@ -27,6 +27,6 @@ namespace Cms.DataLayer.Entities
 
 
         public virtual List<UserRole>? UserRoles{ get; set; }
-        public List<RolePermission> RolePermissions { get; set; }
+        public List<RolePermission>? RolePermissions { get; set; }
     }
 }

@@ -2,6 +2,7 @@
 using Cms.DataLayer;
 using Cms.DataLayer.Context;
 using Cms.DataLayer.Entities;
+using Cms.DataLayer.Entities.Permission;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,8 @@ namespace Cms.Core.Services
         {
             _context = context;
         }
+
+        #region Roles
 
         public UserRole AssignUserRoles(int userId, List<int> roles)
         {
@@ -95,5 +98,36 @@ namespace Cms.Core.Services
             UpdateRole(role);
         }
 
+
+        #endregion
+
+        #region Permissions
+
+        public List<Permission> GetPermissions()
+        {
+            return _context.Permissions.ToList();
+        }
+
+        public void AssignPermissionToRole(int roleId, List<int> selectedPermission)
+        {
+            var permissions = new List<RolePermission>();
+
+            if (selectedPermission.Count > 0)
+            {
+
+                selectedPermission.ForEach(p =>
+                {
+                    permissions.Add(new RolePermission
+                    {
+                        PermissionId = p,
+                        RoleId = roleId
+                    });
+                });
+
+            }
+            _context.RolePermissions.AddRange(permissions);
+            _context.SaveChanges();
+        }
+        #endregion
     }
 }

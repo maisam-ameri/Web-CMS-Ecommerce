@@ -2,6 +2,7 @@ using Cms.Core.DTOs.AdminPanel;
 using Cms.Core.FileManager;
 using Cms.Core.Services.Abstractions;
 using Cms.DataLayer.Entities;
+using Cms.DataLayer.Entities.Permission;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -25,16 +26,20 @@ namespace Cms.Web.Pages.Admin.Roles
         public void OnGet()
         {
 
+            ViewData["Permissions"] = _permissionService.GetPermissions();
         }
 
-        public IActionResult OnPost()
+        public IActionResult OnPost(List<int> selectedPermissions)
         {
             if (!ModelState.IsValid)
             {
                 return Page();
             }
 
-            _permissionService.CreateRole(Role);
+            var roleId = _permissionService.CreateRole(Role);
+            if(selectedPermissions.Count > 0)
+                _permissionService.AssignPermissionToRole(roleId, selectedPermissions);
+
             return RedirectToPage("Index");
         }
     }
