@@ -10,12 +10,12 @@ namespace Cms.Core.Services.Abstractions
 {
     public interface IPermissionService
     {
+        #region Roles
+
         IEnumerable<Role> GetRoles();
         IEnumerable<UserRole> GetUserRoles(string username, List<int> roles);
         UserRole AssignUserRoles(int userId, List<int> roleId);
         void UnassignUserRoles(int userId);
-
-        #region Role CRUD
 
         Role GetRole(int roleId);
         int CreateRole(Role role);
