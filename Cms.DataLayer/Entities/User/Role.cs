@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Cms.DataLayer.Entities.Permission;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -26,5 +27,6 @@ namespace Cms.DataLayer.Entities
 
 
         public virtual List<UserRole>? UserRoles{ get; set; }
+        public List<RolePermission> RolePermissions { get; set; }
     }
 }
