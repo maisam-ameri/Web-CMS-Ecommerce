@@ -1,11 +1,14 @@
 using Cms.Core.DTOs;
 using Cms.Core.DTOs.AdminPanel;
+using Cms.Core.Security;
 using Cms.Core.Services.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Cms.Web.Pages.Admin.Users
 {
+
+    [PermissionChecker(1)]
     public class IndexModel : PageModel
     {
         public UsersDto Users{ get; set; }

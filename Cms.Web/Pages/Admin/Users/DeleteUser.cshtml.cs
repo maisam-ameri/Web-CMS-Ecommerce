@@ -1,9 +1,12 @@
+using Cms.Core.Security;
 using Cms.Core.Services.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Cms.Web.Pages.Admin.Users
 {
+    [PermissionChecker(9)]
+
     public class DeleteUserModel : PageModel
     {
         private IUserService _userService;

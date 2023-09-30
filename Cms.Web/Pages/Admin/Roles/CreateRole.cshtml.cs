@@ -1,5 +1,6 @@
 using Cms.Core.DTOs.AdminPanel;
 using Cms.Core.FileManager;
+using Cms.Core.Security;
 using Cms.Core.Services.Abstractions;
 using Cms.DataLayer.Entities;
 using Cms.DataLayer.Entities.Permission;
@@ -8,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Cms.Web.Pages.Admin.Roles
 {
+    [PermissionChecker(6)]
     public class CreateRoleModel : PageModel
     {
         [BindProperty]

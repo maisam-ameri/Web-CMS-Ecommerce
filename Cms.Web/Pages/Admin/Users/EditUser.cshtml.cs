@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Cms.Web.Pages.Admin.Users
 {
+    [PermissionChecker(4)]
+
     public class EditUserModel : PageModel
     {
         [BindProperty]

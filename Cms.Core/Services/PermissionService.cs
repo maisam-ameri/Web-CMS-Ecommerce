@@ -68,6 +68,14 @@ namespace Cms.Core.Services
             return userRoles;
         }
 
+        public IEnumerable<UserRole> GetUserRoles(string username)
+        {
+            var userRoles = new List<UserRole>();
+            var userId = _context.Users.SingleOrDefault(u => u.UserName == username).Id;
+            return _context.UserRoles.Where(r => r.UserId == userId);
+        }
+
+
         public void DeleteUserRoles(int userId)
         {
             UnassignUserRoles(userId);
@@ -139,6 +147,16 @@ namespace Cms.Core.Services
         public void UnassignedPermissionRole(int roleId)
         {
             _context.RolePermissions.RemoveRange(_context.RolePermissions.Where(u => u.RoleId == roleId));
+        }
+
+        public bool CheckPermission(int permissionId, string username)
+        {
+            var userRoles = GetUserRoles(username).ToList();
+            if (!userRoles.Any()) return false;
+            var permissions = _context.RolePermissions.Where(p => p.PermissionId == permissionId);
+
+            var isAny = userRoles.Any(u => permissions.Any(p => p.RoleId ==  u.RoleId));
+            return isAny;
         }
         #endregion
     }

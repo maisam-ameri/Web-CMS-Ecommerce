@@ -1,10 +1,13 @@
 using Cms.Core.DTOs.AdminPanel;
+using Cms.Core.Security;
 using Cms.Core.Services.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Cms.Web.Pages.Admin.Users
 {
+    [PermissionChecker(2)]
+
     public class DeletedUsersModel : PageModel
     {
         public UsersDto Users { get; set; }

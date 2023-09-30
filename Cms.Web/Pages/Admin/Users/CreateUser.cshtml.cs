@@ -16,6 +16,8 @@ using Microsoft.Win32;
 
 namespace Cms.Web.Pages.Admin.Users
 {
+    [PermissionChecker(3)]
+
     public class CreateUserModel : PageModel
     {
         [BindProperty]

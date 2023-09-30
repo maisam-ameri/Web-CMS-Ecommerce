@@ -1,3 +1,4 @@
+using Cms.Core.Security;
 using Cms.Core.Services.Abstractions;
 using Cms.DataLayer.Entities;
 using Microsoft.AspNetCore.Mvc;
@@ -5,6 +6,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Cms.Web.Pages.Admin.Roles
 {
+    [PermissionChecker(8)]
     public class DeleteRoleModel : PageModel
     {
         [BindProperty]

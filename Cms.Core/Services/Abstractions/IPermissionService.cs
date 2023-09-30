@@ -32,6 +32,7 @@ namespace Cms.Core.Services.Abstractions
         void UnassignedPermissionRole(int roleId);
         List<int> GetPermissionsRole(int roleId);
 
+        bool CheckPermission(int permissionId, string username);
 
         #endregion
 
