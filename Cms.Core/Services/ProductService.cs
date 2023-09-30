@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace Cms.Core.Services
 {
-    public class CourseService : ICourseService
+    public class ProductService : IProductService
     {
         private CmsContext _context;
 
-        public CourseService(CmsContext context)
+        public ProductService(CmsContext context)
         {
             _context = context;
         }

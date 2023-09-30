@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Cms.Core.Services.Abstractions
 {
-    public interface ICourseService
+    public interface IProductService
     {
         IEnumerable<CourseCategory> GetCategories();
     }

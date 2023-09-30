@@ -6,9 +6,9 @@ namespace Cms.Web.ViewComponents
 {
     public class CourseCategoryComponent : ViewComponent
     {
-        private ICourseService _couserCategoryService;
+        private IProductService _couserCategoryService;
 
-        public CourseCategoryComponent(ICourseService courseService)
+        public CourseCategoryComponent(IProductService courseService)
         {
             _couserCategoryService = courseService;
         }

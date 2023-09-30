@@ -40,7 +40,7 @@ namespace Cms.DataLayer.Context
         #endregion
 
 
-        #region Course
+        #region Product
         public DbSet<CourseCategory> CourseCategories { get; set; }
         #endregion
 
