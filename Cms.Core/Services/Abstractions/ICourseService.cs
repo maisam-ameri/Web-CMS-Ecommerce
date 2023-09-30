@@ -9,6 +9,6 @@ namespace Cms.Core.Services.Abstractions
 {
     public interface ICourseService
     {
-        IEnumerable<CourseCategory> GetCategories{ get;}
+        IEnumerable<CourseCategory> GetCategories();
     }
 }

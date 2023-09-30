@@ -1,0 +1,31 @@
+﻿@model List<Cms.DataLayer.Entities.Course.CourseCategory>
+
+<div class="main-menu">
+    <div class="container">
+        <nav>
+            <span class="responsive-sign"><i class="zmdi zmdi-menu"></i></span>
+            <ul>
+                @foreach (var item in Model.Where(c => c.ParentId == null))
+                {
+
+                    <li>
+                        <a href=""> @item.Title </a>
+                        <ul>
+                            @if (Model.Any(c => c.ParentId == item.Id))
+                            {
+                                @foreach (var subItem in Model.Where(c => c.ParentId == item.Id))
+                                {
+
+                                    <li><a href=""> @subItem.Title</a></li>
+                                }
+                            }
+                        </ul>
+
+                    </li>
+
+
+                }
+            </ul>
+        </nav>
+    </div>
+</div>

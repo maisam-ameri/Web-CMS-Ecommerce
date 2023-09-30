@@ -9,14 +9,14 @@ using System.Threading.Tasks;
 
 namespace Cms.Core.Services
 {
-    public class CourseCategoryService : ICourseService
+    public class CourseService : ICourseService
     {
         private CmsContext _context;
 
-        public CourseCategoryService(CmsContext context)
+        public CourseService(CmsContext context)
         {
             _context = context;
         }
-        public IEnumerable<CourseCategory> GetCategories => _context.CourseCategories.ToList();
+        public IEnumerable<CourseCategory> GetCategories() => _context.CourseCategories.ToList();
     }
 }
