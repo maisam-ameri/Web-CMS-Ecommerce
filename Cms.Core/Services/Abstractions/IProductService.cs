@@ -1,4 +1,4 @@
-﻿using Cms.DataLayer.Entities.Course;
+﻿using Cms.DataLayer.Entities.Product;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +9,6 @@ namespace Cms.Core.Services.Abstractions
 {
     public interface IProductService
     {
-        IEnumerable<ProductCategory> GetCategories();
+        IEnumerable<Category> GetCategories();
     }
 }

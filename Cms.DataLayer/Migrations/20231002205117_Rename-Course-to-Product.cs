@@ -1,17 +1,18 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace Cms.DataLayer.Migrations
 {
     /// <inheritdoc />
-    public partial class CourseCategory : Migration
+    public partial class RenameCoursetoProduct : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "CourseCategories",
+                name: "Categories",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -22,25 +23,29 @@ namespace Cms.DataLayer.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CourseCategories", x => x.Id);
+                    table.PrimaryKey("PK_Categories", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_CourseCategories_CourseCategories_ParentId",
+                        name: "FK_Categories_Categories_ParentId",
                         column: x => x.ParentId,
-                        principalTable: "CourseCategories",
+                        principalTable: "Categories",
                         principalColumn: "Id");
                 });
 
+
+
             migrationBuilder.CreateIndex(
-                name: "IX_CourseCategories_ParentId",
-                table: "CourseCategories",
+                name: "IX_Categories_ParentId",
+                table: "Categories",
                 column: "ParentId");
+
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "CourseCategories");
+                name: "Categories");
+
         }
     }
 }

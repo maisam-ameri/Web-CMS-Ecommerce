@@ -1,6 +1,6 @@
 ﻿using Cms.DataLayer.Entities;
-using Cms.DataLayer.Entities.Course;
 using Cms.DataLayer.Entities.Permission;
+using Cms.DataLayer.Entities.Product;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using System;
@@ -24,7 +24,7 @@ namespace Cms.DataLayer.Context
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<User>().HasQueryFilter(u => !u.IsDeleted);
             modelBuilder.Entity<Role>().HasQueryFilter(r => !r.IsDelete);
-            modelBuilder.Entity<ProductCategory>().HasQueryFilter(c => !c.IsDeleted);
+            modelBuilder.Entity<Category>().HasQueryFilter(c => !c.IsDeleted);
         }
 
         #region User
@@ -41,7 +41,7 @@ namespace Cms.DataLayer.Context
 
 
         #region Product
-        public DbSet<ProductCategory> ProductCategories { get; set; }
+        public DbSet<Category> Categories { get; set; }
         #endregion
 
     }

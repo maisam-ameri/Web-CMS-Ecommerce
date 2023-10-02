@@ -1,6 +1,6 @@
 ﻿using Cms.Core.Services.Abstractions;
 using Cms.DataLayer.Context;
-using Cms.DataLayer.Entities.Course;
+using Cms.DataLayer.Entities.Product;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +17,6 @@ namespace Cms.Core.Services
         {
             _context = context;
         }
-        public IEnumerable<ProductCategory> GetCategories() => _context.ProductCategories.ToList();
+        public IEnumerable<Category> GetCategories() => _context.Categories.ToList();
     }
 }

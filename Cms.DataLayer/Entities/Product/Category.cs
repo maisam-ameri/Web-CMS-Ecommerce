@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Cms.DataLayer.Entities.Course
+namespace Cms.DataLayer.Entities.Product
 {
-    public class ProductCategory
+    public class Category
     {
         [Key]
         public int Id { get; set; }
@@ -25,7 +25,7 @@ namespace Cms.DataLayer.Entities.Course
 
         
         [ForeignKey(nameof(ParentId))]
-        public List<ProductCategory>? ProductCategories { get; set; }
+        public List<Category>? Categories { get; set; }
 
 
     }

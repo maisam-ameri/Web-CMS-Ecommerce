@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cms.DataLayer.Migrations
 {
     [DbContext(typeof(CmsContext))]
-    [Migration("20230930191847_Refactor-Course-to-Product")]
-    partial class RefactorCoursetoProduct
+    [Migration("20231002205117_Rename-Course-to-Product")]
+    partial class RenameCoursetoProduct
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,32 +24,6 @@ namespace Cms.DataLayer.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("Cms.DataLayer.Entities.Course.ProductCategory", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<int?>("ParentId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ParentId");
-
-                    b.ToTable("ProductCategories");
-                });
 
             modelBuilder.Entity("Cms.DataLayer.Entities.Permission.Permission", b =>
                 {
@@ -95,6 +69,32 @@ namespace Cms.DataLayer.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("RolePermissions");
+                });
+
+            modelBuilder.Entity("Cms.DataLayer.Entities.Product.Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("ParentId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ParentId");
+
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("Cms.DataLayer.Entities.Role", b =>
@@ -206,13 +206,6 @@ namespace Cms.DataLayer.Migrations
                     b.ToTable("UserRoles");
                 });
 
-            modelBuilder.Entity("Cms.DataLayer.Entities.Course.ProductCategory", b =>
-                {
-                    b.HasOne("Cms.DataLayer.Entities.Course.ProductCategory", null)
-                        .WithMany("ProductCategories")
-                        .HasForeignKey("ParentId");
-                });
-
             modelBuilder.Entity("Cms.DataLayer.Entities.Permission.Permission", b =>
                 {
                     b.HasOne("Cms.DataLayer.Entities.Permission.Permission", null)
@@ -239,6 +232,13 @@ namespace Cms.DataLayer.Migrations
                     b.Navigation("Role");
                 });
 
+            modelBuilder.Entity("Cms.DataLayer.Entities.Product.Category", b =>
+                {
+                    b.HasOne("Cms.DataLayer.Entities.Product.Category", null)
+                        .WithMany("Categories")
+                        .HasForeignKey("ParentId");
+                });
+
             modelBuilder.Entity("Cms.DataLayer.Entities.UserRole", b =>
                 {
                     b.HasOne("Cms.DataLayer.Entities.Role", "Role")
@@ -258,16 +258,16 @@ namespace Cms.DataLayer.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Cms.DataLayer.Entities.Course.ProductCategory", b =>
-                {
-                    b.Navigation("ProductCategories");
-                });
-
             modelBuilder.Entity("Cms.DataLayer.Entities.Permission.Permission", b =>
                 {
                     b.Navigation("Permissions");
 
                     b.Navigation("RolePermission");
+                });
+
+            modelBuilder.Entity("Cms.DataLayer.Entities.Product.Category", b =>
+                {
+                    b.Navigation("Categories");
                 });
 
             modelBuilder.Entity("Cms.DataLayer.Entities.Role", b =>
