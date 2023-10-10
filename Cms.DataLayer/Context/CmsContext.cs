@@ -25,6 +25,7 @@ namespace Cms.DataLayer.Context
             modelBuilder.Entity<User>().HasQueryFilter(u => !u.IsDeleted);
             modelBuilder.Entity<Role>().HasQueryFilter(r => !r.IsDelete);
             modelBuilder.Entity<Category>().HasQueryFilter(c => !c.IsDeleted);
+            modelBuilder.Entity<Product>().HasQueryFilter(c => !c.IsDeleted);
         }
 
         #region User
@@ -42,6 +43,7 @@ namespace Cms.DataLayer.Context
 
         #region Product
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Product>? Products { get; set; }
         #endregion
 
     }

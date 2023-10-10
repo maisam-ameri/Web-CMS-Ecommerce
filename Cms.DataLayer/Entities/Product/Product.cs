@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore.Migrations.Operations;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -8,34 +9,27 @@ using System.Threading.Tasks;
 
 namespace Cms.DataLayer.Entities.Product
 {
-    public class Category
+    public class Product
     {
-        public Category()
+        public Product()
         {
             
         }
-
         [Key]
-        public int Id { get; set; }
+        public int ProductId { get; set; }
         [Display(Name ="عنوان")]
         [Required(ErrorMessage ="لطفا {0} را وارد کنید")]
         [MaxLength(200, ErrorMessage ="{0} نمیتواند بیستر از {1} باشد")]
         public string Title { get; set; }
-
-        [Display(Name = "حذف شده؟")]
+        [Display(Name ="توضیحات")]
+        [Required(ErrorMessage ="لطفا {0} را وارد کنید")]
+        [MaxLength(500, ErrorMessage ="{0} نمیتواند بیستر از {1} باشد")]
+        public string Description{ get; set; }
         public bool IsDeleted { get; set; }
 
-        [Display(Name = "گروه اصلی")]
-        public int? ParentId { get; set; }
+        public int? CategoryId { get; set; }
 
-        
-        [ForeignKey(nameof(ParentId))]
-        public Category? ParentCategory { get; set; }
-
-
-
-        public List<Product>? Products { get; set; }
-
-
+        [ForeignKey(nameof(CategoryId))]
+        public Category? Category { get; set; }
     }
 }
