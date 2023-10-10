@@ -1,12 +1,11 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace Cms.DataLayer.Migrations
 {
     /// <inheritdoc />
-    public partial class RenameCoursetoProduct : Migration
+    public partial class Create_Category : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -31,13 +30,10 @@ namespace Cms.DataLayer.Migrations
                         principalColumn: "Id");
                 });
 
-
-
             migrationBuilder.CreateIndex(
                 name: "IX_Categories_ParentId",
                 table: "Categories",
                 column: "ParentId");
-
         }
 
         /// <inheritdoc />
@@ -45,7 +41,6 @@ namespace Cms.DataLayer.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Categories");
-
         }
     }
 }

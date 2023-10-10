@@ -17,6 +17,6 @@ namespace Cms.Core.Services
         {
             _context = context;
         }
-        public IEnumerable<Category> GetCategories() => _context.Categories.ToList();
+        public IEnumerable<Category> GetCategories() =>  _context.Categories.ToList();
     }
 }

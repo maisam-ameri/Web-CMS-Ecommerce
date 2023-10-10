@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cms.DataLayer.Migrations
 {
     [DbContext(typeof(CmsContext))]
-    [Migration("20231002205117_Rename-Course-to-Product")]
-    partial class RenameCoursetoProduct
+    [Migration("20231010101426_Create_Category")]
+    partial class Create_Category
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -234,9 +234,11 @@ namespace Cms.DataLayer.Migrations
 
             modelBuilder.Entity("Cms.DataLayer.Entities.Product.Category", b =>
                 {
-                    b.HasOne("Cms.DataLayer.Entities.Product.Category", null)
-                        .WithMany("Categories")
+                    b.HasOne("Cms.DataLayer.Entities.Product.Category", "ParentCategory")
+                        .WithMany()
                         .HasForeignKey("ParentId");
+
+                    b.Navigation("ParentCategory");
                 });
 
             modelBuilder.Entity("Cms.DataLayer.Entities.UserRole", b =>
@@ -263,11 +265,6 @@ namespace Cms.DataLayer.Migrations
                     b.Navigation("Permissions");
 
                     b.Navigation("RolePermission");
-                });
-
-            modelBuilder.Entity("Cms.DataLayer.Entities.Product.Category", b =>
-                {
-                    b.Navigation("Categories");
                 });
 
             modelBuilder.Entity("Cms.DataLayer.Entities.Role", b =>

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cms.DataLayer.Migrations
 {
     [DbContext(typeof(CmsContext))]
-    [Migration("20230908113749_InitialDatabase")]
-    partial class InitialDatabase
+    [Migration("20231010101258_Initial-Db")]
+    partial class InitialDb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,13 +25,62 @@ namespace Cms.DataLayer.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Cms.DataLayer.Role", b =>
+            modelBuilder.Entity("Cms.DataLayer.Entities.Permission.Permission", b =>
+                {
+                    b.Property<int>("PermissionId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PermissionId"));
+
+                    b.Property<int?>("ParentId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PermissionTitle")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.HasKey("PermissionId");
+
+                    b.HasIndex("ParentId");
+
+                    b.ToTable("Permissions");
+                });
+
+            modelBuilder.Entity("Cms.DataLayer.Entities.Permission.RolePermission", b =>
+                {
+                    b.Property<int>("PermissionRoleId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PermissionRoleId"));
+
+                    b.Property<int>("PermissionId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
+
+                    b.HasKey("PermissionRoleId");
+
+                    b.HasIndex("PermissionId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("RolePermissions");
+                });
+
+            modelBuilder.Entity("Cms.DataLayer.Entities.Role", b =>
                 {
                     b.Property<int>("RoleId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RoleId"));
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
 
                     b.Property<string>("RoleTitle")
                         .IsRequired()
@@ -43,7 +92,7 @@ namespace Cms.DataLayer.Migrations
                     b.ToTable("Roles");
                 });
 
-            modelBuilder.Entity("Cms.DataLayer.User", b =>
+            modelBuilder.Entity("Cms.DataLayer.Entities.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -79,6 +128,9 @@ namespace Cms.DataLayer.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasMaxLength(200)
@@ -105,7 +157,7 @@ namespace Cms.DataLayer.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("Cms.DataLayer.UserRole", b =>
+            modelBuilder.Entity("Cms.DataLayer.Entities.UserRole", b =>
                 {
                     b.Property<int>("UserRoleId")
                         .ValueGeneratedOnAdd()
@@ -128,15 +180,41 @@ namespace Cms.DataLayer.Migrations
                     b.ToTable("UserRoles");
                 });
 
-            modelBuilder.Entity("Cms.DataLayer.UserRole", b =>
+            modelBuilder.Entity("Cms.DataLayer.Entities.Permission.Permission", b =>
                 {
-                    b.HasOne("Cms.DataLayer.Role", "Role")
+                    b.HasOne("Cms.DataLayer.Entities.Permission.Permission", null)
+                        .WithMany("Permissions")
+                        .HasForeignKey("ParentId");
+                });
+
+            modelBuilder.Entity("Cms.DataLayer.Entities.Permission.RolePermission", b =>
+                {
+                    b.HasOne("Cms.DataLayer.Entities.Permission.Permission", "Permission")
+                        .WithMany("RolePermission")
+                        .HasForeignKey("PermissionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Cms.DataLayer.Entities.Role", "Role")
+                        .WithMany("RolePermissions")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Permission");
+
+                    b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("Cms.DataLayer.Entities.UserRole", b =>
+                {
+                    b.HasOne("Cms.DataLayer.Entities.Role", "Role")
                         .WithMany("UserRoles")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Cms.DataLayer.User", "User")
+                    b.HasOne("Cms.DataLayer.Entities.User", "User")
                         .WithMany("UserRoles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -147,12 +225,21 @@ namespace Cms.DataLayer.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Cms.DataLayer.Role", b =>
+            modelBuilder.Entity("Cms.DataLayer.Entities.Permission.Permission", b =>
                 {
+                    b.Navigation("Permissions");
+
+                    b.Navigation("RolePermission");
+                });
+
+            modelBuilder.Entity("Cms.DataLayer.Entities.Role", b =>
+                {
+                    b.Navigation("RolePermissions");
+
                     b.Navigation("UserRoles");
                 });
 
-            modelBuilder.Entity("Cms.DataLayer.User", b =>
+            modelBuilder.Entity("Cms.DataLayer.Entities.User", b =>
                 {
                     b.Navigation("UserRoles");
                 });

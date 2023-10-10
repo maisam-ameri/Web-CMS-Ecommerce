@@ -25,7 +25,7 @@ namespace Cms.DataLayer.Entities.Product
 
         
         [ForeignKey(nameof(ParentId))]
-        public List<Category>? Categories { get; set; }
+        public Category? ParentCategory { get; set; }
 
 
     }
