@@ -1,4 +1,5 @@
-﻿using Cms.DataLayer.Entities.Product;
+﻿using Cms.Core.DTOs.AdminPanel.Product;
+using Cms.DataLayer.Entities.Product;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,5 +11,8 @@ namespace Cms.Core.Services.Abstractions
     public interface IProductService
     {
         IEnumerable<Category> GetCategories();
+        List<CategoryDto> GetParentCategoriesForAdminPanel();
+
+        int CreateCategory(Category category);
     }
 }
