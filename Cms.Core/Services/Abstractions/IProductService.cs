@@ -14,5 +14,7 @@ namespace Cms.Core.Services.Abstractions
         List<CategoryDto> GetParentCategoriesForAdminPanel();
 
         int CreateCategory(Category category);
+        Category GetCategory(int id);
+        void UpdateCategory(Category category);
     }
 }

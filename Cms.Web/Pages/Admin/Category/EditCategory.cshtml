@@ -1,22 +1,21 @@
 ﻿@page
-@model Cms.Web.Pages.Admin.Product.CreateCategoryModel
+@model Cms.Web.Pages.Admin.Product.EditCategoryModel
 @{
-    ViewData["Title"] = "ایجاد گروه جدید";
+    ViewData["Title"] = "ویرایش گروه";
     var data = ViewData["Categories"] as IEnumerable<Cms.Core.DTOs.AdminPanel.Product.CategoryDto>;
-    var categories = new SelectList(data, "Id", "Title");// as SelectList;//as SelectList<Cms.Core.DTOs.AdminPanel.Product.CategoryDto>;
-
+    var categories = new SelectList(data, "Id", "Title");
 }
 
 <div class="row">
     <div class="col-lg-12">
-        <h1 class="page-header">افزودن گروه جدید</h1>
+        <h1 class="page-header">ویرایش گروه</h1>
     </div>
     <!-- /.col-lg-12 -->
 </div>
 
 <div class="row">
-    <form method="post">
-
+    <form method="post" >
+        <input type="hidden" asp-for="Category.Id" />
         <div class="col-md-8">
             <div class="panel panel-primary">
                 <div class="panel-heading">
@@ -27,20 +26,21 @@
 
                     <div class="form-group">
                         <label>عنوان گروه</label>
-                        <input type="text" asp-for="Category.Title" class="form-control">
+                        <input type="text" asp-for="Category.Title" class="form-control" value="@Model.Category.Title">
                     </div>
                     <div class="form-group">
                         <label>گروه والد</label>
 
-                        <select class="form-control" name="parentCategoryId"  asp-items=@categories>
+                        <select class="form-control" name="parentCategoryId" id="parentList" asp-items=@categories>
                             <option value="">گروه اصلی</option>
                         </select>
 
                     </div>
+                    <input type="submit" class="btn btn-warning" value="ویرایش" />
 
-                    <input asp-page="/Admin/Category/CreateCategory" type="submit" class="btn btn-success" value="افزودن" />
+                    @* <input asp-page="/Admin/Category/EditCategory" type="submit" class="btn btn-warning" value="ویرایش" /> *@
                 </div>
-                
+
                 <!-- /.panel-body -->
             </div>
         </div>
@@ -48,4 +48,10 @@
     </form>
 </div>
 
-
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            document.getElementById('parentList').value = @Model.Category.ParentId.ToString();
+        });
+    </script>
+}

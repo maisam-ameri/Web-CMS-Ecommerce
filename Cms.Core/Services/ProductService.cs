@@ -30,6 +30,11 @@ namespace Cms.Core.Services
 
         public IEnumerable<Category> GetCategories() =>  _context.Categories.ToList();
 
+        public Category GetCategory(int id)
+        {
+            return _context.Categories.SingleOrDefault(c => c.Id == id);
+        }
+
         public List<CategoryDto> GetParentCategoriesForAdminPanel()
         {
             return _context.Categories.Where( c => c.ParentId == null).Select(c => new CategoryDto
@@ -37,6 +42,12 @@ namespace Cms.Core.Services
                 Id  = c.Id,
                 Title = c.Title,
             }).ToList();
+        }
+
+        public void UpdateCategory(Category category)
+        {
+            _context.Update(category);
+            _context.SaveChanges();
         }
     }
 }
