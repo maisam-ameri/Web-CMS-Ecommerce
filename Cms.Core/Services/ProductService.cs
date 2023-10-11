@@ -49,5 +49,18 @@ namespace Cms.Core.Services
             _context.Update(category);
             _context.SaveChanges();
         }
+
+        public void DeleteCategory(int id)
+        {
+            var category = GetCategory(id);
+            if(category != null)
+            {
+                category.IsDeleted = true;
+                _context.SaveChanges();
+            }
+
+
+
+        }
     }
 }

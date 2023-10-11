@@ -16,5 +16,6 @@ namespace Cms.Core.Services.Abstractions
         int CreateCategory(Category category);
         Category GetCategory(int id);
         void UpdateCategory(Category category);
+        void DeleteCategory(int id);
     }
 }
