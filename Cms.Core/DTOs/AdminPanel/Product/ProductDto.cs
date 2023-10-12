@@ -10,6 +10,8 @@ namespace Cms.Core.DTOs.AdminPanel.Product
 {
     public class ProductDto
     {
+        public int ProductId { get; set; }
+
         [Display(Name = "عنوان")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
         [MaxLength(200, ErrorMessage = "{0} نمیتواند بیستر از {1} باشد")]
@@ -24,7 +26,8 @@ namespace Cms.Core.DTOs.AdminPanel.Product
         [MaxLength(1000, ErrorMessage = "{0} نمیتواند بیستر از {1} باشد")]
         public string Content { get; set; }
         [Display(Name = "تصویر")]
-        public IFormFile Image { get; set; }
+        public IFormFile? Image { get; set; }
+        public string ImageName { get; set; }
 
         [Display(Name = "تگ ها")]
         public string? Tags { get; set; }

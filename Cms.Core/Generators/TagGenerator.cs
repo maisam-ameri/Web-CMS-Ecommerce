@@ -6,8 +6,11 @@ using System.Threading.Tasks;
 
 namespace Cms.Core.Generators
 {
-    public static class NameGenerator
+    public class TagGenerator
     {
-        public static string  GenerateName() => Guid.NewGuid().ToString();
+        public static string[] GenerateTags(string tag)
+        {
+            return tag.Split('،');
+        }
     }
 }
