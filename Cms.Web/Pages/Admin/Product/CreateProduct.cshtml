@@ -12,7 +12,7 @@
 </div>
 
 <div class="row">
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
 
         <div class="col-md-8">
             <div class="panel panel-primary">
@@ -31,6 +31,17 @@
                         <textarea asp-for="Product.Description" class="form-control"></textarea>
                     </div>
 
+                    <div class="form-group">
+                        <label>محتوا</label>
+                        <textarea asp-for="Product.Content" class="form-control"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>تگ ها</label>
+                        <textarea asp-for="Product.Tags" class="form-control"></textarea>
+                    <div class="help-block">لطفا بین تگ ها از '،' استفاده کنید</div>
+                    </div>
+
                     <input asp-page="/Admin/Product/CreateProduct" type="submit" class="btn btn-success" value="افزودن" />
 
                 </div>
@@ -39,25 +50,25 @@
             </div>
         </div>
 
-       @*  <div class="col-md-4">
+        <div class="col-md-4">
 
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    تصویر پروفایل
+                    تصویر محصول
                 </div>
                 <!-- /.panel-heading -->
                 <div class="panel-body">
-                    <img id="imgAvatar" class="thumbnail" src="/images/pic/avatar.jpg" />
+                    <img id="imgProduct" class="thumbnail" src="/images/pic/avatar.jpg" />
                     <div class="form-group">
                         <label>انتخاب تصویر</label>
-                        <input type="file" asp-for="CreateUser.Avatar" value="default.jpg">
+                        <input type="file" asp-for="Product.Image" value="default.jpg">
                     </div>
                 </div>
                 <!-- /.panel-body -->
             </div>
 
 
-        </div> *@
+        </div>
     </form>
 </div>
 
@@ -69,14 +80,14 @@
                 var reader = new FileReader();
 
                 reader.onload = function (e) {
-                    $('#imgAvatar').attr('src', e.target.result);
+                    $('#imgProduct').attr('src', e.target.result);
                 }
 
                 reader.readAsDataURL(input.files[0]);
             }
         }
 
-        $("#CreateUser_Avatar").change(function () {
+        $("#Product_Image").change(function () {
             readURL(this);
         });
 

@@ -22,6 +22,8 @@ namespace Cms.Web.Pages.Admin.Users
         private IUserService _userService;
         private IPermissionService _permissionService;
         private ImageManager _imageManager;
+        private const string AVATAR_PATH = "images/user/avatar/";
+
 
 
 
@@ -58,7 +60,7 @@ namespace Cms.Web.Pages.Admin.Users
 
             if (EditUser.Avatar != null)
             {
-                userAvatar = _imageManager.UploadAvatar("", EditUser.Avatar);
+                userAvatar = _imageManager.UploadImage("", EditUser.Avatar, AVATAR_PATH);
             }
             else
             {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -18,8 +19,12 @@ namespace Cms.Core.DTOs.AdminPanel.Product
         [MaxLength(200, ErrorMessage = "{0} نمیتواند بیستر از {1} باشد")]
         public string Description { get; set; }
 
+        [Display(Name = "محتوا")]
+        [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
+        [MaxLength(1000, ErrorMessage = "{0} نمیتواند بیستر از {1} باشد")]
+        public string Content { get; set; }
         [Display(Name = "تصویر")]
-        public string? Image { get; set; }
+        public IFormFile Image { get; set; }
 
         [Display(Name = "تگ ها")]
         public string? Tags { get; set; }

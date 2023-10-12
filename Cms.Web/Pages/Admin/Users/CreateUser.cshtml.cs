@@ -27,6 +27,8 @@ namespace Cms.Web.Pages.Admin.Users
         private IPermissionService _permissionService { get; set; }
         private IUserService _userService { get; set; }
         private ImageManager _imageManager { get; set; }
+        private const string AVATAR_PATH = "images/user/avatar/";
+
 
 
         public CreateUserModel(IPermissionService permissionService, IUserService userService, ImageManager imageManager)
@@ -63,7 +65,7 @@ namespace Cms.Web.Pages.Admin.Users
                 return Page();
             }
 
-            var userAvatar = _imageManager.UploadAvatar("", CreateUser.Avatar);
+            var userAvatar = _imageManager.UploadImage("", CreateUser.Avatar, AVATAR_PATH);
 
             //var roles = _permissionService.GetUserRoles(CreateUser.UserName, selectedRoles).ToList();
 

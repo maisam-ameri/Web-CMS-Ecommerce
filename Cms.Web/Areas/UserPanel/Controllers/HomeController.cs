@@ -5,6 +5,7 @@ using Cms.Core.Security;
 using Cms.Core.Services;
 using Cms.Core.Services.Abstractions;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Build.Framework;
 using System.Drawing.Imaging;
 using System.Text;
 
@@ -17,6 +18,9 @@ namespace Cms.Web.Areas.UserPanel.Controllers
         private IUserService _userService;
         private IWebHostEnvironment _webHostEnvironment;
         private ImageManager _imageManager;
+
+        private const string AVATAR_PATH = "images/user/avatar/";
+
         public HomeController(IUserService userService, IWebHostEnvironment webHostEnvironment, ImageManager imageManager)
         {
             _userService = userService;
@@ -60,7 +64,7 @@ namespace Cms.Web.Areas.UserPanel.Controllers
                 return View(profile);
             }
 
-            var newAvatarName = _imageManager.UploadAvatar(profile.AvatarName, profile.Avatar);
+            var newAvatarName = _imageManager.UploadImage(profile.AvatarName, profile.Avatar, AVATAR_PATH);
             user.Avatar = newAvatarName;
             user.UserName = profile.UserName;
             user.Email = profile.Email;

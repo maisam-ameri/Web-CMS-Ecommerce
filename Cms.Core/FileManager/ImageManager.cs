@@ -16,6 +16,8 @@ namespace Cms.Core.FileManager
         {
                 _webHostEnvi = webHostEnvironment;
         }
+
+        /*
         public string UploadAvatar(string oldname, IFormFile file)
         {
             var avatarName = $"{Guid.NewGuid()}{DateTime.Now.ToString("yymmssfff")}{Path.GetExtension(file.FileName)}";
@@ -33,6 +35,26 @@ namespace Cms.Core.FileManager
 
             return avatarName;
         }
+        */
+
+        public string UploadImage(string oldname, IFormFile file, string imagePath)
+        {
+            var imageName = $"{Guid.NewGuid()}{DateTime.Now.ToString("yymmssfff")}{Path.GetExtension(file.FileName)}";
+            var rootPath = _webHostEnvi.WebRootPath;
+            var oldPath = Path.Combine(rootPath, imagePath, oldname);
+            var path = Path.Combine(rootPath, imagePath, imageName.ToString());
+            RemoveLastAvatar(oldPath);
+
+
+            using (FileStream stream = new FileStream(path, FileMode.Create))
+            {
+                file.CopyTo(stream);
+                stream.Close();
+            }
+
+            return imageName;
+        }
+
 
         private void RemoveLastAvatar(string path)
         {

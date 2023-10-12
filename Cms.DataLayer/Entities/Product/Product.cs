@@ -25,6 +25,11 @@ namespace Cms.DataLayer.Entities.Product
         [Required(ErrorMessage ="لطفا {0} را وارد کنید")]
         [MaxLength(500, ErrorMessage ="{0} نمیتواند بیستر از {1} باشد")]
         public string Description{ get; set; }
+
+        [Display(Name = "محتوا")]
+        [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
+        [MaxLength(1000, ErrorMessage = "{0} نمیتواند بیستر از {1} باشد")]
+        public string Content { get; set; }
         public bool IsDeleted { get; set; }
         [Display(Name = "تگ ها")]
         [MaxLength(500, ErrorMessage = "{0} نمیتواند بیستر از {1} باشد")]
