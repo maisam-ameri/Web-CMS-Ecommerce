@@ -18,8 +18,10 @@ namespace Cms.Core.DTOs.AdminPanel.Product
         [MaxLength(200, ErrorMessage = "{0} نمیتواند بیستر از {1} باشد")]
         public string Description { get; set; }
 
+        [Display(Name = "تصویر")]
         public string? Image { get; set; }
 
+        [Display(Name = "تگ ها")]
         public string? Tags { get; set; }
     }
 }
