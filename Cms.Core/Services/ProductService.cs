@@ -5,6 +5,7 @@ using Cms.DataLayer.Entities.Product;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Permissions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -70,9 +71,17 @@ namespace Cms.Core.Services
 
         #region Product
 
+        
+
         public IEnumerable<Product> GetProducts()
         {
             return _context.Products.ToList();
+        }
+
+        public void CreateProduct(Product product)
+        {
+            _context.Products.Add(product);
+            _context.SaveChanges();
         }
 
         #endregion
