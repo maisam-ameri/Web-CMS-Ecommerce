@@ -4,12 +4,12 @@ using Cms.DataLayer.Entities.Product;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Cms.Web.Pages.Admin.Product
+namespace Cms.Web.Pages.Admin.Category
 {
     public class DeleteCategoryModel : PageModel
     {
         [BindProperty]
-        public Category Category { get; set; }
+        public Cms.DataLayer.Entities.Product.Category Category { get; set; }
 
         private IProductService _productService;
 

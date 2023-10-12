@@ -2,10 +2,12 @@ using Cms.Core.Services.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Cms.Web.Pages.Admin.Category
+namespace Cms.Web.Pages.Admin.Product
 {
+
     public class IndexModel : PageModel
     {
+
         private IProductService _productService;
 
 
@@ -13,10 +15,12 @@ namespace Cms.Web.Pages.Admin.Category
         {
             _productService = productService;
         }
+
         public void OnGet()
         {
-            var categories = _productService.GetCategories();
-            ViewData[nameof(categories)] = categories;
+            var products = _productService.GetProducts();
+            ViewData[nameof(products)] = products;
         }
+
     }
 }

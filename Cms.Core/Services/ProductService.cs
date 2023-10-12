@@ -19,16 +19,18 @@ namespace Cms.Core.Services
             _context = context;
         }
 
+        #region Category
+
         public int CreateCategory(Category category)
         {
-            var newCat =_context.Categories.Add(category);
+            var newCat = _context.Categories.Add(category);
 
             _context.SaveChanges();
             return newCat.Entity.Id;
 
         }
 
-        public IEnumerable<Category> GetCategories() =>  _context.Categories.ToList();
+        public IEnumerable<Category> GetCategories() => _context.Categories.ToList();
 
         public Category GetCategory(int id)
         {
@@ -37,9 +39,9 @@ namespace Cms.Core.Services
 
         public List<CategoryDto> GetParentCategoriesForAdminPanel()
         {
-            return _context.Categories.Where( c => c.ParentId == null).Select(c => new CategoryDto
+            return _context.Categories.Where(c => c.ParentId == null).Select(c => new CategoryDto
             {
-                Id  = c.Id,
+                Id = c.Id,
                 Title = c.Title,
             }).ToList();
         }
@@ -53,7 +55,7 @@ namespace Cms.Core.Services
         public void DeleteCategory(int id)
         {
             var category = GetCategory(id);
-            if(category != null)
+            if (category != null)
             {
                 category.IsDeleted = true;
                 _context.SaveChanges();
@@ -62,5 +64,17 @@ namespace Cms.Core.Services
 
 
         }
+
+
+        #endregion
+
+        #region Product
+
+        public IEnumerable<Product> GetProducts()
+        {
+            return _context.Products.ToList();
+        }
+
+        #endregion
     }
 }

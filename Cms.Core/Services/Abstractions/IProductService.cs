@@ -10,6 +10,8 @@ namespace Cms.Core.Services.Abstractions
 {
     public interface IProductService
     {
+        #region Category
+
         IEnumerable<Category> GetCategories();
         List<CategoryDto> GetParentCategoriesForAdminPanel();
 
@@ -17,5 +19,13 @@ namespace Cms.Core.Services.Abstractions
         Category GetCategory(int id);
         void UpdateCategory(Category category);
         void DeleteCategory(int id);
+
+        #endregion
+
+        #region Product
+
+        IEnumerable<Product> GetProducts();
+
+        #endregion
     }
 }

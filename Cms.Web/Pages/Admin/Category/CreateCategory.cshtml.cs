@@ -4,13 +4,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace Cms.Web.Pages.Admin.Product
+namespace Cms.Web.Pages.Admin.Category
 {
     public class CreateCategoryModel : PageModel
     {
 
         [BindProperty]
-        public Category Category { get; set; }
+        public Cms.DataLayer.Entities.Product.Category Category { get; set; }
 
         [BindProperty]
         public List<SelectListItem>? ParentId { get; set; }
@@ -43,7 +43,7 @@ namespace Cms.Web.Pages.Admin.Product
                 parentId = int.Parse(parentCategoryId);
      
 
-            var category = new Category
+            var category = new Cms.DataLayer.Entities.Product.Category
             {
                 ParentId = parentId,
                 IsDeleted = false,
