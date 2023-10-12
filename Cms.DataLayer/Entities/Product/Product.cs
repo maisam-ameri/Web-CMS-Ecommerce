@@ -26,6 +26,11 @@ namespace Cms.DataLayer.Entities.Product
         [MaxLength(500, ErrorMessage ="{0} نمیتواند بیستر از {1} باشد")]
         public string Description{ get; set; }
         public bool IsDeleted { get; set; }
+        [Display(Name = "تگ ها")]
+        [MaxLength(500, ErrorMessage = "{0} نمیتواند بیستر از {1} باشد")]
+        public string? Tags { get; set; }
+
+
 
         public int? CategoryId { get; set; }
 
