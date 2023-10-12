@@ -29,6 +29,8 @@ namespace Cms.DataLayer.Entities.Product
         [Display(Name = "تگ ها")]
         [MaxLength(500, ErrorMessage = "{0} نمیتواند بیستر از {1} باشد")]
         public string? Tags { get; set; }
+        [Display(Name = "تصویر")]
+        public string? Image { get; set; }
 
 
 
