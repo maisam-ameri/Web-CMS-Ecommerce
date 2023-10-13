@@ -38,6 +38,12 @@ namespace Cms.Core.Services
 
         public IEnumerable<Category> GetCategories() => _context.Categories.ToList();
 
+        public IEnumerable<CategoryDto> GetCategoryDtos()=> _context.Categories.Select(c => new CategoryDto
+        {
+            Id = c.Id,
+            Title = c.Title,
+        }).ToList();
+
         public Category GetCategory(int id)
         {
             return _context.Categories.SingleOrDefault(c => c.Id == id);

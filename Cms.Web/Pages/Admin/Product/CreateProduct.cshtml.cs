@@ -4,6 +4,7 @@ using Cms.Core.Services.Abstractions;
 using Cms.DataLayer.Entities.Product;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Cms.Web.Pages.Admin.Product
 {
@@ -16,6 +17,8 @@ namespace Cms.Web.Pages.Admin.Product
         private ImageManager _imageManager { get; set; }
         private const string PRODUCT_PATH = "images/product/";
 
+
+
         public CreateProductModel(IProductService productService, ImageManager imageManager)
         {
             _productService = productService;
@@ -25,10 +28,11 @@ namespace Cms.Web.Pages.Admin.Product
 
         public void OnGet()
         {
-
+            var categories = _productService.GetCategoryDtos();
+            ViewData["categories"] = new SelectList( categories,"Id","Title");
         }
 
-        public IActionResult OnPost()
+        public IActionResult OnPost(string? categoryId)
         {
             if(!ModelState.IsValid)
             {
@@ -46,7 +50,7 @@ namespace Cms.Web.Pages.Admin.Product
                 Tags = Product.Tags,
                 Image = userAvatar,
                 IsDeleted = false,
-                
+                CategoryId = int.Parse(categoryId)
             };
 
             _productService.CreateProduct(product);

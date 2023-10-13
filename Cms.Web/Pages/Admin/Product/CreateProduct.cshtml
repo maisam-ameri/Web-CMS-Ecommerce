@@ -2,6 +2,8 @@
 @model Cms.Web.Pages.Admin.Product.CreateProductModel
 @{
     ViewData["Title"] = "افزودن محصول جدید";
+    var categories = ViewData["categories"] as SelectList;
+
 }
 
 <div class="row">
@@ -13,7 +15,7 @@
 
 <div class="row">
     <form method="post" enctype="multipart/form-data">
-
+        <input type="hidden" asp-for="Product.ImageName" />
         <div class="col-md-8">
             <div class="panel panel-primary">
                 <div class="panel-heading">
@@ -21,11 +23,20 @@
                 </div>
                 <!-- /.panel-heading -->
                 <div class="panel-body">
-                    
+
                     <div class="form-group">
                         <label>نام محصول</label>
                         <input type="text" asp-for="Product.Title" class="form-control">
                     </div>
+
+                    <div class="form-group">
+                        <label>دسته بندی</label>
+
+                        <select class="form-control" name="categoryId" asp-items=@categories>
+                        </select>
+
+                    </div>
+
                     <div class="form-group">
                         <label>توضیحات</label>
                         <textarea asp-for="Product.Description" class="form-control"></textarea>
@@ -39,7 +50,7 @@
                     <div class="form-group">
                         <label>تگ ها</label>
                         <textarea asp-for="Product.Tags" class="form-control"></textarea>
-                    <div class="help-block">لطفا بین تگ ها از '،' استفاده کنید</div>
+                        <div class="help-block">لطفا بین تگ ها از '،' استفاده کنید</div>
                     </div>
 
                     <input asp-page="/Admin/Product/CreateProduct" type="submit" class="btn btn-success" value="افزودن" />

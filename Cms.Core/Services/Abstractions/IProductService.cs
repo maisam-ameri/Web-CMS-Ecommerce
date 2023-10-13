@@ -13,6 +13,7 @@ namespace Cms.Core.Services.Abstractions
         #region Category
 
         IEnumerable<Category> GetCategories();
+        IEnumerable<CategoryDto> GetCategoryDtos();
         List<CategoryDto> GetParentCategoriesForAdminPanel();
 
         int CreateCategory(Category category);

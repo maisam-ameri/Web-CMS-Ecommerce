@@ -27,7 +27,7 @@ namespace Cms.Core.DTOs.AdminPanel.Product
         public string Content { get; set; }
         [Display(Name = "تصویر")]
         public IFormFile? Image { get; set; }
-        public string ImageName { get; set; }
+        public string? ImageName { get; set; }
 
         [Display(Name = "تگ ها")]
         public string? Tags { get; set; }
