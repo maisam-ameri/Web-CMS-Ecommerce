@@ -26,9 +26,11 @@ namespace Cms.Core.Services.Abstractions
         #region Product
 
         IEnumerable<Product> GetProducts();
+        Product GetProduct(int? id);
         ProductDto GetProductForEditInAdmin(int? id);
         void CreateProduct(Product product);
         void UpdateProduct(ProductDto product);
+        void DeleteProduct(int id);
 
         #endregion
     }

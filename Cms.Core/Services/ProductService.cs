@@ -145,6 +145,17 @@ namespace Cms.Core.Services
             _context.SaveChanges();
         }
 
+        public void DeleteProduct(int id)
+        {
+            var product = GetProduct(id);
+            if (product != null)
+            {
+                product.IsDeleted = true;
+                _context.SaveChanges();
+            }
+
+        }
+
 
         #endregion
     }

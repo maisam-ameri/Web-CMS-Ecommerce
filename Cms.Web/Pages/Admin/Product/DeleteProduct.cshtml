@@ -1,0 +1,15 @@
+﻿@page
+@model Cms.Web.Pages.Admin.Product.DeleteProductModel
+@{
+    ViewData["Title"] = "حذف محصول";
+}
+
+
+<div class="container alert alert-danger">
+    <p>آیا از حذف " @Model.Product.Title " مطمئن هستید ؟</p>
+    <form method="post">
+        <input type="hidden" asp-for="Product.ProductId" />
+        <input type="hidden" asp-for="Product.Title" />
+        <input type="submit" value="بلی" class="btn btn-danger" />
+    </form>
+</div>
