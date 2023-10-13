@@ -3,6 +3,7 @@ using Cms.Core.FileManager;
 using Cms.Core.Services.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Cms.Web.Pages.Admin.Product
 {
@@ -22,15 +23,18 @@ namespace Cms.Web.Pages.Admin.Product
 
         public void OnGet(int id)
         {
+            var categories = _productService.GetCategoryDtos();
+            ViewData["categories"] = new SelectList(categories, "Id", "Title");
             Product = _productService.GetProductForEditInAdmin(id);
         }
 
-        public IActionResult OnPost()
+        public IActionResult OnPost(string? categoryId)
         {
             if (!ModelState.IsValid)
             {
                 return Page();
             }
+            Product.CategoryId = int.Parse( categoryId);
 
             _productService.UpdateProduct(Product);
 

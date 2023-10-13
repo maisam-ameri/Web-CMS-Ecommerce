@@ -111,6 +111,7 @@ namespace Cms.Core.Services
                 ImageName = p.Image,
                 Title = p.Title,
                 Tags = p.Tags,
+                CategoryId = p.CategoryId,
             }).Single();
         }
 

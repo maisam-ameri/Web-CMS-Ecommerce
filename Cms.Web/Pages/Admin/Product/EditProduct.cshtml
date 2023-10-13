@@ -2,6 +2,7 @@
 @model Cms.Web.Pages.Admin.Product.EditProductModel
 @{
     ViewData["Title"] = "ویرایش محصول";
+    var categories = ViewData["categories"] as SelectList;
 
 }
 
@@ -30,6 +31,11 @@
                         <label>نام محصول</label>
                         <input type="text" asp-for="Product.Title" class="form-control">
                     </div>
+
+                    <select class="form-control" name="categoryId" id="categoryList" asp-items=@categories>
+
+                    </select>
+
                     <div class="form-group">
                         <label>توضیحات</label>
                         <textarea asp-for="Product.Description" class="form-control"></textarea>
@@ -78,6 +84,10 @@
 
 @section Scripts{
     <script>
+        $(document).ready(function () {
+            document.getElementById('categoryList').value = @Model.Product.CategoryId.ToString();
+        });
+
         function readURL(input) {
 
             if (input.files && input.files[0]) {
@@ -89,7 +99,7 @@
 
                 reader.readAsDataURL(input.files[0]);
             }
-        }
+        };
 
         $("#Product_Image").change(function () {
             readURL(this);
