@@ -9,6 +9,7 @@ namespace Cms.Core.Services.Abstractions
 {
     public interface IContentService
     {
+        int CreateContentCategory(Category newCategory);
         List<Category> GetCategories();
         Category GetCategory(int categoryId);
     }

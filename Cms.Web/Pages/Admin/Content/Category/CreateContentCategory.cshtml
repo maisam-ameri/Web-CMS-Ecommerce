@@ -1,0 +1,39 @@
+﻿@page
+@model Cms.Web.Pages.Admin.Content.Category.CreateContentCategoryModel
+@{
+    ViewData["Title"] = "ایجاد گروه جدید";
+
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">افزودن گروه جدید</h1>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+
+<div class="row">
+    <form method="post">
+
+        <div class="col-md-8">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    مشخصات گروه
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+
+                    <div class="form-group">
+                        <label>عنوان گروه</label>
+                        <input type="text" asp-for="Category.Title" class="form-control">
+                    </div>
+
+                    <input asp-page="CreateContentCategory" type="submit" class="btn btn-success" value="افزودن" />
+                </div>
+
+                <!-- /.panel-body -->
+            </div>
+        </div>
+
+    </form>
+</div>

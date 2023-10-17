@@ -17,6 +17,10 @@ namespace Cms.Core.Services
         {
             _context = context;
         }
+
+
+        #region Category
+
         public List<Category> GetCategories()
         {
             return _context.ContentCategories.ToList();
@@ -26,5 +30,14 @@ namespace Cms.Core.Services
         {
             throw new NotImplementedException();
         }
+        public int CreateContentCategory(Category newCategory)
+        {
+            var entity = _context.ContentCategories.Add(newCategory);
+            _context.SaveChanges();
+            return entity.Entity.CategoryId;
+        }
+
+
+        #endregion
     }
 }
