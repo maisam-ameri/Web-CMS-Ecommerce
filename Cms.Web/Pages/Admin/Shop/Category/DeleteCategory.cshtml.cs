@@ -1,6 +1,6 @@
 using Cms.Core.Services.Abstractions;
 using Cms.DataLayer.Entities;
-using Cms.DataLayer.Entities.Product;
+using Cms.DataLayer.Entities.Shop;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -9,7 +9,7 @@ namespace Cms.Web.Pages.Admin.Shop.Category
     public class DeleteCategoryModel : PageModel
     {
         [BindProperty]
-        public Cms.DataLayer.Entities.Product.Category Category { get; set; }
+        public Cms.DataLayer.Entities.Shop.Category Category { get; set; }
 
         private IProductService _productService;
 

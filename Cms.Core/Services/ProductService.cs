@@ -2,7 +2,7 @@
 using Cms.Core.FileManager;
 using Cms.Core.Services.Abstractions;
 using Cms.DataLayer.Context;
-using Cms.DataLayer.Entities.Product;
+using Cms.DataLayer.Entities.Shop;
 using System;
 using System.Collections.Generic;
 using System.Linq;

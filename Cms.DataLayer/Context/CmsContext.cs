@@ -1,6 +1,6 @@
 ﻿using Cms.DataLayer.Entities;
 using Cms.DataLayer.Entities.Permission;
-using Cms.DataLayer.Entities.Product;
+using Cms.DataLayer.Entities.Shop;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using System;

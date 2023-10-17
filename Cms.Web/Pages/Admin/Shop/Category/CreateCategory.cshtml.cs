@@ -1,5 +1,5 @@
 using Cms.Core.Services.Abstractions;
-using Cms.DataLayer.Entities.Product;
+using Cms.DataLayer.Entities.Shop;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -10,7 +10,7 @@ namespace Cms.Web.Pages.Admin.Shop.Category
     {
 
         [BindProperty]
-        public Cms.DataLayer.Entities.Product.Category Category { get; set; }
+        public Cms.DataLayer.Entities.Shop.Category Category { get; set; }
 
         [BindProperty]
         public List<SelectListItem>? ParentId { get; set; }
@@ -43,7 +43,7 @@ namespace Cms.Web.Pages.Admin.Shop.Category
                 parentId = int.Parse(parentCategoryId);
      
 
-            var category = new Cms.DataLayer.Entities.Product.Category
+            var category = new Cms.DataLayer.Entities.Shop.Category
             {
                 ParentId = parentId,
                 IsDeleted = false,

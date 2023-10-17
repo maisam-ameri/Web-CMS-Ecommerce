@@ -1,5 +1,5 @@
 ﻿using Cms.Core.DTOs.AdminPanel.Product;
-using Cms.DataLayer.Entities.Product;
+using Cms.DataLayer.Entities.Shop;
 using System;
 using System.Collections.Generic;
 using System.Linq;

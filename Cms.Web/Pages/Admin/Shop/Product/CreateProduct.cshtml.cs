@@ -1,7 +1,7 @@
 using Cms.Core.DTOs.AdminPanel.Product;
 using Cms.Core.FileManager;
 using Cms.Core.Services.Abstractions;
-using Cms.DataLayer.Entities.Product;
+using Cms.DataLayer.Entities.Shop;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -42,7 +42,7 @@ namespace Cms.Web.Pages.Admin.Shop.Product
             var userAvatar = _imageManager.UploadImage("", Product.Image,PRODUCT_PATH);
 
 
-            var product = new Cms.DataLayer.Entities.Product.Product
+            var product = new Cms.DataLayer.Entities.Shop.Product
             {
                 Title = Product.Title,
                 Description = Product.Description,

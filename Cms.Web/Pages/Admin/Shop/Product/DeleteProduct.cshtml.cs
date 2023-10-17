@@ -7,7 +7,7 @@ namespace Cms.Web.Pages.Admin.Shop.Product
     public class DeleteProductModel : PageModel
     {
         [BindProperty]
-        public Cms.DataLayer.Entities.Product.Product Product { get; set; }
+        public Cms.DataLayer.Entities.Shop.Product Product { get; set; }
 
         private IProductService _productService;
 

@@ -2,7 +2,7 @@
 @model Cms.Web.Pages.Admin.Shop.Product.IndexModel
 @{
     ViewData["Title"] = "لیست محصولات";
-    var products = ViewData["products"] as List<Cms.DataLayer.Entities.Product.Product>;
+    var products = ViewData["products"] as List<Cms.DataLayer.Entities.Shop.Product>;
 }
 
 <div class="row">
@@ -25,7 +25,7 @@
                     <div id="dataTables-example_wrapper" class="dataTables_wrapper form-inline" role="grid">
                         <div class="col-md-12" style="margin:12px 0px">
                             <div class="row">
-                                <a href="/Admin/Product/CreateProduct" class="btn btn-outline btn-success">افزودن محصول</a>
+                                <a href="/Admin/Shop/CreateProduct" class="btn btn-outline btn-success">افزودن محصول</a>
                             </div>
                         </div>
 

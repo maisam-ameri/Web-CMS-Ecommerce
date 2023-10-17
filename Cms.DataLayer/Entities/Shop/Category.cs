@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Cms.DataLayer.Entities.Product
+namespace Cms.DataLayer.Entities.Shop
 {
     public class Category
     {
