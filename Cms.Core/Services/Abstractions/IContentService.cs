@@ -12,5 +12,6 @@ namespace Cms.Core.Services.Abstractions
         int CreateContentCategory(Category newCategory);
         List<Category> GetCategories();
         Category GetCategory(int categoryId);
+        void UpdateContentCategory(Category category);
     }
 }

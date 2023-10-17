@@ -28,13 +28,22 @@ namespace Cms.Core.Services
 
         public Category GetCategory(int categoryId)
         {
-            throw new NotImplementedException();
+            return _context.ContentCategories.Find(categoryId);
+
         }
         public int CreateContentCategory(Category newCategory)
         {
             var entity = _context.ContentCategories.Add(newCategory);
             _context.SaveChanges();
             return entity.Entity.CategoryId;
+        }
+
+        public void UpdateContentCategory(Category category)
+        {
+            var Cat = GetCategory(category.CategoryId);
+            Cat.Title = category.Title;
+            _context.Update(Cat);
+            _context.SaveChanges();
         }
 
 
