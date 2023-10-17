@@ -9,7 +9,7 @@
     <title>پنل مدیریت</title>
 
     <!-- Core CSS - Include with every page -->
-   <partial name="_AdminStyles" />
+    <partial name="_AdminStyles" />
 
 </head>
 
@@ -37,16 +37,18 @@
                             <div class="input-group custom-search-form">
                                 <input type="text" class="form-control" placeholder="Search...">
                                 <span class="input-group-btn">
-                                <button class="btn btn-default" type="button">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </span>
+                                    <button class="btn btn-default" type="button">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </span>
                             </div>
                             <!-- /input-group -->
                         </li>
                         <li>
                             <a href="/Admin"><i class="fa fa-dashboard fa-fw"></i> پنل ادمین</a>
                         </li>
+
+                        <!-- Users -->
                         <li>
                             <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> مدیریت کاربران<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
@@ -63,6 +65,43 @@
                             <!-- /.nav-second-level -->
                         </li>
 
+                        <!-- Contets -->
+                        <li>
+                            <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> مدیریت محتوا<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="/Admin/Content/Category">گروه ها</a>
+                                </li>
+                                <li>
+                                    <a href="/Admin/Content/DeletedContentCategories">گروه های حذف شده</a>
+                                </li>
+
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>
+
+                        <!-- Shop -->
+                        <li>
+                            <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> مدیریت فروشگاه<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+
+                                <li>
+                                    <a href="/Admin/Shop/Category">گروه ها</a>
+                                </li>
+                                <li>
+                                    <a href="/Admin/Shop/DeletedShopCategories">گروه های حذف شده</a>
+                                </li>
+                                <li>
+                                    <a href="/Admin/Shop/Product">محصولات</a>
+                                </li>
+                                <li>
+                                    <a href="/Admin/Shop/DeletedShopProducts">محصولات حذف شده</a>
+                                </li>
+
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>
+
                     </ul>
                     <!-- /#side-menu -->
                 </div>
@@ -71,8 +110,8 @@
             <!-- /.navbar-static-side -->
         </nav>
         <div id="page-wrapper">
-       @RenderBody()
-       </div>
+            @RenderBody()
+        </div>
         <!-- /#page-wrapper -->
 
     </div>
