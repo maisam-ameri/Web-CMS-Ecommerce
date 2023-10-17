@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace Cms.Web.Pages.Admin.Category
+namespace Cms.Web.Pages.Admin.Shop.Category
 {
     public class CreateCategoryModel : PageModel
     {

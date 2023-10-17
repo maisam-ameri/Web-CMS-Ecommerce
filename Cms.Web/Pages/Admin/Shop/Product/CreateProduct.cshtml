@@ -1,15 +1,14 @@
-﻿@page "{id}"
-@model Cms.Web.Pages.Admin.Product.EditProductModel
+﻿@page
+@model Cms.Web.Pages.Admin.Shop.Product.CreateProductModel
 @{
-    ViewData["Title"] = "ویرایش محصول";
+    ViewData["Title"] = "افزودن محصول جدید";
     var categories = ViewData["categories"] as SelectList;
 
 }
 
-
 <div class="row">
     <div class="col-lg-12">
-        <h1 class="page-header">ویرایش محصول</h1>
+        <h1 class="page-header">افزودن محصول جدید</h1>
     </div>
     <!-- /.col-lg-12 -->
 </div>
@@ -17,8 +16,6 @@
 <div class="row">
     <form method="post" enctype="multipart/form-data">
         <input type="hidden" asp-for="Product.ImageName" />
-        <input type="hidden" asp-for="Product.ProductId" />
-
         <div class="col-md-8">
             <div class="panel panel-primary">
                 <div class="panel-heading">
@@ -32,9 +29,13 @@
                         <input type="text" asp-for="Product.Title" class="form-control">
                     </div>
 
-                    <select class="form-control" name="categoryId" id="categoryList" asp-items=@categories>
+                    <div class="form-group">
+                        <label>دسته بندی</label>
 
-                    </select>
+                        <select class="form-control" name="categoryId" asp-items=@categories>
+                        </select>
+
+                    </div>
 
                     <div class="form-group">
                         <label>توضیحات</label>
@@ -52,7 +53,7 @@
                         <div class="help-block">لطفا بین تگ ها از '،' استفاده کنید</div>
                     </div>
 
-                    <input type="submit" class="btn btn-success" value="ویرایش" />
+                    <input asp-page="/Admin/Product/CreateProduct" type="submit" class="btn btn-success" value="افزودن" />
 
                 </div>
 
@@ -68,7 +69,7 @@
                 </div>
                 <!-- /.panel-heading -->
                 <div class="panel-body">
-                    <img id="imgProduct" class="thumbnail" src="/images/product/@Model.Product.ImageName" />
+                    <img id="imgProduct" class="thumbnail" src="/images/pic/avatar.jpg" />
                     <div class="form-group">
                         <label>انتخاب تصویر</label>
                         <input type="file" asp-for="Product.Image" value="default.jpg">
@@ -84,10 +85,6 @@
 
 @section Scripts{
     <script>
-        $(document).ready(function () {
-            document.getElementById('categoryList').value = @Model.Product.CategoryId.ToString();
-        });
-
         function readURL(input) {
 
             if (input.files && input.files[0]) {
@@ -99,7 +96,7 @@
 
                 reader.readAsDataURL(input.files[0]);
             }
-        };
+        }
 
         $("#Product_Image").change(function () {
             readURL(this);

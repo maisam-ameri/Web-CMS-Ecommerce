@@ -2,7 +2,7 @@ using Cms.Core.Services.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Cms.Web.Pages.Admin.Product
+namespace Cms.Web.Pages.Admin.Shop.Product
 {
 
     public class IndexModel : PageModel

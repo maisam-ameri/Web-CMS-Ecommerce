@@ -3,7 +3,7 @@ using Cms.DataLayer.Entities.Product;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Cms.Web.Pages.Admin.Category
+namespace Cms.Web.Pages.Admin.Shop.Category
 {
     public class EditCategoryModel : PageModel
     {

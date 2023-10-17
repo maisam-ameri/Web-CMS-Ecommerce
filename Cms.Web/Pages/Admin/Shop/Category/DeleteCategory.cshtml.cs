@@ -1,17 +1,19 @@
 using Cms.Core.Services.Abstractions;
+using Cms.DataLayer.Entities;
+using Cms.DataLayer.Entities.Product;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Cms.Web.Pages.Admin.Product
+namespace Cms.Web.Pages.Admin.Shop.Category
 {
-    public class DeleteProductModel : PageModel
+    public class DeleteCategoryModel : PageModel
     {
         [BindProperty]
-        public Cms.DataLayer.Entities.Product.Product Product { get; set; }
+        public Cms.DataLayer.Entities.Product.Category Category { get; set; }
 
         private IProductService _productService;
 
-        public DeleteProductModel(IProductService productService)
+        public DeleteCategoryModel(IProductService productService)
         {
             _productService = productService;
         }
@@ -19,15 +21,16 @@ namespace Cms.Web.Pages.Admin.Product
         {
             if (id == null) return Page();
 
-            Product = _productService.GetProduct(id.Value);
+            Category = _productService.GetCategory(id.Value);
 
             return Page();
         }
 
+
         public IActionResult OnPost()
         {
 
-            _productService.DeleteProduct(Product.ProductId);
+            _productService.DeleteCategory(Category.Id);
             return RedirectToPage("Index");
         }
     }
