@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace Cms.DataLayer.Entities.Content
 {
-    public class ContentCategory
+    public class Category
     {
 
-        public ContentCategory()
+        public Category()
         {
 
         }
