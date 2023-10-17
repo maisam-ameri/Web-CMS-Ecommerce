@@ -63,6 +63,6 @@ namespace Cms.DataLayer.Entities.Content
 
 
 
-        public List<Category>? Categories { get; set; }
+        public Category? Category { get; set; }
     }
 }
