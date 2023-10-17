@@ -1,4 +1,5 @@
 ﻿using Cms.DataLayer.Entities;
+using Cms.DataLayer.Entities.Content;
 using Cms.DataLayer.Entities.Permission;
 using Cms.DataLayer.Entities.Shop;
 using Microsoft.EntityFrameworkCore;
@@ -24,8 +25,12 @@ namespace Cms.DataLayer.Context
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<User>().HasQueryFilter(u => !u.IsDeleted);
             modelBuilder.Entity<Role>().HasQueryFilter(r => !r.IsDelete);
-            modelBuilder.Entity<Category>().HasQueryFilter(c => !c.IsDeleted);
+            modelBuilder.Entity<Cms.DataLayer.Entities.Shop.Category>().HasQueryFilter(c => !c.IsDeleted);
             modelBuilder.Entity<Product>().HasQueryFilter(c => !c.IsDeleted);
+
+            modelBuilder.Entity<Cms.DataLayer.Entities.Content.Category>().HasQueryFilter(c => !c.IsDeleted);
+
+            modelBuilder.Entity<BaseContent>().HasQueryFilter(c => !c.IsDeleted);
         }
 
         #region User
@@ -41,9 +46,16 @@ namespace Cms.DataLayer.Context
         #endregion
 
 
-        #region Product
-        public DbSet<Category> Categories { get; set; }
-        public DbSet<Product>? Products { get; set; }
+        #region Shop
+        public DbSet<Cms.DataLayer.Entities.Shop.Category> Categories { get; set; }
+        public DbSet<Product> Products { get; set; }
+        #endregion
+
+
+        #region Content
+        public DbSet<Cms.DataLayer.Entities.Content.Category> ContentCategories { get; set; }
+        public DbSet<BaseContent> BaseContents { get; set; }
+
         #endregion
 
     }

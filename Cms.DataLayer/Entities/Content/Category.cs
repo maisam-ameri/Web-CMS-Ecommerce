@@ -22,6 +22,8 @@ namespace Cms.DataLayer.Entities.Content
         [MaxLength(200, ErrorMessage = "{0} نمیتواند بیستر از {1} باشد")]
         public string Title { get; set; }
 
+        public bool IsDeleted { get; set; }
+
 
         public List<BaseContent>? Contents { get; set; }
     }
