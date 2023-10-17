@@ -46,6 +46,12 @@ namespace Cms.Core.Services
             _context.SaveChanges();
         }
 
+        public void DeleteCategory(int id)
+        {
+            _context.ContentCategories.Find(id).IsDeleted = true;
+            _context.SaveChanges();
+        }
+
 
         #endregion
     }
