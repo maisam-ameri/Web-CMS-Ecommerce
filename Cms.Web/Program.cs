@@ -3,6 +3,7 @@ using Cms.Core.FileManager;
 using Cms.Core.Services;
 using Cms.Core.Services.Abstractions;
 using Cms.DataLayer.Context;
+using Hangfire;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,6 +13,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 
 
+#region Hangfire
+builder.Services.AddHangfire(x => x.UseSqlServerStorage(builder.Configuration.GetConnectionString("HangfireConnection")));
+builder.Services.AddHangfireServer();
+#endregion
 
 #region Database Context
 builder.Services.AddDbContext<CmsContext>(option =>
@@ -36,7 +41,6 @@ builder.Services.AddAuthentication(options =>
 
 #endregion
 
-
 #region Ioc
 
 builder.Services.AddTransient<IUserService, UserService>();
@@ -58,7 +62,7 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Error");
 }
 app.UseStaticFiles();
-
+app.UseHangfireDashboard();
 app.UseRouting();
 
 app.UseAuthentication();
