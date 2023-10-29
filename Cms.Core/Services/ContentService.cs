@@ -1,6 +1,10 @@
-﻿using Cms.Core.Services.Abstractions;
+﻿using Cms.Core.DTOs.AdminPanel.Content;
+using Cms.Core.FileManager;
+using Cms.Core.Services.Abstractions;
 using Cms.DataLayer.Context;
 using Cms.DataLayer.Entities.Content;
+using Hangfire;
+using Microsoft.AspNetCore.Http.HttpResults;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,10 +16,14 @@ namespace Cms.Core.Services
     public class ContentService : IContentService
     {
         private CmsContext _context;
+        private ImageManager _imageManager { get; set; }
+        private const string CONTENT_PATH = "images/content/";
 
-        public ContentService(CmsContext context)
+
+        public ContentService(CmsContext context, ImageManager imageManager)
         {
             _context = context;
+            _imageManager = imageManager;
         }
 
 
@@ -62,9 +70,35 @@ namespace Cms.Core.Services
             return _context.BaseContents.ToList();
         }
 
-        public int CreateBaseContent(BaseContent newContent)
+        public string CreateBaseContent(BaseContentDto content)
         {
-            throw new NotImplementedException();
+            var imageName = _imageManager.UploadImage("", content.ImageFile, CONTENT_PATH);
+            var newContent = new BaseContent
+            {
+                ImageName = imageName,
+                IsDeleted = false,
+                MainText = content.MainText,
+                PublishDate = content.PublishDate,
+                ShortDescription = content.ShortDescription,
+                ShowInMainMenu = content.ShowInMainMenu,
+                Tags = content.Tags,
+                Title = content.Title,
+                ViewCount = 0,
+                
+            };
+
+
+
+            var jobId = BackgroundJob.Schedule(() => CreateContentJob(newContent), newContent.PublishDate);
+
+            return jobId;
+
+        }
+
+        public void CreateContentJob(BaseContent content)
+        {
+                _context.Add(content);
+                _context.SaveChanges();
         }
 
         public void DeleteBaseContent(int id)

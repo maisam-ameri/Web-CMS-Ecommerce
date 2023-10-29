@@ -1,4 +1,5 @@
-﻿using Cms.DataLayer.Entities.Content;
+﻿using Cms.Core.DTOs.AdminPanel.Content;
+using Cms.DataLayer.Entities.Content;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +20,7 @@ namespace Cms.Core.Services.Abstractions
         #endregion
 
         #region BaseContent
-        int CreateBaseContent(BaseContent newContent);
+        string CreateBaseContent(BaseContentDto newContent);
         void DeleteBaseContent(int id);
         List<BaseContent> GetBaseContents();
         BaseContent GetBaseContent(int categoryId);
