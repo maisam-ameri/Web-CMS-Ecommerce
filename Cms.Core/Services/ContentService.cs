@@ -53,6 +53,36 @@ namespace Cms.Core.Services
         }
 
 
+
+        #endregion
+
+        #region Content
+        public List<BaseContent> GetBaseContents()
+        {
+            return _context.BaseContents.ToList();
+        }
+
+        public int CreateBaseContent(BaseContent newContent)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteBaseContent(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public BaseContent GetBaseContent(int categoryId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateBaseContent(BaseContent category)
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
     }
 }
