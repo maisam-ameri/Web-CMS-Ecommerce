@@ -46,11 +46,11 @@
 
                                     <tr class="gradeA odd">
                                         <td class="sorting_1">
-                                            <img src="@item.ImageName">
+                                            <img class="thumbnail" width="150" height="150" src="/images/content/@item.ImageName">
                                         </td>
                                         <td class="sorting_1">@item.Title</td>
                                         <td class="sorting_1">@item.ShortDescription</td>
-                                        <td class="sorting_1">@item.PublishDate</td>
+                                        <td class="sorting_1">@item.PublishDate.MiladiToShamsi()</td>
                                         <td>
                                             <a asp-page="EditBaseContent" asp-route-id="@item.ContentId" class="btn btn-warning btn-sm">ویرایش</a>
                                             <a asp-page="DeleteBaseContent" asp-route-id="@item.ContentId" class="btn btn-danger btn-sm">حذف</a>
