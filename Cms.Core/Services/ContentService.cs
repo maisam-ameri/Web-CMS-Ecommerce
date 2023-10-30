@@ -84,7 +84,7 @@ namespace Cms.Core.Services
                 Tags = content.Tags,
                 Title = content.Title,
                 ViewCount = 0,
-                
+                CategoryId = content.CategoryId,
             };
 
 

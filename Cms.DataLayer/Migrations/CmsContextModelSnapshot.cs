@@ -78,7 +78,7 @@ namespace Cms.DataLayer.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("BaseContents");
+                    b.ToTable("BaseContents", (string)null);
                 });
 
             modelBuilder.Entity("Cms.DataLayer.Entities.Content.Category", b =>
@@ -99,7 +99,7 @@ namespace Cms.DataLayer.Migrations
 
                     b.HasKey("CategoryId");
 
-                    b.ToTable("ContentCategories");
+                    b.ToTable("ContentCategories", (string)null);
                 });
 
             modelBuilder.Entity("Cms.DataLayer.Entities.Permission.Permission", b =>
@@ -122,7 +122,7 @@ namespace Cms.DataLayer.Migrations
 
                     b.HasIndex("ParentId");
 
-                    b.ToTable("Permissions");
+                    b.ToTable("Permissions", (string)null);
                 });
 
             modelBuilder.Entity("Cms.DataLayer.Entities.Permission.RolePermission", b =>
@@ -145,7 +145,7 @@ namespace Cms.DataLayer.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("RolePermissions");
+                    b.ToTable("RolePermissions", (string)null);
                 });
 
             modelBuilder.Entity("Cms.DataLayer.Entities.Role", b =>
@@ -166,7 +166,7 @@ namespace Cms.DataLayer.Migrations
 
                     b.HasKey("RoleId");
 
-                    b.ToTable("Roles");
+                    b.ToTable("Roles", (string)null);
                 });
 
             modelBuilder.Entity("Cms.DataLayer.Entities.Shop.Category", b =>
@@ -192,7 +192,7 @@ namespace Cms.DataLayer.Migrations
 
                     b.HasIndex("ParentId");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("Cms.DataLayer.Entities.Shop.Product", b =>
@@ -235,7 +235,7 @@ namespace Cms.DataLayer.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
                 });
 
             modelBuilder.Entity("Cms.DataLayer.Entities.User", b =>
@@ -300,7 +300,7 @@ namespace Cms.DataLayer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("Cms.DataLayer.Entities.UserRole", b =>
@@ -323,7 +323,7 @@ namespace Cms.DataLayer.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserRoles");
+                    b.ToTable("UserRoles", (string)null);
                 });
 
             modelBuilder.Entity("Cms.DataLayer.Entities.Content.BaseContent", b =>

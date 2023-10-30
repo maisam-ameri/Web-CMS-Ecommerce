@@ -62,6 +62,8 @@ namespace Cms.DataLayer.Entities.Content
         public int ViewCount { get; set; }
 
 
+        [Display(Name = "دسته بندی")]
+        public int? CategoryId { get; set; }
 
         public Category? Category { get; set; }
     }
