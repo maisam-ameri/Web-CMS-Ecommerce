@@ -23,8 +23,10 @@ namespace Cms.Core.Services.Abstractions
         string CreateBaseContent(BaseContentDto newContent);
         void DeleteBaseContent(int id);
         List<BaseContent> GetBaseContents();
-        BaseContent GetBaseContent(int categoryId);
-        void UpdateBaseContent(BaseContent category);
+        BaseContent GetBaseContent(int id);
+        void UpdateBaseContent(BaseContentDto content);
+        List<ContentCategoryDto> GetContentCategoryDtos();
+        BaseContentDto GetContentForEditInAdmin(int id);
 
         #endregion
     }

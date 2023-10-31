@@ -12,6 +12,9 @@ namespace Cms.Core.DTOs.AdminPanel.Content
     {
 
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
+        public int ContentId { get; set; }
+
+        [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
         public int CategoryId { get; set; }
 
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]

@@ -1,0 +1,119 @@
+﻿@page
+@model Cms.Web.Pages.Admin.Content.BaseContent.EditBaseContentModel
+@{
+    ViewData["Title"] = "ویرایش محتوا";
+    var categories = ViewData["categories"] as SelectList;
+
+}
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">ویرایش محتوا</h1>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+
+<div class="row">
+    <form method="post" enctype="multipart/form-data">
+        <input type="hidden" asp-for="Content.ImageName" />
+        <input type="hidden" asp-for="Content.ContentId" />
+
+        <div class="col-md-8">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    اطلاعات محتوا
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+
+                    <div class="form-group">
+                        <label>نام محتوا</label>
+                        <input type="text" asp-for="Content.Title" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label>دسته بندی</label>
+
+                        <select class="form-control" id="categoryList" name="categoryId" asp-items=@categories>
+
+                        </select>
+
+                    </div>
+
+                    <div class="form-group">
+                        <label>توضیحات</label>
+                        <textarea asp-for="Content.ShortDescription" class="form-control"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>متن اصلی</label>
+                        <textarea asp-for="Content.MainText" class="form-control"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>تگ ها</label>
+                        <textarea asp-for="Content.Tags" class="form-control"></textarea>
+                        <div class="help-block">لطفا بین تگ ها از '،' استفاده کنید</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>تاریخ انتشار</label>
+                        <input type="datetime-local" asp-for="Content.PublishDate" class="form-control" />
+                    </div>
+
+                    <input type="submit" class="btn btn-success" value="ویرایش" />
+
+                </div>
+
+                <!-- /.panel-body -->
+            </div>
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    تصویر محتوا
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <img id="imgContent" class="thumbnail" src="/images/content/@Model.Content.ImageName" />
+                    <div class="form-group">
+                        <label>انتخاب تصویر</label>
+                        <input type="file" asp-for="Content.ImageFile" value="default.jpg">
+                    </div>
+                </div>
+                <!-- /.panel-body -->
+            </div>
+
+
+        </div>
+    </form>
+</div>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            document.getElementById('categoryList').value = @Model.Content.CategoryId.ToString();
+        });
+
+        function readURL(input) {
+
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#imgContent').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        };
+
+        $("#Content_ImageFile").change(function () {
+            readURL(this);
+        });
+
+    </script>
+}

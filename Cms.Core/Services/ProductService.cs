@@ -133,7 +133,6 @@ namespace Cms.Core.Services
             var EditProduct = GetProduct(product.ProductId);
             if (EditProduct != null)
             {
-                EditProduct.Image = product.ImageName;
                 EditProduct.Title = product.Title;
                 EditProduct.Tags = product.Tags;
                 EditProduct.Description = product.Description;

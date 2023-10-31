@@ -3,13 +3,9 @@ using Cms.Core.FileManager;
 using Cms.Core.Services.Abstractions;
 using Cms.DataLayer.Context;
 using Cms.DataLayer.Entities.Content;
+//using Cms.DataLayer.Entities.Shop;
 using Hangfire;
-using Microsoft.AspNetCore.Http.HttpResults;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Cms.Core.Services
 {
@@ -97,8 +93,8 @@ namespace Cms.Core.Services
 
         public void CreateContentJob(BaseContent content)
         {
-                _context.Add(content);
-                _context.SaveChanges();
+            _context.Add(content);
+            _context.SaveChanges();
         }
 
         public void DeleteBaseContent(int id)
@@ -113,9 +109,64 @@ namespace Cms.Core.Services
             return _context.BaseContents.Find(id);
         }
 
-        public void UpdateBaseContent(BaseContent content)
+        public List<ContentCategoryDto> GetContentCategoryDtos()
         {
-            throw new NotImplementedException();
+            return _context.ContentCategories.Select(c => new ContentCategoryDto
+            {
+                Id = c.CategoryId,
+                Title = c.Title,
+            }).ToList();
+        }
+
+        public BaseContentDto GetContentForEditInAdmin(int id)
+        {
+            return _context.BaseContents.Where(c => c.ContentId == id)
+                .Select(c => new BaseContentDto
+                {
+                    ContentId = c.ContentId,
+                    Title = c.Title,
+                    CategoryId = c.CategoryId.Value,
+                    ImageName = c.ImageName,
+                    MainText = c.MainText,
+                    PublishDate = c.PublishDate,
+                    ShortDescription = c.ShortDescription,
+                    ShowInMainMenu = c.ShowInMainMenu,
+                    Tags = c.Tags,
+
+                }
+                ).Single();
+        }
+
+        public void UpdateBaseContent(BaseContentDto contentDto)
+        {
+            var newImageName = string.Empty;
+
+            if (contentDto.ImageFile != null)
+            {
+                newImageName = _imageManager.UploadImage(contentDto.ImageName, contentDto.ImageFile, CONTENT_PATH);
+            }
+            else
+            {
+                newImageName = contentDto.ImageName;
+            }
+
+            var content = _context.BaseContents.Find(contentDto.ContentId);
+
+            if (content != null)
+            {
+                content.ShortDescription = contentDto.ShortDescription;
+                content.Title = contentDto.Title;
+                content.ModifiedDate = DateTime.Now;
+                content.CategoryId = contentDto.CategoryId;
+                content.ImageName = newImageName;
+                content.MainText = contentDto.MainText;
+                content.PublishDate = contentDto.PublishDate;
+                content.Tags = contentDto.Tags;
+
+            }
+
+            _context.Update(content);
+            _context.SaveChanges();
         }
 
         #endregion
