@@ -1,0 +1,15 @@
+﻿@page
+@model Cms.Web.Pages.Admin.Content.BaseContent.DeleteBaseContentModel
+@{
+    ViewData["Title"] = "حذف محتوا";
+}
+
+
+<div class="container alert alert-danger">
+    <p>آیا از حذف " @Model.Content.Title " مطمئن هستید ؟</p>
+    <form method="post">
+        <input type="hidden" asp-for="Content.ContentId" />
+        <input type="hidden" asp-for="Content.Title" />
+        <input type="submit" value="بلی" class="btn btn-danger" />
+    </form>
+</div>

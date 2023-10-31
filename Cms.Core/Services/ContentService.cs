@@ -103,16 +103,17 @@ namespace Cms.Core.Services
 
         public void DeleteBaseContent(int id)
         {
-            throw new NotImplementedException();
+            GetBaseContent(id).IsDeleted = true;
+            _context.SaveChanges();
         }
 
 
-        public BaseContent GetBaseContent(int categoryId)
+        public BaseContent GetBaseContent(int id)
         {
-            throw new NotImplementedException();
+            return _context.BaseContents.Find(id);
         }
 
-        public void UpdateBaseContent(BaseContent category)
+        public void UpdateBaseContent(BaseContent content)
         {
             throw new NotImplementedException();
         }
