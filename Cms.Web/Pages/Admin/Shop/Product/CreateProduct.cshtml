@@ -2,7 +2,7 @@
 @model Cms.Web.Pages.Admin.Shop.Product.CreateProductModel
 @{
     ViewData["Title"] = "افزودن محصول جدید";
-    var categories = ViewData["categories"] as SelectList;
+    var mainCategories = ViewData["mainCategories"] as SelectList;
 
 }
 
@@ -32,7 +32,7 @@
                     <div class="form-group">
                         <label>دسته بندی</label>
 
-                        <select class="form-control" name="categoryId" asp-items=@categories>
+                        <select class="form-control" asp-for="Product.CategoryId" name="categoryId" asp-items=@mainCategories>
                         </select>
 
                     </div>

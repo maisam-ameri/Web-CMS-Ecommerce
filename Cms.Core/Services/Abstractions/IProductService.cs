@@ -1,5 +1,6 @@
 ﻿using Cms.Core.DTOs.AdminPanel.Product;
 using Cms.DataLayer.Entities.Shop;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,7 @@ namespace Cms.Core.Services.Abstractions
 
         IEnumerable<Category> GetCategories();
         IEnumerable<CategoryDto> GetCategoryDtos();
+        IEnumerable<SelectListItem> GetCategories(int? parentId = null);
         List<CategoryDto> GetParentCategoriesForAdminPanel();
 
         int CreateCategory(Category category);

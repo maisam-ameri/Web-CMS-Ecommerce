@@ -3,6 +3,7 @@ using Cms.Core.FileManager;
 using Cms.Core.Services.Abstractions;
 using Cms.DataLayer.Context;
 using Cms.DataLayer.Entities.Shop;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,6 +38,17 @@ namespace Cms.Core.Services
         }
 
         public IEnumerable<Category> GetCategories() => _context.Categories.ToList();
+
+
+        public IEnumerable<SelectListItem> GetCategories(int? parentId = null)
+        {
+            var categories =  _context.Categories.Where(p => p.ParentId == parentId).Select(k => new SelectListItem
+            {
+                Value = k.Id.ToString(),
+                Text = k.Title
+            }).ToList();
+            return categories;
+        }
 
         public IEnumerable<CategoryDto> GetCategoryDtos()=> _context.Categories.Select(c => new CategoryDto
         {
@@ -154,6 +166,7 @@ namespace Cms.Core.Services
             }
 
         }
+
 
 
         #endregion

@@ -28,8 +28,8 @@ namespace Cms.Web.Pages.Admin.Shop.Product
 
         public void OnGet()
         {
-            var categories = _productService.GetCategoryDtos();
-            ViewData["categories"] = new SelectList( categories,"Id","Title");
+            var mainCategories = _productService.GetCategories(null);
+            ViewData[nameof(mainCategories)] = new SelectList(mainCategories, "Value","Text");
         }
 
         public IActionResult OnPost(string? categoryId)
