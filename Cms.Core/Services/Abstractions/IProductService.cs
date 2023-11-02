@@ -30,7 +30,7 @@ namespace Cms.Core.Services.Abstractions
         IEnumerable<Product> GetProducts();
         Product GetProduct(int? id);
         ProductDto GetProductForEditInAdmin(int? id);
-        void CreateProduct(Product product);
+        void CreateProduct(ProductDto product);
         void UpdateProduct(ProductDto product);
         void DeleteProduct(int id);
 

@@ -12,7 +12,14 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 
-
+#region General
+builder.Services.AddAntiforgery(options =>
+{
+    options.FormFieldName = "AntiForgeryToken";
+    options.HeaderName = "_xsrf_token";
+    options.SuppressXFrameOptionsHeader = false;
+});
+#endregion
 #region Hangfire
 builder.Services.AddHangfire(x => x.UseSqlServerStorage(builder.Configuration.GetConnectionString("HangfireConnection")));
 builder.Services.AddHangfireServer();

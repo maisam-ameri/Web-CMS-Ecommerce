@@ -2,9 +2,11 @@ using Cms.Core.DTOs.AdminPanel.Product;
 using Cms.Core.FileManager;
 using Cms.Core.Services.Abstractions;
 using Cms.DataLayer.Entities.Shop;
+using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.CodeAnalysis.Elfie.Model.Strings;
 
 namespace Cms.Web.Pages.Admin.Shop.Product
 {
@@ -17,45 +19,49 @@ namespace Cms.Web.Pages.Admin.Shop.Product
         private ImageManager _imageManager { get; set; }
         private const string PRODUCT_PATH = "images/product/";
 
+        //private readonly IAntiforgery _antiForgery;
+        //public AntiforgeryTokenSet AntiForgeryToken { get; set; }
 
 
-        public CreateProductModel(IProductService productService, ImageManager imageManager)
+        public CreateProductModel(IProductService productService, ImageManager imageManager, IAntiforgery antiforgery)
         {
             _productService = productService;
             _imageManager = imageManager;
-
+            //  _antiForgery = antiforgery;
         }
 
         public void OnGet()
         {
-            var mainCategories = _productService.GetCategories(null);
-            ViewData[nameof(mainCategories)] = new SelectList(mainCategories, "Value","Text");
+            var categories = _productService.GetCategories(null);
+            ViewData[nameof(categories)] = new SelectList(categories, "Value", "Text");
+
+            //AntiForgeryToken = _antiForgery.GetAndStoreTokens(HttpContext);
         }
 
-        public IActionResult OnPost(string? categoryId)
+        public IActionResult OnPost()
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return Page();
             }
+            var categoryId = Request.Form["categoryId"];
+            var productImageName = _imageManager.UploadImage("", Product.Image, PRODUCT_PATH);
 
-            var userAvatar = _imageManager.UploadImage("", Product.Image,PRODUCT_PATH);
+            Product.ImageName = productImageName;
+            Product.CategoryId = int.Parse(categoryId);
 
 
-            var product = new Cms.DataLayer.Entities.Shop.Product
-            {
-                Title = Product.Title,
-                Description = Product.Description,
-                Content = Product.Content,
-                Tags = Product.Tags,
-                Image = userAvatar,
-                IsDeleted = false,
-                CategoryId = int.Parse(categoryId)
-            };
 
-            _productService.CreateProduct(product);
+            _productService.CreateProduct(Product);
 
             return RedirectToPage("Index");
+        }
+
+        public IActionResult OnGetSubCategories(string categoryId)
+        {
+            var subCategories = _productService.GetCategories(int.Parse(categoryId));
+
+            return new JsonResult(subCategories);
         }
 
     }

@@ -107,8 +107,19 @@ namespace Cms.Core.Services
         }
 
 
-        public void CreateProduct(Product product)
+        public void CreateProduct(ProductDto productDto)
         {
+            var product = new Product
+            {
+                Title = productDto.Title,
+                Description = productDto.Description,
+                Content = productDto.Content,
+                Tags = productDto.Tags,
+                Image = productDto.ImageName,
+                IsDeleted = false,
+                CategoryId = productDto.CategoryId
+            };
+
             _context.Products.Add(product);
             _context.SaveChanges();
         }
@@ -123,7 +134,7 @@ namespace Cms.Core.Services
                 ImageName = p.Image,
                 Title = p.Title,
                 Tags = p.Tags,
-                CategoryId = p.CategoryId,
+                CategoryId = p.CategoryId.Value,
             }).Single();
         }
 

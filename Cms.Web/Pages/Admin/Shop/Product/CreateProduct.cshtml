@@ -2,7 +2,7 @@
 @model Cms.Web.Pages.Admin.Shop.Product.CreateProductModel
 @{
     ViewData["Title"] = "افزودن محصول جدید";
-    var mainCategories = ViewData["mainCategories"] as SelectList;
+    var categories = ViewData["categories"] as SelectList;
 
 }
 
@@ -14,6 +14,7 @@
 </div>
 
 <div class="row">
+    @Html.AntiForgeryToken()
     <form method="post" enctype="multipart/form-data">
         <input type="hidden" asp-for="Product.ImageName" />
         <div class="col-md-8">
@@ -30,9 +31,18 @@
                     </div>
 
                     <div class="form-group">
-                        <label>دسته بندی</label>
+                        <label>گروه</label>
 
-                        <select class="form-control" asp-for="Product.CategoryId" name="categoryId" asp-items=@mainCategories>
+                        <select class="form-control" id="categories" asp-items=@categories>
+                        </select>
+
+
+                    </div>
+
+                    <div class="form-group">
+                        <label>زیر گروه</label>
+
+                        <select class="form-control" id="subCategories"  name="categoryId">
                         </select>
 
                     </div>
@@ -52,6 +62,7 @@
                         <textarea asp-for="Product.Tags" class="form-control"></textarea>
                         <div class="help-block">لطفا بین تگ ها از '،' استفاده کنید</div>
                     </div>
+
 
                     <input asp-page="CreateProduct" type="submit" class="btn btn-success" value="افزودن" />
 
@@ -85,6 +96,45 @@
 
 @section Scripts{
     <script>
+
+        $(document).ready(function () {
+            $('#categories').prepend('<option value= 0 > انتخاب گروه</option>');
+            $('#categories').val(0);
+            $('#subCategories').prop('disabled', true);
+
+        });
+
+        $('#categories').change(function () {
+
+            $('#subCategories').empty();
+            $('#subCategories').prop('disabled', true);
+            var categoryId = $('#categories').val();
+            console.log(categoryId);
+            var url = "CreateProduct?handler=SubCategories&categoryId=" + categoryId;
+            
+            $.getJSON(
+                url,
+
+                function (response) {
+                    var len = Object.keys(response).length;
+                    console.log(len);
+                    if (len > 0) {
+
+                        $.each(response, function () {
+                            $('#subCategories').prop('disabled', false);
+                            $('#subCategories').append('<option value=' + this.value + '>' + this.text + '</option>');
+                        });
+                       
+                    }
+                    else {
+                        $('#subCategories').append('<option> زیر گروه موجود نیست</option>');
+                    }
+
+
+                });
+        });
+
+        
         function readURL(input) {
 
             if (input.files && input.files[0]) {

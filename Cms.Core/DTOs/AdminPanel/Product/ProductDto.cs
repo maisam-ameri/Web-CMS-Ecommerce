@@ -32,6 +32,7 @@ namespace Cms.Core.DTOs.AdminPanel.Product
         [Display(Name = "تگ ها")]
         public string? Tags { get; set; }
 
-        public int? CategoryId { get; set; }
+        [Required]
+        public int CategoryId { get; set; }
     }
 }
