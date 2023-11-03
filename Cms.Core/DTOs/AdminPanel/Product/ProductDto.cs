@@ -33,6 +33,13 @@ namespace Cms.Core.DTOs.AdminPanel.Product
         public string? Tags { get; set; }
 
         [Required]
+        [Display(Name ="قیمت")]
+        public double? Price { get; set; }
+        
+        [Display(Name = "تاریخ ثبت")]
+        public DateTime RegisterDate { get; set; }
+
+        [Required]
         public int CategoryId { get; set; }
     }
 }

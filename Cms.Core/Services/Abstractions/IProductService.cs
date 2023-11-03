@@ -1,4 +1,5 @@
 ﻿using Cms.Core.DTOs.AdminPanel.Product;
+
 using Cms.DataLayer.Entities.Shop;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
@@ -28,12 +29,16 @@ namespace Cms.Core.Services.Abstractions
         #region Product
 
         IEnumerable<Product> GetProducts();
-        IEnumerable<Product> GetLastProducts();
         Product GetProduct(int? id);
         ProductDto GetProductForEditInAdmin(int? id);
         void CreateProduct(ProductDto product);
         void UpdateProduct(ProductDto product);
         void DeleteProduct(int id);
+
+        #endregion
+
+        #region Shop
+        IEnumerable<Cms.Core.DTOs.Shop.ProductDto> GetLastProducts();
 
         #endregion
     }

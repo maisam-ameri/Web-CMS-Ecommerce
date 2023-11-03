@@ -13,7 +13,7 @@ namespace Cms.Web.ViewComponents
             _ProductService = productService;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync(int productId)
+        public async Task<IViewComponentResult> InvokeAsync()
         {
             var products = _ProductService.GetLastProducts();
             return await Task.FromResult((IViewComponentResult) View("LastProducts", products));

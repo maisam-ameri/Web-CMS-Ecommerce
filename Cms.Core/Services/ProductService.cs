@@ -42,7 +42,7 @@ namespace Cms.Core.Services
 
         public IEnumerable<SelectListItem> GetCategories(int? parentId = null)
         {
-            var categories =  _context.Categories.Where(p => p.ParentId == parentId).Select(k => new SelectListItem
+            var categories = _context.Categories.Where(p => p.ParentId == parentId).Select(k => new SelectListItem
             {
                 Value = k.Id.ToString(),
                 Text = k.Title
@@ -50,7 +50,7 @@ namespace Cms.Core.Services
             return categories;
         }
 
-        public IEnumerable<CategoryDto> GetCategoryDtos()=> _context.Categories.Select(c => new CategoryDto
+        public IEnumerable<CategoryDto> GetCategoryDtos() => _context.Categories.Select(c => new CategoryDto
         {
             Id = c.Id,
             Title = c.Title,
@@ -101,10 +101,6 @@ namespace Cms.Core.Services
             return _context.Products.ToList();
         }
 
-        public IEnumerable<Product> GetLastProducts()
-        {
-            return _context.Products.ToList();
-        }
 
         public Product GetProduct(int? id)
         {
@@ -121,7 +117,9 @@ namespace Cms.Core.Services
                 Tags = productDto.Tags,
                 Image = productDto.ImageName,
                 IsDeleted = false,
-                CategoryId = productDto.CategoryId
+                CategoryId = productDto.CategoryId,
+                RegisterDate = DateTime.Now,
+                Price = productDto.Price,
             };
 
             _context.Products.Add(product);
@@ -155,7 +153,7 @@ namespace Cms.Core.Services
                 newImageName = product.ImageName;
             }
 
-            
+
 
             var EditProduct = GetProduct(product.ProductId);
             if (EditProduct != null)
@@ -165,6 +163,7 @@ namespace Cms.Core.Services
                 EditProduct.Description = product.Description;
                 EditProduct.Content = product.Content;
                 EditProduct.Image = newImageName;
+                EditProduct.Price = product.Price;
             }
 
             _context.Update(EditProduct);
@@ -182,10 +181,22 @@ namespace Cms.Core.Services
 
         }
 
+        #endregion
 
 
 
 
+        #region Shop
+
+        public IEnumerable<Cms.Core.DTOs.Shop.ProductDto> GetLastProducts()
+        {
+            return _context.Products.Select(p => new DTOs.Shop.ProductDto
+            {
+                ImageName = p.Image,
+                Price = p.Price,
+                Title = p.Title
+            }).ToList();
+        }
         #endregion
     }
 }

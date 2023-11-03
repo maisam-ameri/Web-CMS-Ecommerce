@@ -1,4 +1,4 @@
-﻿@model List<Cms.DataLayer.Entities.Shop.Product>
+﻿@model List<Cms.Core.DTOs.Shop.ProductDto>
 
 
 @foreach (var item in Model)
@@ -6,9 +6,9 @@
 
     <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 term-col">
         <article>
-            <a href="" class="img-layer"><img width="293" height="210" src="images/product/@item.Image"></a>
+            <a href="" class="img-layer"><img width="293" height="210" src="images/product/@item.ImageName"></a>
             <h2><a href=""> @item.Title</a></h2>
-            @* <span> @Model.</span> *@
+            <span> @(item.Price == null ? "رایگان" : item.Price)</span>
             <i>1:52:32</i>
         </article>
     </div>
