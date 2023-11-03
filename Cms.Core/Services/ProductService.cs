@@ -101,11 +101,15 @@ namespace Cms.Core.Services
             return _context.Products.ToList();
         }
 
+        public IEnumerable<Product> GetLastProducts()
+        {
+            return _context.Products.ToList();
+        }
+
         public Product GetProduct(int? id)
         {
             return _context.Products.Find(id);
         }
-
 
         public void CreateProduct(ProductDto productDto)
         {
@@ -177,6 +181,8 @@ namespace Cms.Core.Services
             }
 
         }
+
+
 
 
 
