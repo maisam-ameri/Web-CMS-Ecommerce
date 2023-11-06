@@ -36,6 +36,7 @@
                                     <th style="width: 219px;">عنوان محتوا</th>
                                     <th style="width: 219px;">توضیح مختصر </th>
                                     <th style="width: 219px;">تاریخ انتشار </th>
+                                    <th style="width: 219px;">وضعیت </th>
                                     <th style="width: 101px;">دستورات</th>
                                 </tr>
                             </thead>
@@ -51,6 +52,7 @@
                                         <td class="sorting_1">@item.Title</td>
                                         <td class="sorting_1">@item.ShortDescription</td>
                                         <td class="sorting_1">@item.PublishDate.MiladiToShamsi()</td>
+                                        <td class="sorting_1">@(item.IsPublished ? "منتشر شده" : "در صف انتشار")</td>
                                         <td>
                                             <a asp-page="EditBaseContent" asp-route-id="@item.ContentId" class="btn btn-warning btn-sm">ویرایش</a>
                                             <a asp-page="DeleteBaseContent" asp-route-id="@item.ContentId" class="btn btn-danger btn-sm">حذف</a>
