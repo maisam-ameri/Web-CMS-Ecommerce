@@ -84,12 +84,18 @@ namespace Cms.Core.Services
                 IsPublished = false
             };
 
-            var addedContent = _context.Add(content);
+
+            var addedContent = _context.BaseContents.Add(newContent);
+            _context.SaveChanges();
+            var contentId = addedContent.Entity.ContentId;
+
+            var jobId = BackgroundJob.Schedule(() => PublishContentJob(contentId), newContent.PublishDate);
+
+            var contentJob = GetBaseContent(contentId);
+            contentJob.JobId = int.Parse( jobId);
+            _context.Update(contentJob);
             _context.SaveChanges();
 
-            
-
-            var jobId = BackgroundJob.Schedule(() => PublishContentJob(addedContent.Entity.ContentId), newContent.PublishDate);
 
             return jobId;
 

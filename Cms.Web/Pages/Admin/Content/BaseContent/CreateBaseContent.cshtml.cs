@@ -19,12 +19,10 @@ namespace Cms.Web.Pages.Admin.Content.BaseContent
         public BaseContentDto Content { get; set; }
 
         private IContentService _contentService;
-        private CmsContext _context;
 
 
-        public CreateBaseContentModel(CmsContext context, IContentService contentService)
+        public CreateBaseContentModel(IContentService contentService)
         {
-            _context = context;
             _contentService = contentService;
         }
 

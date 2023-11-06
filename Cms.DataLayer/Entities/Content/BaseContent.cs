@@ -18,6 +18,8 @@ namespace Cms.DataLayer.Entities.Content
         [Key]
         public int ContentId { get; set; }
 
+        public int JobId { get; set; }
+
         [Display(Name = "عنوان")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
         [MaxLength(200, ErrorMessage = "{0} نمیتواند بیستر از {1} باشد")]
