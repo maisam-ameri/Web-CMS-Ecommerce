@@ -70,7 +70,15 @@ namespace Cms.Core.Services
 
         public string CreateBaseContent(BaseContentDto content)
         {
-            var imageName = _imageManager.UploadImage("", content.ImageFile, CONTENT_PATH);
+            var imageName = string.Empty;
+            if (content.ImageFile.IsImage())
+            {
+
+                imageName = _imageManager.UploadImage("", content.ImageFile, CONTENT_PATH);
+                
+                _imageManager.GenerateThumbnail(imageName, CONTENT_PATH, CONTENT_THUBMNAIL_PATH, 150);
+            }
+
             var newContent = new BaseContent
             {
                 ImageName = imageName,
@@ -86,8 +94,7 @@ namespace Cms.Core.Services
                 IsPublished = false
             };
 
-            _imageManager.GenerateThumbnail(imageName, CONTENT_PATH, CONTENT_THUBMNAIL_PATH,150);
-            
+
             var addedContent = _context.BaseContents.Add(newContent);
             _context.SaveChanges();
             var contentId = addedContent.Entity.ContentId;
@@ -95,7 +102,7 @@ namespace Cms.Core.Services
             var jobId = BackgroundJob.Schedule(() => PublishContentJob(contentId), newContent.PublishDate);
 
             var contentJob = GetBaseContent(contentId);
-            contentJob.JobId = int.Parse( jobId);
+            contentJob.JobId = int.Parse(jobId);
             _context.Update(contentJob);
             _context.SaveChanges();
 
@@ -107,7 +114,7 @@ namespace Cms.Core.Services
         public bool PublishContentJob(int contentId)
         {
             var content = GetBaseContent(contentId);
-            if(content != null)
+            if (content != null)
             {
                 content.IsPublished = true;
                 _context.Update(content);
