@@ -48,25 +48,5 @@ namespace Cms.Web.Pages.Admin.Content.BaseContent
             return RedirectToPage("Index");
         }
 
-        public void CreateNewContent()
-        {
-            var content = new DataLayer.Entities.Content.BaseContent
-            {
-                ImageName = "",
-                IsDeleted = false,
-                IsPublished = false,
-                MainText = "this is a new contentn",
-
-                ShortDescription = "detail",
-                Title = "Title",
-
-
-            };
-            _context.Add(content);
-            _context.SaveChanges();
-            
-        }
-
-
     }
 }

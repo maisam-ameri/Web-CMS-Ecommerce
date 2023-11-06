@@ -81,20 +81,31 @@ namespace Cms.Core.Services
                 Title = content.Title,
                 ViewCount = 0,
                 CategoryId = content.CategoryId,
+                IsPublished = false
             };
 
+            var addedContent = _context.Add(content);
+            _context.SaveChanges();
 
+            
 
-            var jobId = BackgroundJob.Schedule(() => CreateContentJob(newContent), newContent.PublishDate);
+            var jobId = BackgroundJob.Schedule(() => PublishContentJob(addedContent.Entity.ContentId), newContent.PublishDate);
 
             return jobId;
 
         }
 
-        public void CreateContentJob(BaseContent content)
+        public bool PublishContentJob(int contentId)
         {
-            _context.Add(content);
-            _context.SaveChanges();
+            var content = GetBaseContent(contentId);
+            if(content != null)
+            {
+                content.IsPublished = true;
+                _context.Update(content);
+                _context.SaveChanges();
+                return true;
+            }
+            return false;
         }
 
         public void DeleteBaseContent(int id)
