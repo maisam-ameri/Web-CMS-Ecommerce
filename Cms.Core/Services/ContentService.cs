@@ -116,7 +116,9 @@ namespace Cms.Core.Services
 
         public void DeleteBaseContent(int id)
         {
-            GetBaseContent(id).IsDeleted = true;
+            var content = GetBaseContent(id);
+            content.IsDeleted = true;
+            BackgroundJob.Delete(content.JobId.ToString());
             _context.SaveChanges();
         }
 
