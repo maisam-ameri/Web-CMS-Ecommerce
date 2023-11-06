@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ImageMagick;
 
 namespace Cms.Core.FileManager
 {
@@ -16,26 +17,6 @@ namespace Cms.Core.FileManager
         {
                 _webHostEnvi = webHostEnvironment;
         }
-
-        /*
-        public string UploadAvatar(string oldname, IFormFile file)
-        {
-            var avatarName = $"{Guid.NewGuid()}{DateTime.Now.ToString("yymmssfff")}{Path.GetExtension(file.FileName)}";
-            var rootPath = _webHostEnvi.WebRootPath;
-            var oldPath = Path.Combine(rootPath, "images/user/avatar/", oldname);
-            var path = Path.Combine(rootPath, "images/user/avatar/", avatarName.ToString());
-            RemoveLastAvatar(oldPath);
-
-
-            using (FileStream stream = new FileStream(path, FileMode.Create))
-            {
-                file.CopyTo(stream);
-                stream.Close();
-            }
-
-            return avatarName;
-        }
-        */
 
         public string UploadImage(string oldname, IFormFile file, string imagePath)
         {
@@ -55,7 +36,6 @@ namespace Cms.Core.FileManager
             return imageName;
         }
 
-
         private void RemoveLastAvatar(string path)
         {
             var fileInfo = new FileInfo(path);
@@ -63,6 +43,26 @@ namespace Cms.Core.FileManager
             {
                 fileInfo.Delete();
             }
+
+        }
+
+        public void GenerateThumbnail(string fileName, string resourcePath, string savePath,int width)
+        {
+
+            var rootPath = _webHostEnvi.WebRootPath;
+            var path = Path.Combine(rootPath, resourcePath, fileName);
+
+            var fileInfo = new FileInfo(path);
+            using (MagickImage magicImage = new MagickImage(fileInfo))
+            {
+                magicImage.Thumbnail(width, width);
+                path = Path.Combine(rootPath, savePath, fileName);
+
+                magicImage.Write(path);
+            }
+
+
+
 
         }
     }

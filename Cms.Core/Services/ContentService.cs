@@ -3,9 +3,10 @@ using Cms.Core.FileManager;
 using Cms.Core.Services.Abstractions;
 using Cms.DataLayer.Context;
 using Cms.DataLayer.Entities.Content;
+using Cms.Core.Generators;
 //using Cms.DataLayer.Entities.Shop;
 using Hangfire;
-
+using Microsoft.AspNetCore.Http;
 
 namespace Cms.Core.Services
 {
@@ -14,6 +15,7 @@ namespace Cms.Core.Services
         private CmsContext _context;
         private ImageManager _imageManager { get; set; }
         private const string CONTENT_PATH = "images/content/";
+        private const string CONTENT_THUBMNAIL_PATH = "images/content/thumbnail/";
 
 
         public ContentService(CmsContext context, ImageManager imageManager)
@@ -84,7 +86,8 @@ namespace Cms.Core.Services
                 IsPublished = false
             };
 
-
+            _imageManager.GenerateThumbnail(imageName, CONTENT_PATH, CONTENT_THUBMNAIL_PATH,150);
+            
             var addedContent = _context.BaseContents.Add(newContent);
             _context.SaveChanges();
             var contentId = addedContent.Entity.ContentId;
