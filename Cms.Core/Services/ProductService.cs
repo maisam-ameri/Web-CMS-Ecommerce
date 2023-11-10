@@ -198,6 +198,34 @@ namespace Cms.Core.Services
             }).ToList();
         }
 
+        public List<Cms.Core.DTOs.Shop.ProductDto> GetProductsForShop(string keyword = "", int minPrice = 0, int maxPrice = 100000, List<int>? selectedCategories = null)
+        {
+            var products = _context.Products.ToList();
+
+            if (!string.IsNullOrEmpty(keyword))
+                products = products
+                .Where(p =>
+            p.Title.Contains(keyword) ||
+            p.Content.Contains(keyword) ||
+            p.Description.Contains(keyword) ||
+            p.Tags.Contains(keyword)
+            ).ToList();
+
+            if (selectedCategories != null)
+            {
+
+            }
+
+            var productDtos = products.Select(p => new Cms.Core.DTOs.Shop.ProductDto()
+            {
+                Id = p.ProductId,
+                ImageName = p.Image,
+                Price = p.Price,
+                Title = p.Title,
+            }).ToList();
+
+            return productDtos;
+        }
 
         #endregion
     }

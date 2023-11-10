@@ -1,0 +1,10 @@
+﻿@model Cms.Core.DTOs.Shop.ProductDto
+
+<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 term-col">
+    <article>
+        <a href="" class="img-layer"><img width="293" height="210" src="images/product/@Model.ImageName"></a>
+        <h2><a href=""> @Model.Title</a></h2>
+        <span> @(Model.Price == null ? "رایگان" : Model.Price)</span>
+        <i>1:52:32</i>
+    </article>
+</div>

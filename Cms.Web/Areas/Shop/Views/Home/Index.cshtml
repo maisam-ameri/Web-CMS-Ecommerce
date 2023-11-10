@@ -10,21 +10,74 @@
 
                 <!-- Filters -->
                 <div class="col-md-3 col-sm-4 col-xs-12">
-                    <aside>
-                        <section>
-                            <header><h3> فیلتر ها </h3></header>
-                            <div class="inner">
-                                <ul>
-                                    <li><a href="/UserPanel"> مشاهده حساب کابری </a></li>
-                                    <li><a href="/UserPanel/EditProfile"> ویرایش حساب کابری </a></li>
-                                    <li><a href="/UserPanel/EditPassword"> تغییر رمز عبور </a></li>
-                                    <li><a href=""> تنظیمات حساب کاربری </a></li>
-                                    <li><a href=""> خروج از حساب کاربری </a></li>
-                                </ul>
-                            </div>
-                        </section>
-                    </aside>
+
+
+                    <section class="user-account-content">
+                        <header><h1> فیلتر ها </h1></header>
+                        <div class="inner">
+
+
+
+
+                            <aside>
+                                <form method="post">
+                                    <section>
+                                        <header><h3> فیلتر کلیدواژه </h3></header>
+                                        <div class="inner">
+                                            <div class="form-group">
+                                                <input type="text" id="keyword" class="form-control">
+                                            </div>
+                                        </div>
+                                    </section>
+
+                                    <section>
+                                        <header><h3> فیلتر قیمت </h3></header>
+                                        <div class="inner">
+
+                                            <div class="form-group">
+                                                <input type="text" id="minPrice" class="form-control" placeholder="حداکثر">
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="text" id="maxPrice" class="form-control" placeholder="حداقل">
+                                            </div>
+
+
+                                        </div>
+                                    </section>
+
+                                    <section>
+                                        <header><h3> فیلتر دسته بندی </h3></header>
+                                        <div class="inner">
+                                            <div class="form-group">
+                                                <ul>
+                                                    @* @foreach (var item in roles) *@
+                                                    {
+                                                    <li>
+                                                        <div class="checkbox">
+                                                            <label>
+                                                                <input type="checkbox" name="selectedRoles">
+                                                            </label>
+                                                        </div>
+                                                    </li>
+                                                    }
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </section>
+
+                                    <div class="form-group">
+                                        <input type="submit" class="btn btn-success" value="اعمال فیلتر" />
+                                    </div>
+                                </form>
+
+                            </aside>
+                        </div>
+                    </section>
+
                 </div>
+
+
+
 
                 <!-- Product List -->
                 <div class="col-md-9 col-sm-8 col-xs-12">
@@ -35,7 +88,11 @@
                             <section class="terms-items">
                                 <div class="row">
                                     <!-- col -->
-                                    @await Component.InvokeAsync("LastProductsComponent")
+                                    @foreach (var item in Model)
+                                    {
+                                        <partial name="_ProductBox" model=@item />
+                                    }
+                                    @* @await Component.InvokeAsync("LastProductsComponent") *@
 
                                 </div>
                             </section>
@@ -75,4 +132,7 @@
         </div>
     </div>
 </main>
+
+
+
 

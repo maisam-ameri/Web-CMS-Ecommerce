@@ -39,6 +39,7 @@ namespace Cms.Core.Services.Abstractions
 
         #region Shop
         IEnumerable<Cms.Core.DTOs.Shop.ProductDto> GetLastProducts();
+        List<Cms.Core.DTOs.Shop.ProductDto> GetProductsForShop(string keyword="", int minPrice=0, int maxPrice = 1000000, List<int>? selectedCategories =null);
 
         #endregion
     }

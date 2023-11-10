@@ -17,8 +17,8 @@ namespace Cms.Web.Areas.Shop.Controllers
 
         public IActionResult Index()
         {
-            var products = _productService.GetProducts();
-            return View();
+            var products = _productService.GetProductsForShop();
+            return View(products);
         }
     }
 }
