@@ -116,4 +116,17 @@
         });
 
     </script>
+
+    <script src="https://cdn.ckeditor.com/4.9.2/standard/ckeditor.js"></script>
+    <script>
+
+        console.log('hello');
+        CKEDITOR.replace('Content_MainText',
+            {
+                customConfig: '/js/ckEditorConfig.js'
+            }
+
+        );
+
+    </script>
 }
