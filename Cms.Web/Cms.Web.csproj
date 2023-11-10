@@ -39,6 +39,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\images\content\thumbnail\" />
+    <Folder Include="wwwroot\images\myImages\" />
     <Folder Include="wwwroot\images\product\" />
     <Folder Include="wwwroot\images\user\avatar\" />
   </ItemGroup>

@@ -18,11 +18,11 @@ namespace Cms.Core.FileManager
                 _webHostEnvi = webHostEnvironment;
         }
 
-        public string UploadImage(string oldname, IFormFile file, string imagePath)
+        public string UploadImage(string image, IFormFile file, string imagePath)
         {
             var imageName = $"{Guid.NewGuid()}{DateTime.Now.ToString("yymmssfff")}{Path.GetExtension(file.FileName)}";
             var rootPath = _webHostEnvi.WebRootPath;
-            var oldPath = Path.Combine(rootPath, imagePath, oldname);
+            var oldPath = Path.Combine(rootPath, imagePath, image);
             var path = Path.Combine(rootPath, imagePath, imageName.ToString());
             RemoveLastAvatar(oldPath);
 
@@ -35,6 +35,8 @@ namespace Cms.Core.FileManager
 
             return imageName;
         }
+
+
 
         private void RemoveLastAvatar(string path)
         {

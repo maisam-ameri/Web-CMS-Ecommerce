@@ -11,11 +11,7 @@ namespace Cms.Web.Controllers
             return View();
         }
 
-        [Authorize]
-        public IActionResult test()
-        {
-            return View();
-        }
+
 
     }
 }

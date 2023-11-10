@@ -49,6 +49,7 @@
                     <div class="form-group">
                         <label>متن اصلی</label>
                         <textarea asp-for="Content.MainText" class="form-control"></textarea>
+
                     </div>
 
                     <div class="form-group">
@@ -71,30 +72,32 @@
             </div>
 
         </div>
-            <div class="col-md-4">
+        <div class="col-md-4">
 
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        تصویر محتوا
-                    </div>
-                    <!-- /.panel-heading -->
-                    <div class="panel-body">
-                        <img id="imgContent" class="thumbnail" src="/images/pic/avatar.jpg" />
-                        <div class="form-group">
-                            <label>انتخاب تصویر</label>
-                            <input type="file" asp-for="Content.ImageFile" value="default.jpg">
-                        </div>
-                    </div>
-                    <!-- /.panel-body -->
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    تصویر محتوا
                 </div>
-
-
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <img id="imgContent" class="thumbnail" src="/images/pic/avatar.jpg" />
+                    <div class="form-group">
+                        <label>انتخاب تصویر</label>
+                        <input type="file" asp-for="Content.ImageFile" value="default.jpg">
+                    </div>
+                </div>
+                <!-- /.panel-body -->
             </div>
+
+
+        </div>
     </form>
 </div>
 
 @section Scripts{
+
     <script>
+
         function readURL(input) {
 
             if (input.files && input.files[0]) {
@@ -108,9 +111,23 @@
             }
         }
 
+
         $("#Content_ImageFile").change(function () {
             readURL(this);
         });
+
+    </script>
+
+    <script src="https://cdn.ckeditor.com/4.9.2/standard/ckeditor.js"></script>
+    <script>
+
+        console.log('hello');
+        CKEDITOR.replace('Content_MainText',
+            {
+                customConfig: '/js/ckEditorConfig.js'
+            }
+
+        );
 
     </script>
 }
