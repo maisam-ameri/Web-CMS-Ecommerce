@@ -2,6 +2,9 @@
 @{
     ViewData["Title"] = "فروشگاه";
     var categories = ViewData["categories"] as List<Cms.DataLayer.Entities.Shop.Category>;
+    var pageInfo = ViewData["pageInfo"] as Tuple<int, int>;
+    var totalPage = pageInfo.Item1;
+    var currentPage = pageInfo.Item2;
 }
 
 <main>
@@ -53,13 +56,13 @@
                                                 <ul>
                                                     @foreach (var item in categories)
                                                     {
-                                                    <li>
-                                                        <div class="checkbox">
-                                                            <label>
+                                                        <li>
+                                                            <div class="checkbox">
+                                                                <label>
                                                                     <input type="checkbox" value="@item.Id" name="selectedCategories">@item.Title
-                                                            </label>
-                                                        </div>
-                                                    </li>
+                                                                </label>
+                                                            </div>
+                                                        </li>
                                                     }
                                                 </ul>
                                             </div>
@@ -109,21 +112,22 @@
                     <div class="col-sm-6">
                         <div class="dataTables_paginate paging_simple_numbers" id="dataTables-example_paginate">
                             <ul class="pagination">
+                                @if (totalPage > 1)
+                                {
                                 <li class="paginate_button previous " aria-controls="dataTables-example" tabindex="0" id="dataTables-example_previous">
-                                    <a href=@($"/Admin/Users?pageid=")>قبلی</a>
+                                    <a href=@($"/shop?pageid={currentPage - 1}") @(currentPage <= 1 ? "hidden" : "")>قبلی</a>
                                 </li>
-                                @* @if (Model.Users.TotalPage > 1) *@
-                                @* { *@
-                                @* for (int i = 1; i <= Model.Users.TotalPage; i++) *@
-                                @* { *@
-                                @* var isActive = (i == Model.Users.CurrentPage); *@
-                                <li class="paginate_button" aria-controls="dataTables-example" tabindex="0">
-                                    <a href="/Admin/Users?pageid=1">1</a>
-                                </li>
+                                    for (int i = 1; i <= totalPage; i++)
+                                    {
+                                        <li class="paginate_button @(i == currentPage ? "active" : "")" aria-controls="dataTables-example" tabindex="0">
+                                            <a href=@($"/shop?pageid={i}")>@i</a>
+                                        </li>
 
-                                @* } *@
-                                @* } *@
-                                <li class="paginate_button next" aria-controls="dataTables-example" tabindex="0" id="dataTables-example_next"><a href=@($"/Admin/Users?pageid=")>بعدی</a></li>
+                                    }
+                                <li class="paginate_button next" aria-controls="dataTables-example"  tabindex="0" id="dataTables-example_next">
+                                    <a href=@($"/shop?pageid={currentPage + 1}") @(currentPage >= totalPage ? "hidden" : "")>بعدی</a>
+                                </li>
+                                }
                             </ul>
                         </div>
                     </div>

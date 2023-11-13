@@ -2,11 +2,6 @@
 
 using Cms.DataLayer.Entities.Shop;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Cms.Core.Services.Abstractions
 {
@@ -39,7 +34,9 @@ namespace Cms.Core.Services.Abstractions
 
         #region Shop
         IEnumerable<Cms.Core.DTOs.Shop.ProductDto> GetLastProducts();
-        List<Cms.Core.DTOs.Shop.ProductDto> GetProductsForShop(string keyword="", int minPrice=0, int maxPrice = 1000000, List<int>? selectedCategories =null);
+        List<Cms.Core.DTOs.Shop.ProductDto> GetProductsForShop(int pageId = 1, string keyword="", int minPrice=0, int maxPrice = int.MaxValue, List<int>? selectedCategories =null);
+
+        int GetTotalProductPageCount();
 
         #endregion
     }

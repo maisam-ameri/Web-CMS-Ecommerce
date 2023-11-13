@@ -188,6 +188,8 @@ namespace Cms.Core.Services
 
         #region Shop
 
+        private readonly int _takeValue = 8;
+
         public IEnumerable<Cms.Core.DTOs.Shop.ProductDto> GetLastProducts()
         {
             return _context.Products.Select(p => new DTOs.Shop.ProductDto
@@ -198,7 +200,7 @@ namespace Cms.Core.Services
             }).ToList();
         }
 
-        public List<Cms.Core.DTOs.Shop.ProductDto> GetProductsForShop(string keyword = "", int minPrice = 0, int maxPrice = int.MaxValue, List<int>? selectedCategories = null)
+        public List<Cms.Core.DTOs.Shop.ProductDto> GetProductsForShop(int pageId = 1, string keyword = "", int minPrice = 0, int maxPrice = int.MaxValue, List<int>? selectedCategories = null)
         {
             IEnumerable<Product> products = _context.Products;
 
@@ -220,6 +222,9 @@ namespace Cms.Core.Services
                 products = products.Where(p => categories.Any(c => c.Id == p.CategoryId)).ToList();
             }
 
+            var skip = (pageId - 1) * _takeValue;
+            products = products.Skip(skip).Take(pageId * _takeValue).ToList();
+
             var productDtos = products.Select(p => new Cms.Core.DTOs.Shop.ProductDto()
             {
                 Id = p.ProductId,
@@ -229,6 +234,12 @@ namespace Cms.Core.Services
             }).ToList();
 
             return productDtos;
+        }
+
+        public int GetTotalProductPageCount()
+        {
+            return  (int) Math.Ceiling(_context.Products.Count() / (float)_takeValue);
+           
         }
 
         #endregion
