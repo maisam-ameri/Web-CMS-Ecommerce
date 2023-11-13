@@ -15,8 +15,9 @@ namespace Cms.Web.Areas.Shop.Controllers
             _productService = productService;
         }
 
-        public IActionResult Index(string keyword="",int minPrice=0,int maxPrice=int.MaxValue, List<int> selectedCategories=null)
+        public IActionResult Index(string keyword="",int minPrice=0,int maxPrice=int.MaxValue, List<int>? selectedCategories =null)
         {
+            ViewData["categories"] = _productService.GetCategories();
             var products = _productService.GetProductsForShop(keyword, minPrice,maxPrice,selectedCategories);
             return View(products);
 

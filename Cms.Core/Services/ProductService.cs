@@ -213,9 +213,11 @@ namespace Cms.Core.Services
 
             products = products.Where(p => p.Price >= minPrice && p.Price <= maxPrice).ToList();
 
-            if (selectedCategories != null)
+            if (selectedCategories != null && selectedCategories.Count > 0)
             {
-                // TODO : fetch categories
+                var categories = _context.Categories.Where(c =>  selectedCategories.Any(s => s == c.Id)).ToList();
+
+                products = products.Where(p => categories.Any(c => c.Id == p.CategoryId)).ToList();
             }
 
             var productDtos = products.Select(p => new Cms.Core.DTOs.Shop.ProductDto()

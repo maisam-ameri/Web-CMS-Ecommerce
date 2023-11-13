@@ -1,6 +1,7 @@
 ﻿@model IEnumerable<Cms.Core.DTOs.Shop.ProductDto>
 @{
     ViewData["Title"] = "فروشگاه";
+    var categories = ViewData["categories"] as List<Cms.DataLayer.Entities.Shop.Category>;
 }
 
 <main>
@@ -50,12 +51,12 @@
                                         <div class="inner">
                                             <div class="form-group">
                                                 <ul>
-                                                    @* @foreach (var item in roles) *@
+                                                    @foreach (var item in categories)
                                                     {
                                                     <li>
                                                         <div class="checkbox">
                                                             <label>
-                                                                <input type="checkbox" name="selectedCategory">
+                                                                    <input type="checkbox" value="@item.Id" name="selectedCategories">@item.Title
                                                             </label>
                                                         </div>
                                                     </li>
