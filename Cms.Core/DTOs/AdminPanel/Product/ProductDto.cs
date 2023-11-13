@@ -34,7 +34,7 @@ namespace Cms.Core.DTOs.AdminPanel.Product
 
         [Required]
         [Display(Name ="قیمت")]
-        public double? Price { get; set; }
+        public int Price { get; set; }
         
         [Display(Name = "تاریخ ثبت")]
         public DateTime RegisterDate { get; set; }
