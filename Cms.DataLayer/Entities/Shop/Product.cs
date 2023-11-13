@@ -37,7 +37,7 @@ namespace Cms.DataLayer.Entities.Shop
         [Display(Name = "تصویر")]
         public string? Image { get; set; }
 
-        public double? Price { get; set; }
+        public int Price { get; set; }
 
         public DateTime RegisterDate { get; set; }
 

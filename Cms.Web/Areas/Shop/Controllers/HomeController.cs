@@ -15,10 +15,11 @@ namespace Cms.Web.Areas.Shop.Controllers
             _productService = productService;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string keyword="",int minPrice=0,int maxPrice=int.MaxValue, List<int> selectedCategories=null)
         {
-            var products = _productService.GetProductsForShop();
+            var products = _productService.GetProductsForShop(keyword, minPrice,maxPrice,selectedCategories);
             return View(products);
+
         }
     }
 }

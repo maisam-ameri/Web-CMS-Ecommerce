@@ -198,9 +198,9 @@ namespace Cms.Core.Services
             }).ToList();
         }
 
-        public List<Cms.Core.DTOs.Shop.ProductDto> GetProductsForShop(string keyword = "", int minPrice = 0, int maxPrice = 100000, List<int>? selectedCategories = null)
+        public List<Cms.Core.DTOs.Shop.ProductDto> GetProductsForShop(string keyword = "", int minPrice = 0, int maxPrice = int.MaxValue, List<int>? selectedCategories = null)
         {
-            var products = _context.Products.ToList();
+            IEnumerable<Product> products = _context.Products;
 
             if (!string.IsNullOrEmpty(keyword))
                 products = products
@@ -211,9 +211,11 @@ namespace Cms.Core.Services
             p.Tags.Contains(keyword)
             ).ToList();
 
+            products = products.Where(p => p.Price >= minPrice && p.Price <= maxPrice).ToList();
+
             if (selectedCategories != null)
             {
-
+                // TODO : fetch categories
             }
 
             var productDtos = products.Select(p => new Cms.Core.DTOs.Shop.ProductDto()
