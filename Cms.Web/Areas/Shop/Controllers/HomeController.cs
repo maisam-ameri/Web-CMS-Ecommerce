@@ -29,5 +29,18 @@ namespace Cms.Web.Areas.Shop.Controllers
             return View(products);
 
         }
+        [Route("shop/ShowProdcut/{id}")]
+        public IActionResult ShowProduct(int id)
+        {
+            var product = _productService.GetProduct(id);
+            return View(product);
+        }
+
+        //[Route("Shop/AddOrder")]
+        //public IActionResult AddOrder()
+        //{
+
+        //    return View();
+        //}
     }
 }
