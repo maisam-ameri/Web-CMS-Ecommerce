@@ -1,0 +1,18 @@
+﻿using Cms.DataLayer.Entities.Shop;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Cms.Core.Services.Abstractions
+{
+    public interface IOrderService
+    {
+        void AddOrderDetail(int userId, int productId);
+        Order CreateOrder(int userId);
+        public Order GetOpenOrder(int userId);
+        public IEnumerable<OrderDetail> GetOrderDetailsInOpenOrder(int orderId);
+
+    }
+}

@@ -1,0 +1,117 @@
+﻿using Cms.Core.FileManager;
+using Cms.Core.Services.Abstractions;
+using Cms.DataLayer.Context;
+using Cms.DataLayer.Entities.Shop;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Cms.Core.Services
+{
+    public class OrderService : IOrderService
+    {
+        private CmsContext _context;
+        private IProductService _productService;
+
+        public OrderService(CmsContext context, IProductService productService)
+        {
+            _context = context;
+            _productService = productService;
+        }
+
+        /// <summary>
+        /// check whether the user has any order that is finally
+        /// if yes: create new order ,so assign its id to the orderDetail
+        /// if no: get the order ,so assign its id to the orderDetail
+        /// </summary>
+        public async void AddOrderDetail(int userId, int productId)
+        {
+            var product = _productService.GetProduct(productId);
+            var order = GetOpenOrder(userId);
+
+            // add orderDetail
+            OrderDetail newOrderDetail;
+
+            if (order != null)
+            {
+
+                newOrderDetail = GetOrderDetailsInOpenOrder(order.OrderId).SingleOrDefault(o => o.ProductId == productId);
+
+
+
+                if (newOrderDetail == null)
+                {
+                    newOrderDetail = new OrderDetail()
+                    {
+                        ProductId = productId,
+                        Count = 1,
+                        RegisterDate = DateTime.Now,
+                        Price = product.Price,
+                        OrderId = order.OrderId,
+                    };
+                    order.OrderSum += newOrderDetail.Price;
+
+                    _context.Add(newOrderDetail);
+                    _context.SaveChanges();
+
+                    _context.Update(order);
+
+
+                }
+
+                else
+                {
+                    newOrderDetail.Count++;
+                    order.OrderSum += newOrderDetail.Price;
+                _context.Update(order);
+                    _context.SaveChanges();
+
+                }
+            }
+            else
+            {
+                order =  CreateOrder(userId);
+                order.OrderSum = product.Price;
+                newOrderDetail = new OrderDetail()
+                {
+                    ProductId = productId,
+                    Count = 1,
+                    RegisterDate = DateTime.Now,
+                    Price = product.Price,
+                    OrderId = order.OrderId,
+                };
+                _context.Add(newOrderDetail);
+
+                _context.SaveChanges();
+
+            }
+
+            //_context.SaveChanges();
+        }
+
+        public Order CreateOrder(int userId)
+        {
+            var newOrder = new Order
+            {
+                UserId = userId,
+                RegisterDate = DateTime.Now,
+                IsFinally = false,
+            };
+
+            var order = _context.Add(newOrder);
+            _context.SaveChanges();
+
+            return order.Entity;
+        }
+
+
+        public Order GetOpenOrder(int userId) => _context.Orders.SingleOrDefault(o => o.UserId == userId && o.IsFinally == false);
+
+        public IEnumerable<OrderDetail> GetOrderDetailsInOpenOrder(int orderId)
+        {
+            return _context.OrderDetails.Where(od => od.OrderId == orderId);
+        }
+    }
+}
