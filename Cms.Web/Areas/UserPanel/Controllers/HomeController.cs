@@ -16,14 +16,16 @@ namespace Cms.Web.Areas.UserPanel.Controllers
     {
 
         private IUserService _userService;
+        private IOrderService _orderService;
         private IWebHostEnvironment _webHostEnvironment;
         private ImageManager _imageManager;
 
         private const string AVATAR_PATH = "images/user/avatar/";
 
-        public HomeController(IUserService userService, IWebHostEnvironment webHostEnvironment, ImageManager imageManager)
+        public HomeController(IUserService userService, IWebHostEnvironment webHostEnvironment,IOrderService orderService, ImageManager imageManager)
         {
             _userService = userService;
+            _orderService = orderService;
             _webHostEnvironment = webHostEnvironment;
             _imageManager = imageManager;
         }
@@ -111,6 +113,17 @@ namespace Cms.Web.Areas.UserPanel.Controllers
             }
 
             return View(editPassword);
+        }
+        #endregion
+
+        #region Orders
+        
+        [Route("UserPanel/UserOrders")]
+        public IActionResult UserOrders()
+        {
+            var userId = _userService.GetUserByUserName(User.Identity.Name).Id;
+            var orders = _orderService.GetOrdersForUser(userId);
+            return View(orders);
         }
         #endregion
     }

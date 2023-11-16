@@ -1,4 +1,5 @@
-﻿using Cms.DataLayer.Entities.Shop;
+﻿using Cms.Core.DTOs.UserPanel;
+using Cms.DataLayer.Entities.Shop;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,6 @@ namespace Cms.Core.Services.Abstractions
         Order CreateOrder(int userId);
         public Order GetOpenOrder(int userId);
         public IEnumerable<OrderDetail> GetOrderDetailsInOpenOrder(int orderId);
-
+        IEnumerable<UserOrderDto> GetOrdersForUser(int userId);
     }
 }

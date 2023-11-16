@@ -1,4 +1,5 @@
-﻿using Cms.Core.FileManager;
+﻿using Cms.Core.DTOs.UserPanel;
+using Cms.Core.FileManager;
 using Cms.Core.Services.Abstractions;
 using Cms.DataLayer.Context;
 using Cms.DataLayer.Entities.Shop;
@@ -55,24 +56,22 @@ namespace Cms.Core.Services
 
                     _context.Add(newOrderDetail);
                     _context.SaveChanges();
-
                     _context.Update(order);
-
-
                 }
 
                 else
                 {
                     newOrderDetail.Count++;
                     order.OrderSum += newOrderDetail.Price;
-                _context.Update(order);
+                 
+                    _context.Update(order);
                     _context.SaveChanges();
 
                 }
             }
             else
             {
-                order =  CreateOrder(userId);
+                order = CreateOrder(userId);
                 order.OrderSum = product.Price;
                 newOrderDetail = new OrderDetail()
                 {
@@ -82,13 +81,10 @@ namespace Cms.Core.Services
                     Price = product.Price,
                     OrderId = order.OrderId,
                 };
+                
                 _context.Add(newOrderDetail);
-
                 _context.SaveChanges();
-
             }
-
-            //_context.SaveChanges();
         }
 
         public Order CreateOrder(int userId)
@@ -106,12 +102,22 @@ namespace Cms.Core.Services
             return order.Entity;
         }
 
-
         public Order GetOpenOrder(int userId) => _context.Orders.SingleOrDefault(o => o.UserId == userId && o.IsFinally == false);
 
         public IEnumerable<OrderDetail> GetOrderDetailsInOpenOrder(int orderId)
         {
             return _context.OrderDetails.Where(od => od.OrderId == orderId);
+        }
+
+        public IEnumerable<UserOrderDto> GetOrdersForUser(int userId)
+        {
+            return _context.Orders.Where(o => o.UserId == userId).Select(u => new UserOrderDto()
+            {
+                RegisterDate = u.RegisterDate,
+                IsFinally = u.IsFinally,
+                OrderId = u.OrderId,
+                DetailOrderCount = u.OrderDetails.Count()
+            });
         }
     }
 }
