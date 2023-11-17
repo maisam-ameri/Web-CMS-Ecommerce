@@ -127,13 +127,16 @@ namespace Cms.Web.Areas.UserPanel.Controllers
         }
 
 
-        [Route("UserPanel/UserOrderDetails/{id}")]
-        public IActionResult UserOrderDetails(int id)
+        [Route("UserPanel/UserOrderDetails/{orderId}")]
+        public IActionResult UserOrderDetails(int orderId)
         {
-            var userId = _userService.GetUserByUserName(User.Identity.Name).Id;
-            var orders = _orderService.GetOrdersForUser(userId);
-            return View(orders);
+            var orderDetails = _orderService.GetOrderDetailsInOpenOrder(orderId);
+            ViewData["isOrderFinally"] = _orderService.GetOrder(orderId).IsFinally ? true : null;
+            return View(orderDetails);
         }
+
+
+
 
 
 

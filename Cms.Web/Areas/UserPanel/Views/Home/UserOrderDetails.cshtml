@@ -1,7 +1,7 @@
 ﻿@using Cms.Core.Convertors
-@model IEnumerable<Cms.Core.DTOs.UserPanel.UserOrderDto>
+@model IEnumerable<Cms.DataLayer.Entities.Shop.OrderDetail>
 @{
-    ViewData["Title"] = "فاکتورهای من";
+    ViewData["Title"] = "سفارشات من";
 }
 
 <main>
@@ -11,7 +11,7 @@
                 <partial name="_SideBar" />
                 <div class="col-md-9 col-sm-8 col-xs-12">
                     <section class="user-account-content">
-                        <header><h1>فاکتورهای من </h1></header>
+                        <header><h1>سفارشات من </h1></header>
                         <div class="inner">
                             <div class="account-information">
 
@@ -22,9 +22,10 @@
                                             <table class="table table-striped table-bordered table-hover dataTable no-footer" id="dataTables-example" aria-describedby="dataTables-example_info">
                                                 <thead>
                                                     <tr role="row">
+                                                        <th style="width: 219px;">عنوان</th>
+                                                        <th style="width: 219px;">تعداد </th>
+                                                        <th style="width: 101px;">قیمت</th>
                                                         <th style="width: 219px;">تاریخ</th>
-                                                        <th style="width: 219px;">تعداد سفارش</th>
-                                                        <th style="width: 101px;">وضعیت پرداخت</th>
                                                         <th style="width: 101px;">جزئیات</th>
                                                     </tr>
                                                 </thead>
@@ -34,16 +35,12 @@
                                                     {
 
                                                         <tr class="gradeA odd">
+                                                            <td class="sorting_1">@item.Title</td>
+                                                            <td class="sorting_1">@item.Count</td>
+                                                            <td class="sorting_1">@item.Price</td>
                                                             <td class="sorting_1">@item.RegisterDate.MiladiToShamsi()</td>
-                                                            <td class="sorting_1">@item.DetailOrderCount</td>
-                                                            <td class="sorting_1 @(item.IsFinally ? "bg-success" : "bg-danger")">@(item.IsFinally ? "تسویه شده" : "تسویه نشده")</td>
-                                                            <td >
-                                                                @if (!item.IsFinally)
-                                                                {
-                                                                    <a asp-area="UserPanel" asp-action="PayOrder" asp-route-orderId="@item.OrderId" class="btn btn-success btn-sm">پرداخت</a>
-                                                                }
-                                                                <a asp-area="UserPanel" asp-action="UserOrderDetails" asp-route-orderId="@item.OrderId" class="btn btn-warning btn-sm">مشاهده</a>
-                                                                <a asp-area="UserPanel" asp-action="DeleteOrder" asp-route-id="@item.OrderId" class="btn btn-danger btn-sm">حذف</a>
+                                                            <td>
+                                                                <a asp-action="DeleteOrderDetail" asp-route-id="@item.OrderDetailId" class="btn btn-danger btn-sm">حذف</a>
                                                             </td>
 
                                                         </tr>
@@ -57,6 +54,17 @@
                                     </div>
                                     <!-- /.table-responsive -->
 
+                                    <div class="input-group">
+                                        جمع کل : @Model.Sum(o => o.Price)  تومان
+                                    </div>
+                                    @if (ViewData["isOrderFinally"] == null)
+                                    {
+
+                                        <div class="input-group">
+                                            <a asp-area="UserPanel" asp-action="PayOrder" asp-route-orderId="@Model.FirstOrDefault().OrderId" class="btn btn-success form-control"> پرداخت</a>
+                                        </div>
+
+                                    }
                                 </div>
                             </div>
                         </div>

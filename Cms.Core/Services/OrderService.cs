@@ -47,6 +47,7 @@ namespace Cms.Core.Services
                     newOrderDetail = new OrderDetail()
                     {
                         ProductId = productId,
+                        Title = product.Title,
                         Count = 1,
                         RegisterDate = DateTime.Now,
                         Price = product.Price,
@@ -76,15 +77,34 @@ namespace Cms.Core.Services
                 newOrderDetail = new OrderDetail()
                 {
                     ProductId = productId,
+                    Title= product.Title,
                     Count = 1,
                     RegisterDate = DateTime.Now,
                     Price = product.Price,
                     OrderId = order.OrderId,
+
                 };
                 
                 _context.Add(newOrderDetail);
                 _context.SaveChanges();
             }
+        }
+
+        public Order GetOrder(int orderId)
+        {
+            return _context.Orders.SingleOrDefault(o => o.OrderId == orderId);
+        }
+
+        public List<OrderDetail> GetOrderDetailsInOpenOrder(int orderId)
+        {
+
+            return _context.OrderDetails.Where(o => o.OrderId == orderId).ToList();
+        }
+
+        public OrderDetail GetOrderDetailInOpenOrder(int orderId,int productId)
+        {
+         
+            return _context.OrderDetails.SingleOrDefault(o => o.OrderId == orderId && o.ProductId == productId);
         }
 
         public Order CreateOrder(int userId)
@@ -104,15 +124,10 @@ namespace Cms.Core.Services
 
         public Order GetOpenOrder(int userId) => _context.Orders.SingleOrDefault(o => o.UserId == userId && o.IsFinally == false);
 
-        public OrderDetail GetOrderDetailInOpenOrder(int orderId,int productId)
-        {
-         
-            return _context.OrderDetails.SingleOrDefault(o => o.OrderId == orderId && o.ProductId == productId);
-        }
 
         public IEnumerable<UserOrderDto> GetOrdersForUser(int userId)
         {
-            return _context.Orders.Where(o => o.UserId == userId).Select(u => new UserOrderDto()
+            return _context.Orders.Where(o => o.UserId == userId).OrderBy(o => o.IsFinally).Select(u => new UserOrderDto()
             {
                 RegisterDate = u.RegisterDate,
                 IsFinally = u.IsFinally,
