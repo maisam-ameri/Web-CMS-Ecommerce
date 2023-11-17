@@ -126,7 +126,18 @@ namespace Cms.Web.Areas.UserPanel.Controllers
             return View(orders);
         }
 
-        
+
+        [Route("UserPanel/UserOrderDetails/{id}")]
+        public IActionResult UserOrderDetails(int id)
+        {
+            var userId = _userService.GetUserByUserName(User.Identity.Name).Id;
+            var orders = _orderService.GetOrdersForUser(userId);
+            return View(orders);
+        }
+
+
+
+
         #endregion
     }
 }
