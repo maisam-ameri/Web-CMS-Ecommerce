@@ -38,7 +38,7 @@ namespace Cms.Core.Services
             if (order != null)
             {
 
-                newOrderDetail = GetOrderDetailsInOpenOrder(order.OrderId).SingleOrDefault(o => o.ProductId == productId);
+                newOrderDetail = GetOrderDetailInOpenOrder(productId);
 
 
 
@@ -104,9 +104,13 @@ namespace Cms.Core.Services
 
         public Order GetOpenOrder(int userId) => _context.Orders.SingleOrDefault(o => o.UserId == userId && o.IsFinally == false);
 
-        public IEnumerable<OrderDetail> GetOrderDetailsInOpenOrder(int orderId)
+        public OrderDetail GetOrderDetailInOpenOrder(int productId)
         {
-            return _context.OrderDetails.Where(od => od.OrderId == orderId);
+            var openOrder = _context.Orders.SingleOrDefault(o => o.IsFinally == false);
+            if(openOrder == null)
+                return null;
+         
+            return _context.OrderDetails.SingleOrDefault(o => o.OrderId == openOrder.OrderId && o.ProductId == productId);
         }
 
         public IEnumerable<UserOrderDto> GetOrdersForUser(int userId)

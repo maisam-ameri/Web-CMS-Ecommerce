@@ -125,6 +125,8 @@ namespace Cms.Web.Areas.UserPanel.Controllers
             var orders = _orderService.GetOrdersForUser(userId);
             return View(orders);
         }
+
+        
         #endregion
     }
 }
