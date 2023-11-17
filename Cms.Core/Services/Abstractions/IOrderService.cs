@@ -13,7 +13,7 @@ namespace Cms.Core.Services.Abstractions
         void AddOrderDetail(int userId, int productId);
         Order CreateOrder(int userId);
         public Order GetOpenOrder(int userId);
-        public OrderDetail GetOrderDetailInOpenOrder(int productId);
+        public OrderDetail GetOrderDetailInOpenOrder(int orderId,int productId);
         IEnumerable<UserOrderDto> GetOrdersForUser(int userId);
     }
 }

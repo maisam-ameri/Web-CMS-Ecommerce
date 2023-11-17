@@ -27,7 +27,7 @@ namespace Cms.Core.Services
         /// if yes: create new order ,so assign its id to the orderDetail
         /// if no: get the order ,so assign its id to the orderDetail
         /// </summary>
-        public async void AddOrderDetail(int userId, int productId)
+        public void AddOrderDetail(int userId, int productId)
         {
             var product = _productService.GetProduct(productId);
             var order = GetOpenOrder(userId);
@@ -38,7 +38,7 @@ namespace Cms.Core.Services
             if (order != null)
             {
 
-                newOrderDetail = GetOrderDetailInOpenOrder(productId);
+                newOrderDetail = GetOrderDetailInOpenOrder(order.OrderId, productId);
 
 
 
@@ -104,13 +104,10 @@ namespace Cms.Core.Services
 
         public Order GetOpenOrder(int userId) => _context.Orders.SingleOrDefault(o => o.UserId == userId && o.IsFinally == false);
 
-        public OrderDetail GetOrderDetailInOpenOrder(int productId)
+        public OrderDetail GetOrderDetailInOpenOrder(int orderId,int productId)
         {
-            var openOrder = _context.Orders.SingleOrDefault(o => o.IsFinally == false);
-            if(openOrder == null)
-                return null;
          
-            return _context.OrderDetails.SingleOrDefault(o => o.OrderId == openOrder.OrderId && o.ProductId == productId);
+            return _context.OrderDetails.SingleOrDefault(o => o.OrderId == orderId && o.ProductId == productId);
         }
 
         public IEnumerable<UserOrderDto> GetOrdersForUser(int userId)
