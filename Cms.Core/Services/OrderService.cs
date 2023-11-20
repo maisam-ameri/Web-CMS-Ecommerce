@@ -22,67 +22,63 @@ namespace Cms.Core.Services
         /// if yes: create new order ,so assign its id to the orderDetail
         /// if no: get the order ,so assign its id to the orderDetail
         /// </summary>
+
         public void AddOrderDetail(int userId, int productId)
         {
             var product = _productService.GetProduct(productId);
             var order = GetOpenOrder(userId);
 
-            // add orderDetail
-            OrderDetail newOrderDetail;
 
-            if (order != null)
+            if (order == null)
             {
 
-                newOrderDetail = GetOrderDetailInOpenOrder(order.OrderId, productId);
-
-
-
-                if (newOrderDetail == null)
+                order = new Order
                 {
-                    newOrderDetail = new OrderDetail()
+                    IsFinally = false,
+                    OrderSum = product.Price,
+                    RegisterDate = DateTime.Now,
+                    UserId = userId,
+                    OrderDetails = new List<OrderDetail>()
                     {
-                        ProductId = productId,
-                        Title = product.Title,
-                        Count = 1,
-                        RegisterDate = DateTime.Now,
-                        Price = product.Price,
-                        OrderId = order.OrderId,
-                    };
-                    order.OrderSum += newOrderDetail.Price;
-
-                    _context.Add(newOrderDetail);
-                    _context.SaveChanges();
-                    _context.Update(order);
-                }
-
-                else
-                {
-                    newOrderDetail.Count++;
-                    order.OrderSum += newOrderDetail.Price;
-                 
-                    _context.Update(order);
-                    _context.SaveChanges();
-
-                }
+                        new OrderDetail
+                        {
+                            Price = product.Price,
+                            ProductId = productId,
+                            RegisterDate = DateTime.Now,
+                            Title = product.Title,
+                            Count = 1,
+                        }
+                    }
+                };
+                _context.Add(order);
             }
             else
             {
-                order = CreateOrder(userId);
-                order.OrderSum = product.Price;
-                newOrderDetail = new OrderDetail()
-                {
-                    ProductId = productId,
-                    Title= product.Title,
-                    Count = 1,
-                    RegisterDate = DateTime.Now,
-                    Price = product.Price,
-                    OrderId = order.OrderId,
+                var orderDetail = _context.OrderDetails.FirstOrDefault(o => o.ProductId == productId && o.OrderId == order.OrderId);
 
-                };
-                
-                _context.Add(newOrderDetail);
-                _context.SaveChanges();
+                if(orderDetail != null)
+                {
+                    orderDetail.Count++;
+                    order.OrderDetails.Add(orderDetail);
+
+                }
+                else
+                {
+                    _context.OrderDetails.Add(new OrderDetail
+                    {
+                        OrderId = order.OrderId,
+                        Price = product.Price,
+                        ProductId = productId,
+                        RegisterDate = DateTime.Now,
+                        Title = product.Title,
+                        Count = 1,
+                    });
+                }
+                order.OrderSum += product.Price;
+                _context.Update(order);
+
             }
+            _context.SaveChanges();
         }
 
         public Order GetOrder(int orderId)
@@ -96,29 +92,7 @@ namespace Cms.Core.Services
             return _context.OrderDetails.Where(o => o.OrderId == orderId).ToList();
         }
 
-        public OrderDetail GetOrderDetailInOpenOrder(int orderId,int productId)
-        {
-         
-            return _context.OrderDetails.SingleOrDefault(o => o.OrderId == orderId && o.ProductId == productId);
-        }
-
-        public Order CreateOrder(int userId)
-        {
-            var newOrder = new Order
-            {
-                UserId = userId,
-                RegisterDate = DateTime.Now,
-                IsFinally = false,
-            };
-
-            var order = _context.Add(newOrder);
-            _context.SaveChanges();
-
-            return order.Entity;
-        }
-
         public Order GetOpenOrder(int userId) => _context.Orders.SingleOrDefault(o => o.UserId == userId && o.IsFinally == false);
-
 
         public IEnumerable<UserOrderDto> GetOrdersForUser(int userId)
         {
