@@ -1,13 +1,8 @@
 ﻿using Cms.Core.DTOs.UserPanel;
-using Cms.Core.FileManager;
 using Cms.Core.Services.Abstractions;
 using Cms.DataLayer.Context;
 using Cms.DataLayer.Entities.Shop;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Cms.Core.Services
 {
@@ -127,7 +122,7 @@ namespace Cms.Core.Services
 
         public IEnumerable<UserOrderDto> GetOrdersForUser(int userId)
         {
-            return _context.Orders.Where(o => o.UserId == userId).OrderBy(o => o.IsFinally).Select(u => new UserOrderDto()
+            return _context.Orders.Where(o => o.UserId == userId).OrderBy(o => o.RegisterDate).Select(u => new UserOrderDto()
             {
                 RegisterDate = u.RegisterDate,
                 IsFinally = u.IsFinally,

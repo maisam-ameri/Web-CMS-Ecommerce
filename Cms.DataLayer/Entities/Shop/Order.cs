@@ -27,5 +27,6 @@ namespace Cms.DataLayer.Entities.Shop
         public bool IsFinally { get; set; }
 
         public List<OrderDetail> OrderDetails { get; set; }
+        public User User { get; set; }
     }
 }
