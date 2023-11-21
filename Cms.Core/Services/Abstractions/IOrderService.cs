@@ -15,5 +15,6 @@ namespace Cms.Core.Services.Abstractions
         public List<OrderDetail> GetOrderDetailsInOpenOrder(int orderId);
         IEnumerable<UserOrderDto> GetOrdersForUser(int userId);
         Order GetOrder(int orderId);
+        void DeleteOrder(int orderId);
     }
 }

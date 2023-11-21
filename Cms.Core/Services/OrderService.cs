@@ -104,5 +104,20 @@ namespace Cms.Core.Services
                 DetailOrderCount = u.OrderDetails.Count()
             });
         }
+
+        public void DeleteOrder(int orderId)
+        {
+            _context.OrderDetails.ToList().RemoveAll(o => o.OrderId == orderId);
+
+            var order = _context.Orders.SingleOrDefault(o => o.OrderId == orderId);
+
+            if (order != null)
+            {
+                _context.Orders.Remove(order);
+            }
+            _context.SaveChanges();
+        }
+
+
     }
 }

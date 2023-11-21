@@ -136,9 +136,13 @@ namespace Cms.Web.Areas.UserPanel.Controllers
         }
 
 
+        [Route("UserPanel/DeleteOrder/{orderId}")]
+        public IActionResult DeleteOrder(int orderId)
+        {
+            _orderService.DeleteOrder(orderId);
 
-
-
+            return RedirectToAction("UserOrders");
+        }
 
 
         #endregion
