@@ -19,6 +19,7 @@ namespace Cms.Core.Services.Abstractions
         void DeleteUser(int userId);
         User LoginUser(LoginDto login);
         User GetUserById(int userId);
+        int GetCurrentUserIdByUserName(string userName);
         User GetUserByEmail(string email);
         User GetUserByUserName(string username);
         User GetUserByActiveCode(string activeCode);

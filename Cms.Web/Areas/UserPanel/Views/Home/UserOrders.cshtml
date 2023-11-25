@@ -4,6 +4,15 @@
     ViewData["Title"] = "فاکتورهای من";
 }
 
+<div class="container">
+    <nav aria-label="breadcrumb">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">خانه</a></li>
+            <li class="breadcrumb-item active" aria-current="page">فاکتورها</li>
+        </ul>
+    </nav>
+</div>
+
 <main>
     <div class="container">
         <div class="user-account">
@@ -42,9 +51,9 @@
                                                                     @if (!item.IsFinally)
                                                                     {
                                                                         <a asp-area="UserPanel" asp-action="PayOrder" asp-route-orderId="@item.OrderId" class="btn btn-success btn-sm">پرداخت</a>
+                                                                        <button class="btn btn-danger btn-sm" onclick="deleteOrder(@item.OrderId)" id="deleteOrderBtn" deleteOrderBtn data-id="@item.OrderId">حذف</button>
                                                                     }
                                                                     <a asp-area="UserPanel" asp-action="UserOrderDetails" asp-route-orderId="@item.OrderId" class="btn btn-warning btn-sm">مشاهده</a>
-                                                                    <a asp-area="UserPanel" asp-action="DeleteOrder" asp-route-orderId="@item.OrderId" class="btn btn-danger btn-sm">حذف</a>
                                                                 </td>
 
                                                             </tr>
@@ -73,3 +82,31 @@
     </div>
 </main>
 
+<!-- Modal -->
+<div class="modal" id="deleteOrderModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel"></h4>
+            </div>
+            <div class="modal-body" id="modalBody">
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- End Modal -->
+@section Scripts{
+    <script>
+        function deleteOrder(orderId) {
+            console.log(orderId);
+            $.get('/UserPanel/DeleteOrder/' + orderId, function (result) {
+                $('#deleteOrderModal').modal();
+                $('#myModalLabel').html('حذف فاکتور');
+                $('#modalBody').html(result);
+            });
+        }
+
+    </script>
+}

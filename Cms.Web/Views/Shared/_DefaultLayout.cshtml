@@ -18,7 +18,7 @@
                     <div class="col-sm-6 col-xs-12">
                         <ul>
                             <li>
-                                <a href=""> همکاری در فروش </a>
+                                <a href="/shop"> فروشگاه</a>
                                 <a href=""> درباره ما </a>
                                 <a href=""> تماس با ما </a>
                             </li>
@@ -30,7 +30,7 @@
                             {
                                 <div class="loggein">
                                     <i class="zmdi zmdi-account"></i><a href="/UserPanel"> @User.Identity.Name ، خوش آمدی </a>
-                                     /
+                                    /
                                     <i class="zmdi zmdi-account"></i><a href="/admin/users"> پنل مدیریت </a>
                                     /
                                     <a href="/Logout"> خروج </a>
@@ -55,7 +55,7 @@
     </div>
 
     <!-- main manu -->
-   @await Component.InvokeAsync("CategoryComponent")
+    @await Component.InvokeAsync("CategoryComponent")
     <!-- /main manu -->
     <!-- content -->
     <main id="home-page">
@@ -67,12 +67,19 @@
     <partial name="_Footer" />
     <!-- /footer -->
 
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/script.js"></script>
+    <!-- Scripts -->
+    <script src="~/js/jquery.min.js"></script>
+    <script src="~/js/jquery.unobtrusive-ajax.min.js"></script>
     <script src="~/js/jquery.validate.min.js"></script>
     <script src="~/js/jquery.validate.unobtrusive.js"></script>
-
+    <script src="~/js/bootstrap.min.js"></script>
+    <script src="~/js/script.js"></script>
+    @* <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-modal/2.2.5/js/bootstrap-modal.js"></script> *@
+    <script src="~/js/modal.js"></script>
     @RenderSection("Scripts",false)
+    <!-- End Scripts -->
+
+
 </body>
 </html>
 

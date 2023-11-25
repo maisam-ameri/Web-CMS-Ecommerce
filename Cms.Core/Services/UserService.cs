@@ -163,6 +163,11 @@ namespace Cms.Core.Services
             return user.Password == password? true : false;
         }
 
+        public int GetCurrentUserIdByUserName(string username)
+        {
+            return GetUserByUserName(username).Id;
+        }
+
 
 
 

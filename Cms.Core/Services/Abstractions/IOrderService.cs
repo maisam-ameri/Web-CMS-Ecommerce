@@ -10,11 +10,22 @@ namespace Cms.Core.Services.Abstractions
 {
     public interface IOrderService
     {
-        void AddOrderDetail(int userId, int productId);
+        #region Order
         public Order GetOpenOrder(int userId);
-        public List<OrderDetail> GetOrderDetailsInOpenOrder(int orderId);
-        IEnumerable<UserOrderDto> GetOrdersForUser(int userId);
         Order GetOrder(int orderId);
+        IEnumerable<UserOrderDto> GetOrdersForUser(int userId);
         void DeleteOrder(int orderId);
+        public int? GetOrderIdByOrderDetailId(int orderdetailId);
+        #endregion
+
+        #region OrderDetail
+        void AddOrderDetail(int userId, int productId);
+        OrderDetail? GetOrderDetailInOpenOrder(int userId, int orderDetailId);
+        public List<OrderDetail> GetOrderDetailsInOpenOrder(int orderId);
+        public int? DeleteOrderDetail(int userId,int orderDetailId);
+
+
+        #endregion
+
     }
 }

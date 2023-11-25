@@ -1,0 +1,14 @@
+﻿@model int
+<div>
+
+    <h3>
+        آیا از حذف این فاکتور مطمئن هستید؟
+    </h3>
+
+    <form asp-area="UserPanel" asp-action="DeleteOrderPost" method="post">
+        <div class="col-md-7 col-sm-8 col-xs-12 input-group">
+            <button class="btn btn-danger"  asp-route-orderId="@Model"> حذف </button>
+        </div>
+
+    </form>
+</div>

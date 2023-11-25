@@ -1,6 +1,7 @@
 ﻿using Cms.Core.DTOs.UserPanel;
 using Cms.Core.Services.Abstractions;
 using Cms.DataLayer.Context;
+using Cms.DataLayer.Entities;
 using Cms.DataLayer.Entities.Shop;
 
 
@@ -56,7 +57,7 @@ namespace Cms.Core.Services
             {
                 var orderDetail = _context.OrderDetails.FirstOrDefault(o => o.ProductId == productId && o.OrderId == order.OrderId);
 
-                if(orderDetail != null)
+                if (orderDetail != null)
                 {
                     orderDetail.Count++;
                     order.OrderDetails.Add(orderDetail);
@@ -85,6 +86,12 @@ namespace Cms.Core.Services
         {
             return _context.Orders.SingleOrDefault(o => o.OrderId == orderId);
         }
+        public int? GetOrderIdByOrderDetailId(int orderdetailId)
+        {
+            var orderDetail = _context.OrderDetails.FirstOrDefault(o => o.OrderDetailId == orderdetailId);
+            if (orderDetail != null) return orderDetail.OrderId;
+            return null;
+        }
 
         public List<OrderDetail> GetOrderDetailsInOpenOrder(int orderId)
         {
@@ -96,7 +103,7 @@ namespace Cms.Core.Services
 
         public IEnumerable<UserOrderDto> GetOrdersForUser(int userId)
         {
-            return _context.Orders.Where(o => o.UserId == userId).OrderBy(o => o.RegisterDate).Select(u => new UserOrderDto()
+            return _context.Orders.Where(o => o.UserId == userId).OrderByDescending(o => o.RegisterDate).Select(u => new UserOrderDto()
             {
                 RegisterDate = u.RegisterDate,
                 IsFinally = u.IsFinally,
@@ -118,6 +125,53 @@ namespace Cms.Core.Services
             _context.SaveChanges();
         }
 
+        public int? DeleteOrderDetail(int userId,int orderDetailId)
+        {
+            var order = GetOpenOrder(userId);
+            var orderDetail = _context.OrderDetails.FirstOrDefault(o => o.OrderDetailId == orderDetailId && o .OrderId == order.OrderId);
 
+            if (orderDetail != null)
+            {
+                if (orderDetail.Count > 1)
+                {
+                    orderDetail.Count--;
+                    _context.Update(orderDetail);
+                }
+                else
+                {
+                    // if the order dosnt have any orderDetails , so delete the order
+                    if (_context.OrderDetails.Where(o => o.OrderId == order.OrderId).Count() > 1)
+                    {
+                        _context.Remove(orderDetail);
+                    }
+                    else
+                    {
+                        _context.Remove(orderDetail);
+                        DeleteOrder(order.OrderId);
+                        return null;
+                    }
+                }
+                _context.SaveChanges();
+                return order.OrderId;
+
+            }
+
+            return null;
+
+
+        }
+
+        public OrderDetail? GetOrderDetailInOpenOrder(int userId, int orderDetailId)
+        {
+            var order = GetOpenOrder(userId);
+            if (order != null)
+            {
+                var orderDetail = _context.OrderDetails.FirstOrDefault(o => o.OrderId == order.OrderId && o.OrderDetailId == orderDetailId);
+                
+                if (orderDetail != null) return orderDetail;
+            }
+
+            return null;
+        }
     }
 }

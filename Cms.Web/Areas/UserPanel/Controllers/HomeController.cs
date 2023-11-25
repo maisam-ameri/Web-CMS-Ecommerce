@@ -4,6 +4,7 @@ using Cms.Core.FileManager;
 using Cms.Core.Security;
 using Cms.Core.Services;
 using Cms.Core.Services.Abstractions;
+using Cms.DataLayer.Entities.Shop;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Build.Framework;
 using System.Drawing.Imaging;
@@ -22,7 +23,7 @@ namespace Cms.Web.Areas.UserPanel.Controllers
 
         private const string AVATAR_PATH = "images/user/avatar/";
 
-        public HomeController(IUserService userService, IWebHostEnvironment webHostEnvironment,IOrderService orderService, ImageManager imageManager)
+        public HomeController(IUserService userService, IWebHostEnvironment webHostEnvironment, IOrderService orderService, ImageManager imageManager)
         {
             _userService = userService;
             _orderService = orderService;
@@ -92,7 +93,7 @@ namespace Cms.Web.Areas.UserPanel.Controllers
         [HttpPost]
         public IActionResult EditPassword(EditPasswordDto editPassword)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return View(editPassword);
             }
@@ -102,7 +103,7 @@ namespace Cms.Web.Areas.UserPanel.Controllers
 
 
 
-            if(isPasswordCorrect)
+            if (isPasswordCorrect)
             {
                 var user = _userService.GetUserByUserName(User.Identity.Name);
                 user.Password = PasswordHash.EncodePasswordMd5(editPassword.NewPassword);
@@ -117,7 +118,7 @@ namespace Cms.Web.Areas.UserPanel.Controllers
         #endregion
 
         #region Orders
-        
+
         [Route("UserPanel/UserOrders")]
         public IActionResult UserOrders()
         {
@@ -139,12 +140,50 @@ namespace Cms.Web.Areas.UserPanel.Controllers
         [Route("UserPanel/DeleteOrder/{orderId}")]
         public IActionResult DeleteOrder(int orderId)
         {
-            _orderService.DeleteOrder(orderId);
+            return PartialView("_DeleteOrder", orderId);
+        }
 
-            return RedirectToAction("UserOrders");
+        [HttpPost]
+        [Route("UserPanel/DeleteOrder/{orderId}")]
+        public IActionResult DeleteOrderPost(int orderId)
+        {
+            _orderService.DeleteOrder(orderId);
+            return RedirectToAction(nameof(UserOrders));
         }
 
 
+
+        [Route("UserPanel/DeleteOrderDetail/{orderDetailId}")]
+        public IActionResult DeleteOrderDetail(int orderDetailId)
+        {
+            var userId = _userService.GetCurrentUserIdByUserName(User.Identity.Name);
+
+            var orderDetail = _orderService.GetOrderDetailInOpenOrder(userId, orderDetailId);
+
+            var data = Tuple.Create(orderDetail.OrderDetailId, orderDetail.Title);
+
+            return PartialView("_DeleteOrderDetail", data);
+        }
+
+        [HttpPost]
+        [Route("UserPanel/DeleteOrderDetail/{orderDetailId}")]
+        public IActionResult DeleteOrderDetailPost(int orderDetailId)
+        {
+            var userId = _userService.GetCurrentUserIdByUserName(User.Identity.Name);
+            var orderId = _orderService.DeleteOrderDetail(userId, orderDetailId);
+
+            if (orderId == null)
+            {
+                return RedirectToAction(nameof(UserOrders));
+            }
+
+            return RedirectToAction(nameof(UserOrderDetails), new { orderId });
+
+
+
+        }
+
         #endregion
+
     }
 }
