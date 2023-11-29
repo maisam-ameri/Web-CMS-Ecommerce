@@ -4,10 +4,13 @@ using Cms.Core.FileManager;
 using Cms.Core.Security;
 using Cms.Core.Services;
 using Cms.Core.Services.Abstractions;
+using Cms.DataLayer.Entities;
 using Cms.DataLayer.Entities.Shop;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Build.Framework;
 using System.Drawing.Imaging;
+using System.Security.Policy;
 using System.Text;
 
 namespace Cms.Web.Areas.UserPanel.Controllers
@@ -20,6 +23,7 @@ namespace Cms.Web.Areas.UserPanel.Controllers
         private IOrderService _orderService;
         private IWebHostEnvironment _webHostEnvironment;
         private ImageManager _imageManager;
+
 
         private const string AVATAR_PATH = "images/user/avatar/";
 

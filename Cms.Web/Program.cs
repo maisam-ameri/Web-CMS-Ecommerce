@@ -20,6 +20,7 @@ builder.Services.AddAntiforgery(options =>
     options.SuppressXFrameOptionsHeader = false;
 });
 #endregion
+
 #region Hangfire
 builder.Services.AddHangfire(x => x.UseSqlServerStorage(builder.Configuration.GetConnectionString("HangfireConnection")));
 builder.Services.AddHangfireServer();

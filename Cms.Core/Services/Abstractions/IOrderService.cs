@@ -16,6 +16,7 @@ namespace Cms.Core.Services.Abstractions
         IEnumerable<UserOrderDto> GetOrdersForUser(int userId);
         void DeleteOrder(int orderId);
         public int? GetOrderIdByOrderDetailId(int orderdetailId);
+        public void UpdateOrder(Order order);
         #endregion
 
         #region OrderDetail

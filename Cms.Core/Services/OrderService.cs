@@ -173,5 +173,12 @@ namespace Cms.Core.Services
 
             return null;
         }
+
+        public void UpdateOrder(Order order)
+        {
+            if (order == null) return;
+            _context.Update(order);
+            _context.SaveChanges();
+        }
     }
 }
