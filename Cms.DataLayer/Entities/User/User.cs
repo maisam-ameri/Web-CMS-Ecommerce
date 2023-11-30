@@ -70,5 +70,6 @@ namespace Cms.DataLayer.Entities
 
         public virtual List<UserRole> UserRoles { get; set; }
         public List<Order> Orders { get; set; }
+        public List<DiscountCode> DiscountCodes{ get; set; }
     }
 }

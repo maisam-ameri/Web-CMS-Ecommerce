@@ -8,8 +8,8 @@ namespace Cms.Web.Areas.UserPanel.Controllers
     {
         private IOrderService _orderService;
         private IUserService _userService;
-        private const string PAYMENT_REQUEST_CALLBACK_URL = "http://localhost:5186/userPanel/RequestCallback";
 
+        private const string PAYMENT_REQUEST_CALLBACK_URL = "http://localhost:5186/userPanel/RequestCallback";
         private string ZARIN_URL => "https://sandbox.zarinpal.com/pg/StartPay";
 
 

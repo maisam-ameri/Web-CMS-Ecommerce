@@ -22,6 +22,15 @@ namespace Cms.DataLayer.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            var cascadeFKs = modelBuilder.Model.GetEntityTypes()
+        .SelectMany(t => t.GetForeignKeys())
+        .Where(fk => !fk.IsOwnership && fk.DeleteBehavior == DeleteBehavior.Cascade);
+
+            foreach (var fk in cascadeFKs)
+                fk.DeleteBehavior = DeleteBehavior.Restrict;
+
+
+
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<User>().HasQueryFilter(u => !u.IsDeleted);
             modelBuilder.Entity<Role>().HasQueryFilter(r => !r.IsDelete);
@@ -31,6 +40,8 @@ namespace Cms.DataLayer.Context
             modelBuilder.Entity<Cms.DataLayer.Entities.Content.Category>().HasQueryFilter(c => !c.IsDeleted);
 
             modelBuilder.Entity<BaseContent>().HasQueryFilter(c => !c.IsDeleted);
+
+ 
         }
 
         #region User
@@ -51,6 +62,8 @@ namespace Cms.DataLayer.Context
         public DbSet<Product> Products { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
+        public DbSet<Discount> Discounts { get; set; }
+        public DbSet<DiscountCode> DiscountCodes { get; set; }
 
         #endregion
 

@@ -17,6 +17,9 @@ namespace Cms.DataLayer.Entities.Shop
         }
         [Key]
         public int ProductId { get; set; }
+        public int? CategoryId { get; set; }
+        public int? DiscountId { get; set; }
+
         [Display(Name ="عنوان")]
         [Required(ErrorMessage ="لطفا {0} را وارد کنید")]
         [MaxLength(200, ErrorMessage ="{0} نمیتواند بیستر از {1} باشد")]
@@ -36,16 +39,14 @@ namespace Cms.DataLayer.Entities.Shop
         public string? Tags { get; set; }
         [Display(Name = "تصویر")]
         public string? Image { get; set; }
-
         public int Price { get; set; }
-
         public DateTime RegisterDate { get; set; }
 
 
-
-        public int? CategoryId { get; set; }
-
         [ForeignKey(nameof(CategoryId))]
         public Category? Category { get; set; }
+        
+        //[ForeignKey(nameof(DiscountId))]
+        public Discount Discount { get; set; }
     }
 }
