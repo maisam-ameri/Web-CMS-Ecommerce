@@ -1,5 +1,7 @@
 ﻿@page
+@using Cms.Core.Convertors
 @model Cms.Web.Pages.Admin.Shop.Discount.IndexModel
+
 @{
     ViewData["Title"] = "لیست تخفیف ها";
     var discounts = ViewData["discounts"] as List<Cms.DataLayer.Entities.Shop.Discount>;
@@ -29,16 +31,16 @@
                                 <a asp-page="CreateProduct" class="btn btn-outline btn-success">افزودن تخفیف</a>
                             </div>
                         </div>
-                        @if (discounts != null)
+                        @if (discounts?.Count != 0)
                         {
 
                             <table class="table table-striped table-bordered table-hover dataTable no-footer" id="dataTables-example" aria-describedby="dataTables-example_info">
                                 <thead>
                                     <tr role="row">
-                                        <th style="width: 219px;">عنوان تخفیف</th>
-                                        <th style="width: 219px;">درصد تخفیف</th>
-                                        <th style="width: 101px;">تاریخ شروع</th>
-                                        <th style="width: 101px;">تاریخ پایان</th>
+                                        <th style="width: 280px;">عنوان </th>
+                                        <th style="width: 60px;">تخفیف</th>
+                                        <th style="width: 200px;">تاریخ شروع</th>
+                                        <th style="width: 200px;">تاریخ پایان</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -47,9 +49,9 @@
 
                                         <tr class="gradeA odd">
                                             <td class="sorting_1">@item.Title</td>
-                                            <td class="sorting_1">@item.Amount</td>
-                                            <td class="sorting_1">@item.StartDate</td>
-                                            <td class="sorting_1">@item.EndDate</td>
+                                            <td class="sorting_1">@(item.Amount)% </td>
+                                            <td class="sorting_1">@item.StartDate.MiladiToShamsi() </td>
+                                            <td class="sorting_1">@item.EndDate.MiladiToShamsi()</td>
                                             <td>
                                                 <a asp-page="EditDiscount" asp-route-id="@item.DiscountId" class="btn btn-warning btn-sm">ویرایش</a>
                                                 <a asp-page="DeleteDiscount" asp-route-id="@item.DiscountId" class="btn btn-danger btn-sm">حذف</a>
