@@ -34,15 +34,15 @@
                         <label>محصولات</label>
                         @if (products!= null)
                         {
-@*                             <select class="form-control" id="products" asp-items=@products name="selectedProduct">
-                            </select>
- *@
-                            <select class="form-select" multiple aria-label="multiple select example" asp-items=@products name="selectedProducts">
-               @*                  <option selected>Open this select menu</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option> *@
-                            </select>
+
+                  @*           <select class="form-select" multiple aria-label="multiple select example" asp-items=@products name="selectedProducts">
+           
+                            </select> *@
+
+                                <select class="form-control" multiple aria-label="multiple select example" asp-items=@products name="selectedProducts">
+                     
+                                </select>
+
 
                         }
                         else

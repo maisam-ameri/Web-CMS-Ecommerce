@@ -103,7 +103,7 @@ namespace Cms.Core.Services
 
         public IEnumerable<SelectListItem> GetProductsForSelectList()
         {
-            return _context.Products.Select(p => new SelectListItem
+            return _context.Products.Where(p=> p.DiscountId == null).Select(p => new SelectListItem
             {
                 Value = p.ProductId.ToString(),
                 Text = p.Title

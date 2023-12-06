@@ -27,6 +27,10 @@ namespace Cms.Core.Services
         {
             return _context.Discounts;
         }
+        public Discount GetDiscount(int discountId)
+        {
+            return _context.Discounts.SingleOrDefault(d => d.DiscountId == discountId);
+        }
 
         public void CreateDiscount(DiscountDto discount)
         {
@@ -36,31 +40,60 @@ namespace Cms.Core.Services
                 Amount = discount.Amount,
                 StartDate = discount.StartDate,
                 EndDate = discount.EndDate,
-                    
+
             };
 
             var entity = _context.Discounts.Add(newdiscount);
             _context.SaveChanges();
             discount.DiscountId = entity.Entity.DiscountId;
-            AssigDiscountToProducts(discount);
+
+            var productIds = GetSplitedProductIds(discount.ProductIds);
+            ExecuteActionOnProducts(productIds, (product) =>
+            {
+                if (product != null)
+                {
+                    product.DiscountId = discount.DiscountId;
+                    _context.Update(product);
+                }
+            });
+
             _context.SaveChanges();
         }
 
-        public Task AssigDiscountToProducts(DiscountDto discount)
+        private Task ExecuteActionOnProducts(List<int>? productIds, Action<Product> action)
         {
-            List<int> productIdsToInt = new List<int>();
-             discount.ProductIds.Split(',').ToList().ForEach(i => productIdsToInt.Add(int.Parse(i)));
-
-            foreach (var productId in productIdsToInt)
+            foreach (var productId in productIds)
             {
                 var product = _context.Products.SingleOrDefault(p => p.ProductId == productId);
-                product.DiscountId = discount.DiscountId;
-                _context.Update(product);
-
-
+                action(product);
             }
-   
-            return Task.FromResult(productIdsToInt);
+
+            return Task.FromResult(productIds);
         }
+        private List<int>? GetSplitedProductIds(string? productIds)
+        {
+            var productIdsToInt = new List<int>();
+            productIds.Split(',').ToList().ForEach(i => productIdsToInt.Add(int.Parse(i)));
+            return productIdsToInt;
+        }
+
+        public void DeleteDiscount(int discountId)
+        {
+            List<int>? products = _context.Products.Where(p => p.DiscountId == discountId).Select(p => p.ProductId).ToList();
+            //var productIds = GetSplitedProductIds(discountId);
+            ExecuteActionOnProducts(products, (product) =>
+            {
+                product.DiscountId = null;
+                _context.Update(product);
+            });
+
+            var discountForDelete = _context.Discounts.SingleOrDefault(d => d.DiscountId == discountId);
+
+            if(discountForDelete!= null)
+                _context.Discounts.Remove(discountForDelete);
+
+            _context.SaveChanges();
+        }
+
     }
 }
