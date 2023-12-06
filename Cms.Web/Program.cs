@@ -72,7 +72,7 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Error");
 }
 app.UseStaticFiles();
-app.UseHangfireDashboard();
+app.UseHangfireDashboard("/hangfire");
 app.UseRouting();
 
 app.UseAuthentication();
