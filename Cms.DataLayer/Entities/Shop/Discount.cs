@@ -34,6 +34,9 @@ namespace Cms.DataLayer.Entities.Shop
         [Display(Name ="تاریخ پایان")]
         [Required(ErrorMessage ="لطفا {0} را وارد کنید")]
         public DateTime EndDate { get; set; }
+        
+        [Required]
+        public bool IsActive { get; set; }
 
 
         public List<Product> Products { get; set; }
