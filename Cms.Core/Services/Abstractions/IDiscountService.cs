@@ -1,4 +1,5 @@
-﻿using Cms.DataLayer.Entities.Shop;
+﻿using Cms.Core.DTOs.Shop;
+using Cms.DataLayer.Entities.Shop;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,5 +12,8 @@ namespace Cms.Core.Services.Abstractions
     {
 
         IEnumerable<Discount> GetDiscounts();
+
+        public void CreateDiscount(DiscountDto discount);
+
     }
 }

@@ -101,6 +101,15 @@ namespace Cms.Core.Services
             return _context.Products.ToList();
         }
 
+        public IEnumerable<SelectListItem> GetProductsForSelectList()
+        {
+            return _context.Products.Select(p => new SelectListItem
+            {
+                Value = p.ProductId.ToString(),
+                Text = p.Title
+            });
+        }
+
 
         public Product GetProduct(int? id)
         {

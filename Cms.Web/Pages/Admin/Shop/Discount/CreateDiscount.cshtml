@@ -1,0 +1,78 @@
+﻿@page
+@model Cms.Web.Pages.Admin.Shop.Discount.CreateDiscountModel
+@{
+    ViewData["Title"] = "افزودن تخفیف جدید";
+    var products = ViewData["products"] as SelectList;
+
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">افزودن تخفیف جدید</h1>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+
+
+<div class="row">
+    @Html.AntiForgeryToken()
+    <form method="post">
+        <div class="col-md-8">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    اطلاعات تخفیف
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+
+                    <div class="form-group">
+                        <label>عنوان تخفیف</label>
+                        <input type="text" asp-for="Discount.Title" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label>محصولات</label>
+                        @if (products!= null)
+                        {
+@*                             <select class="form-control" id="products" asp-items=@products name="selectedProduct">
+                            </select>
+ *@
+                            <select class="form-select" multiple aria-label="multiple select example" asp-items=@products name="selectedProducts">
+               @*                  <option selected>Open this select menu</option>
+                                <option value="1">One</option>
+                                <option value="2">Two</option>
+                                <option value="3">Three</option> *@
+                            </select>
+
+                        }
+                        else
+                        {
+                            
+                        }
+                    </div>
+
+                    <div class="form-group">
+                        <label>درصد تخفیف</label>
+                        <input type="number" asp-for="Discount.Amount" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label>تاریخ شروع</label>
+                        <input type="date" asp-for="Discount.StartDate" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label>تاریخ پایان</label>
+                        <input type="date" asp-for="Discount.EndDate" class="form-control">
+                    </div>
+
+                    <input asp-page="CreateDiscount" type="submit" class="btn btn-success" value="افزودن" />
+
+                </div>
+
+                <!-- /.panel-body -->
+            </div>
+        </div>
+    </form>
+</div>
+

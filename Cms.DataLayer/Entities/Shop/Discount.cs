@@ -29,12 +29,10 @@ namespace Cms.DataLayer.Entities.Shop
         
         [Display(Name ="تاریخ شروع")]
         [Required(ErrorMessage ="لطفا {0} را وارد کنید")]
-        [MaxLength(200, ErrorMessage ="{0} نمیتواند بیستر از {1} باشد")]
         public DateTime StartDate { get; set; }
 
         [Display(Name ="تاریخ پایان")]
         [Required(ErrorMessage ="لطفا {0} را وارد کنید")]
-        [MaxLength(200, ErrorMessage ="{0} نمیتواند بیستر از {1} باشد")]
         public DateTime EndDate { get; set; }
 
 
