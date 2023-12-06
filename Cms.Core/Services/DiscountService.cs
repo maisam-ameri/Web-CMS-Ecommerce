@@ -3,6 +3,7 @@ using Cms.Core.FileManager;
 using Cms.Core.Services.Abstractions;
 using Cms.DataLayer.Context;
 using Cms.DataLayer.Entities.Shop;
+using Hangfire;
 using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
@@ -34,12 +35,14 @@ namespace Cms.Core.Services
 
         public void CreateDiscount(DiscountDto discount)
         {
+            var compareNowWithStartDate = DateTime.Now.CompareTo(discount.StartDate);
             var newdiscount = new Discount
             {
                 Title = discount.Title,
                 Amount = discount.Amount,
                 StartDate = discount.StartDate,
                 EndDate = discount.EndDate,
+                IsActive = (compareNowWithStartDate == 0 || compareNowWithStartDate == 1) ? true:false
 
             };
 
@@ -58,23 +61,22 @@ namespace Cms.Core.Services
             });
 
             _context.SaveChanges();
-        }
 
-        private Task ExecuteActionOnProducts(List<int>? productIds, Action<Product> action)
-        {
-            foreach (var productId in productIds)
+            if (!newdiscount.IsActive)
             {
-                var product = _context.Products.SingleOrDefault(p => p.ProductId == productId);
-                action(product);
+                var jobId = BackgroundJob.Schedule(() =>ActiveDiscountJob(discount.DiscountId), discount.StartDate);
             }
-
-            return Task.FromResult(productIds);
         }
-        private List<int>? GetSplitedProductIds(string? productIds)
+
+        public void ActiveDiscountJob(int discountId)
         {
-            var productIdsToInt = new List<int>();
-            productIds.Split(',').ToList().ForEach(i => productIdsToInt.Add(int.Parse(i)));
-            return productIdsToInt;
+            var discount = GetDiscount(discountId);
+            if (discount != null)
+            {
+                discount.IsActive = true;
+                _context.Update(discount);
+                _context.SaveChanges();
+            }
         }
 
         public void DeleteDiscount(int discountId)
@@ -94,6 +96,25 @@ namespace Cms.Core.Services
 
             _context.SaveChanges();
         }
+
+
+        private Task ExecuteActionOnProducts(List<int>? productIds, Action<Product> action)
+        {
+            foreach (var productId in productIds)
+            {
+                var product = _context.Products.SingleOrDefault(p => p.ProductId == productId);
+                action(product);
+            }
+
+            return Task.FromResult(productIds);
+        }
+        private List<int>? GetSplitedProductIds(string? productIds)
+        {
+            var productIdsToInt = new List<int>();
+            productIds.Split(',').ToList().ForEach(i => productIdsToInt.Add(int.Parse(i)));
+            return productIdsToInt;
+        }
+
 
     }
 }

@@ -32,22 +32,10 @@
 
                     <div class="form-group">
                         <label>محصولات</label>
-                        @if (products!= null)
+                        @if (products != null)
                         {
-
-                  @*           <select class="form-select" multiple aria-label="multiple select example" asp-items=@products name="selectedProducts">
-           
-                            </select> *@
-
-                                <select class="form-control" multiple aria-label="multiple select example" asp-items=@products name="selectedProducts">
-                     
-                                </select>
-
-
-                        }
-                        else
-                        {
-                            
+                            <select class="form-control" multiple aria-label="multiple select example" asp-items=@products name="selectedProducts">
+                            </select>
                         }
                     </div>
 

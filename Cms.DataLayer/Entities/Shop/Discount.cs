@@ -36,6 +36,7 @@ namespace Cms.DataLayer.Entities.Shop
         public DateTime EndDate { get; set; }
         
         [Required]
+        [Display(Name = "فعال")]
         public bool IsActive { get; set; }
 
 
