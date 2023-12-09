@@ -55,7 +55,7 @@ namespace Cms.Core.Services
 
             if (!newdiscount.IsActive)
             {
-                var jobId = BackgroundJob.Schedule(() => ActiveDiscountJob(discount.DiscountId), discount.StartDate);
+                newdiscount.JobId = BackgroundJob.Schedule(() => ActiveDiscountJob(discount.DiscountId), discount.StartDate);
             }
         }
 
@@ -65,6 +65,7 @@ namespace Cms.Core.Services
             if (discount != null)
             {
                 discount.IsActive = true;
+                discount.JobId = null;
                 _context.Update(discount);
                 _context.SaveChanges();
             }
@@ -72,12 +73,18 @@ namespace Cms.Core.Services
 
         public void DeleteDiscount(int discountId)
         {
+            var discount = GetDiscount(discountId);
+
             RemoveDiscountOfProduct(discountId);
 
             var discountForDelete = _context.Discounts.SingleOrDefault(d => d.DiscountId == discountId);
 
             if (discountForDelete != null)
                 _context.Discounts.Remove(discountForDelete);
+            
+            if(!string.IsNullOrEmpty( discount.JobId))
+                BackgroundJob.Delete(discount.JobId);
+
 
             _context.SaveChanges();
         }
@@ -134,9 +141,17 @@ namespace Cms.Core.Services
             var compareNowWithStartDate = DateTime.Now.CompareTo(discount.StartDate);
             var IsActive = (compareNowWithStartDate == 0 || compareNowWithStartDate == 1) ? true : false;
             discount.IsActive = IsActive;
+
+            if (!string.IsNullOrEmpty(discount.JobId))
+                BackgroundJob.Delete(discount.JobId);
+
             if (!discount.IsActive)
             {
-                var jobId = BackgroundJob.Schedule(() => ActiveDiscountJob(discount.DiscountId), discount.StartDate);
+                discount.JobId = BackgroundJob.Schedule(() => ActiveDiscountJob(discount.DiscountId), discount.StartDate);
+            }
+            else
+            {
+                discount.JobId = null;
             }
 
             _context.Update(discount);

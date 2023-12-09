@@ -19,6 +19,7 @@
     @Html.AntiForgeryToken()
     <form method="post">
         <input type="hidden" asp-for="Discount.DiscountId" />
+        <input type="hidden" asp-for="Discount.JobId" />
         <div class="col-md-8">
             <div class="panel panel-primary">
                 <div class="panel-heading">

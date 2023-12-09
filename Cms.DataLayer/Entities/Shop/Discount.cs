@@ -39,6 +39,8 @@ namespace Cms.DataLayer.Entities.Shop
         [Display(Name = "فعال")]
         public bool IsActive { get; set; }
 
+        public string? JobId { get; set; }
+
 
         public List<Product>? Products { get; set; }
     }
