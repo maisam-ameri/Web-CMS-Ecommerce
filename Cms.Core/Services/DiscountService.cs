@@ -42,29 +42,20 @@ namespace Cms.Core.Services
                 Amount = discount.Amount,
                 StartDate = discount.StartDate,
                 EndDate = discount.EndDate,
-                IsActive = (compareNowWithStartDate == 0 || compareNowWithStartDate == 1) ? true:false
+                IsActive = (compareNowWithStartDate == 0 || compareNowWithStartDate == 1) ? true : false
 
             };
 
             var entity = _context.Discounts.Add(newdiscount);
             _context.SaveChanges();
             discount.DiscountId = entity.Entity.DiscountId;
-
-            var productIds = GetSplitedProductIds(discount.ProductIds);
-            ExecuteActionOnProducts(productIds, (product) =>
-            {
-                if (product != null)
-                {
-                    product.DiscountId = discount.DiscountId;
-                    _context.Update(product);
-                }
-            });
+            UpdateDiscountInProduct(newdiscount, discount.ProductIds);
 
             _context.SaveChanges();
 
             if (!newdiscount.IsActive)
             {
-                var jobId = BackgroundJob.Schedule(() =>ActiveDiscountJob(discount.DiscountId), discount.StartDate);
+                var jobId = BackgroundJob.Schedule(() => ActiveDiscountJob(discount.DiscountId), discount.StartDate);
             }
         }
 
@@ -81,6 +72,18 @@ namespace Cms.Core.Services
 
         public void DeleteDiscount(int discountId)
         {
+            RemoveDiscountOfProduct(discountId);
+
+            var discountForDelete = _context.Discounts.SingleOrDefault(d => d.DiscountId == discountId);
+
+            if (discountForDelete != null)
+                _context.Discounts.Remove(discountForDelete);
+
+            _context.SaveChanges();
+        }
+
+        private void RemoveDiscountOfProduct(int discountId)
+        {
             List<int>? products = _context.Products.Where(p => p.DiscountId == discountId).Select(p => p.ProductId).ToList();
             //var productIds = GetSplitedProductIds(discountId);
             ExecuteActionOnProducts(products, (product) =>
@@ -88,13 +91,6 @@ namespace Cms.Core.Services
                 product.DiscountId = null;
                 _context.Update(product);
             });
-
-            var discountForDelete = _context.Discounts.SingleOrDefault(d => d.DiscountId == discountId);
-
-            if(discountForDelete!= null)
-                _context.Discounts.Remove(discountForDelete);
-
-            _context.SaveChanges();
         }
 
 
@@ -115,6 +111,41 @@ namespace Cms.Core.Services
             return productIdsToInt;
         }
 
+        private void UpdateDiscountInProduct(Discount discount, string? productIds)
+        {
+            var productIdsToInt = GetSplitedProductIds(productIds);
+            ExecuteActionOnProducts(productIdsToInt, (product) =>
+            {
+                if (product != null)
+                {
+                    product.DiscountId = discount.DiscountId;
+                    _context.Update(product);
+                }
+            });
+        }
 
+        public void UpdateDiscount(Discount discount, string? productIds)
+        {
+            if (discount == null) return;
+
+            RemoveDiscountOfProduct(discount.DiscountId);
+            UpdateDiscountInProduct(discount, productIds);
+
+            var compareNowWithStartDate = DateTime.Now.CompareTo(discount.StartDate);
+            var IsActive = (compareNowWithStartDate == 0 || compareNowWithStartDate == 1) ? true : false;
+            discount.IsActive = IsActive;
+            if (!discount.IsActive)
+            {
+                var jobId = BackgroundJob.Schedule(() => ActiveDiscountJob(discount.DiscountId), discount.StartDate);
+            }
+
+            _context.Update(discount);
+            _context.SaveChanges();
+        }
+
+        public List<int>? GetDiscountProductIds(int discountId)
+        {
+            return _context.Products.Where(p => p.DiscountId == discountId).Select(d => d.ProductId).ToList();
+        }
     }
 }

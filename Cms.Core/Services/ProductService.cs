@@ -101,7 +101,7 @@ namespace Cms.Core.Services
             return _context.Products.ToList();
         }
 
-        public IEnumerable<SelectListItem> GetProductsForSelectList()
+        public IEnumerable<SelectListItem> GetProductsForDiscountCreation()
         {
             return _context.Products.Where(p=> p.DiscountId == null).Select(p => new SelectListItem
             {
@@ -109,7 +109,14 @@ namespace Cms.Core.Services
                 Text = p.Title
             });
         }
-
+        public IEnumerable<SelectListItem> GetProductsForDiscountEdition(int discountId)
+        {
+            return _context.Products.Where(p => p.DiscountId == null || p.DiscountId == discountId).Select(p => new SelectListItem
+            {
+                Value = p.ProductId.ToString(),
+                Text = p.Title
+            });
+        }
 
         public Product GetProduct(int? id)
         {

@@ -1,8 +1,9 @@
 ﻿@page
-@model Cms.Web.Pages.Admin.Shop.Discount.CreateDiscountModel
+@model Cms.Web.Pages.Admin.Shop.Discount.EditDiscountModel
 @{
-    ViewData["Title"] = "افزودن تخفیف جدید";
+    ViewData["Title"] = "ویرایش تخفیف";
     var products = ViewData["products"] as SelectList;
+    var discountProductIds = ViewData["discountProductIds"] as List<int>;
 
 }
 
@@ -17,6 +18,7 @@
 <div class="row">
     @Html.AntiForgeryToken()
     <form method="post">
+        <input type="hidden" asp-for="Discount.DiscountId" />
         <div class="col-md-8">
             <div class="panel panel-primary">
                 <div class="panel-heading">
@@ -34,7 +36,7 @@
                         <label>محصولات</label>
                         @if (products != null)
                         {
-                            <select class="form-control" multiple aria-label="multiple select example" asp-items=@products name="selectedProducts">
+                            <select id="productSelection" class="form-control" multiple aria-label="multiple select example" asp-items=@products name="selectedProducts">
                             </select>
                         }
                     </div>
@@ -54,7 +56,7 @@
                         <input type="date" asp-for="Discount.EndDate" class="form-control">
                     </div>
 
-                    <input asp-page="CreateDiscount" type="submit" class="btn btn-success" value="افزودن" />
+                    <input asp-page="EditDiscount" type="submit" class="btn btn-success" value="ویرایش" />
 
                 </div>
 
@@ -65,3 +67,28 @@
 </div>
 
 
+@section Scripts{
+
+    <script>
+
+        $(document).ready(function () {
+            highlightSelection();
+        });
+
+        function highlightSelection() {
+
+            const productSelection = document.getElementById('productSelection');
+            const options = productSelection.options;
+            var productSelected = JSON.parse('@Json.Serialize(discountProductIds)');
+         
+            for (let i = 0; i < options.length; i++) {
+                for (let k = 0; k < productSelected.length; k++) {
+                    if (productSelected[k] == options[i].value) {
+                        options[i].selected = 'true';
+                    }
+                }
+            }
+        }
+
+    </script>
+}

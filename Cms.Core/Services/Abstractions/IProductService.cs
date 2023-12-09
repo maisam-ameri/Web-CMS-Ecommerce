@@ -24,7 +24,8 @@ namespace Cms.Core.Services.Abstractions
         #region Product
 
         IEnumerable<Product> GetProducts();
-        IEnumerable<SelectListItem> GetProductsForSelectList();
+        IEnumerable<SelectListItem> GetProductsForDiscountCreation();
+        IEnumerable<SelectListItem> GetProductsForDiscountEdition(int discountId);
         Product GetProduct(int? id);
         ProductDto GetProductForEditInAdmin(int? id);
         void CreateProduct(ProductDto product);
@@ -35,7 +36,7 @@ namespace Cms.Core.Services.Abstractions
 
         #region Shop
         IEnumerable<Cms.Core.DTOs.Shop.ProductDto> GetLastProducts();
-        List<Cms.Core.DTOs.Shop.ProductDto> GetProductsForShop(int pageId = 1, string keyword="", int minPrice=0, int maxPrice = int.MaxValue, List<int>? selectedCategories =null);
+        List<Cms.Core.DTOs.Shop.ProductDto> GetProductsForShop(int pageId = 1, string keyword = "", int minPrice = 0, int maxPrice = int.MaxValue, List<int>? selectedCategories = null);
 
         int GetTotalProductPageCount();
 
