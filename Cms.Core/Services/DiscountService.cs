@@ -226,6 +226,29 @@ namespace Cms.Core.Services
                 _context.SaveChanges();
             }
         }
+        public void UpdateDiscountCode(DiscountCode discountCode)
+        {
+            if (discountCode == null) return;
+
+            var compareNowWithStartDate = DateTime.Now.CompareTo(discountCode.StartDate);
+            var IsActive = (compareNowWithStartDate == 0 || compareNowWithStartDate == 1) ? true : false;
+            discountCode.IsActive = IsActive;
+
+            if (!string.IsNullOrEmpty(discountCode.JobId))
+                BackgroundJob.Delete(discountCode.JobId);
+
+            if (!discountCode.IsActive)
+            {
+                discountCode.JobId = BackgroundJob.Schedule(() => ActiveDiscountJob(discountCode.DiscountCodeId), discountCode.StartDate);
+            }
+            else
+            {
+                discountCode.JobId = null;
+            }
+
+            _context.Update(discountCode);
+            _context.SaveChanges();
+        }
 
 
 
