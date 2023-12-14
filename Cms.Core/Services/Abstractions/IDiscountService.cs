@@ -11,11 +11,20 @@ namespace Cms.Core.Services.Abstractions
     public interface IDiscountService
     {
 
+        #region Discount
+
         IEnumerable<Discount> GetDiscounts();
         Discount GetDiscount(int discountId);
         public void CreateDiscount(DiscountDto discount);
         public void DeleteDiscount(int discountId);
         List<int>? GetDiscountProductIds(int discountId);
         void UpdateDiscount(Discount discount, string? productIds);
+
+        #endregion
+
+        #region DiscountCode
+        IEnumerable<DiscountCode> GetDiscountCodes();
+
+        #endregion
     }
 }

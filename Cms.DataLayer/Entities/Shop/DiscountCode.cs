@@ -43,6 +43,9 @@ namespace Cms.DataLayer.Entities.Shop
         [DataType(DataType.Date)]
         public DateTime EndDate { get; set; }
 
+        public string? JobId { get; set; }
+
+
         [ForeignKey("UserId")]
         public User User { get; set; }
 

@@ -23,6 +23,7 @@ namespace Cms.Core.Services
             _context = context;
         }
 
+        #region Discount
 
         public IEnumerable<Discount> GetDiscounts()
         {
@@ -32,7 +33,6 @@ namespace Cms.Core.Services
         {
             return _context.Discounts.SingleOrDefault(d => d.DiscountId == discountId);
         }
-
         public void CreateDiscount(DiscountDto discount)
         {
             var compareNowWithStartDate = DateTime.Now.CompareTo(discount.StartDate);
@@ -58,7 +58,6 @@ namespace Cms.Core.Services
                 newdiscount.JobId = BackgroundJob.Schedule(() => ActiveDiscountJob(discount.DiscountId), discount.StartDate);
             }
         }
-
         public void ActiveDiscountJob(int discountId)
         {
             var discount = GetDiscount(discountId);
@@ -70,7 +69,6 @@ namespace Cms.Core.Services
                 _context.SaveChanges();
             }
         }
-
         public void DeleteDiscount(int discountId)
         {
             var discount = GetDiscount(discountId);
@@ -99,8 +97,6 @@ namespace Cms.Core.Services
                 _context.Update(product);
             });
         }
-
-
         private Task ExecuteActionOnProducts(List<int>? productIds, Action<Product> action)
         {
             foreach (var productId in productIds)
@@ -117,7 +113,6 @@ namespace Cms.Core.Services
             productIds.Split(',').ToList().ForEach(i => productIdsToInt.Add(int.Parse(i)));
             return productIdsToInt;
         }
-
         private void UpdateDiscountInProduct(Discount discount, string? productIds)
         {
             var productIdsToInt = GetSplitedProductIds(productIds);
@@ -130,7 +125,6 @@ namespace Cms.Core.Services
                 }
             });
         }
-
         public void UpdateDiscount(Discount discount, string? productIds)
         {
             if (discount == null) return;
@@ -157,10 +151,21 @@ namespace Cms.Core.Services
             _context.Update(discount);
             _context.SaveChanges();
         }
-
         public List<int>? GetDiscountProductIds(int discountId)
         {
             return _context.Products.Where(p => p.DiscountId == discountId).Select(d => d.ProductId).ToList();
         }
+
+
+        #endregion
+
+
+        #region DiscountCode
+        public IEnumerable<DiscountCode> GetDiscountCodes()
+        {
+            return _context.DiscountCodes.ToList();
+        }
+
+        #endregion
     }
 }
