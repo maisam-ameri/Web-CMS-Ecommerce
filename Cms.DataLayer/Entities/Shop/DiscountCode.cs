@@ -17,16 +17,11 @@ namespace Cms.DataLayer.Entities.Shop
 
         [Key]
         public int DiscountCodeId { get; set; }
-        [Required]
-        public int UserId { get; set; }
-
+        
         [Display(Name = "عنوان")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
         [MaxLength(300, ErrorMessage = "{0} نمیتواند بیشتر از {1} باشد")]
         public string Title { get; set; }
-
-        [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
-        public string Code { get; set; }
 
         [Display(Name = "درصد تخفیف")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
@@ -43,11 +38,14 @@ namespace Cms.DataLayer.Entities.Shop
         [DataType(DataType.Date)]
         public DateTime EndDate { get; set; }
 
+        [Required]
+        [Display(Name = "فعال")]
+        public bool IsActive { get; set; }
+
         public string? JobId { get; set; }
 
 
-        [ForeignKey("UserId")]
-        public User User { get; set; }
+        public List<DiscountCodeUser>? DiscountCodeUsers { get; set; }
 
     }
 }

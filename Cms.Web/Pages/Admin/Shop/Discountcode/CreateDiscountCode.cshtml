@@ -1,0 +1,56 @@
+﻿@page
+@model Cms.Web.Pages.Admin.Shop.Discountcode.CreateDiscountCodeModel
+@{
+    ViewData["Title"] = "افزودن کد تخفیف جدید";
+    var users = ViewData["users"] as SelectList;
+
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">افزودن کد تخفیف جدید</h1>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+
+
+<div class="row">
+    @Html.AntiForgeryToken()
+    <form method="post">
+        <div class="col-md-8">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    اطلاعات کد تخفیف
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+
+                    <div class="form-group">
+                        <label>عنوان کد تخفیف</label>
+                        <input type="text" asp-for="DiscountCode.Title" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label>درصد تخفیف</label>
+                        <input type="number" asp-for="DiscountCode.Amount" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label>تاریخ شروع</label>
+                        <input type="date" asp-for="DiscountCode.StartDate" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label>تاریخ پایان</label>
+                        <input type="date" asp-for="DiscountCode.EndDate" class="form-control">
+                    </div>
+
+                    <input asp-page="CreateDiscountCode" type="submit" class="btn btn-success" value="افزودن" />
+
+                </div>
+
+                <!-- /.panel-body -->
+            </div>
+        </div>
+    </form>
+</div>

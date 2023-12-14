@@ -165,6 +165,53 @@ namespace Cms.Core.Services
         {
             return _context.DiscountCodes.ToList();
         }
+        public DiscountCode GetDiscountCode(int discountCodeId)
+        {
+            return _context.DiscountCodes.SingleOrDefault(d =>d.DiscountCodeId == discountCodeId);
+        }
+
+        public void CreateDiscountCode(DiscountCode discountCode)
+        {
+            if (discountCode == null) return;
+
+            var compareNowWithStartDate = DateTime.Now.CompareTo(discountCode.StartDate);
+            
+            var newdiscountCode = new DiscountCode
+            {
+                Title = discountCode.Title,
+                Amount = discountCode.Amount,
+                StartDate = discountCode.StartDate,
+                EndDate = discountCode.EndDate,
+                IsActive = (compareNowWithStartDate == 0 || compareNowWithStartDate == 1) ? true : false
+
+            };
+
+            var entity = _context.Add(newdiscountCode);
+            _context.SaveChanges();
+
+            if (!newdiscountCode.IsActive)
+            {
+                newdiscountCode.JobId = BackgroundJob.Schedule(() => ActiveDiscountCodeJob(newdiscountCode.DiscountCodeId), newdiscountCode.StartDate);
+
+                _context.Update(newdiscountCode);
+                _context.SaveChanges();
+
+            }
+
+        }
+        public void ActiveDiscountCodeJob(int discountId)
+        {
+            var discountCode = GetDiscountCode(discountId);
+            if (discountCode != null)
+            {
+                discountCode.IsActive = true;
+                discountCode.JobId = null;
+                _context.Update(discountCode);
+                _context.SaveChanges();
+            }
+        }
+
+
 
         #endregion
     }

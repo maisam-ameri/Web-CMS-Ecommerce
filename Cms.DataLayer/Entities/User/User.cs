@@ -67,9 +67,8 @@ namespace Cms.DataLayer.Entities
         public bool IsDeleted { get; set; }
 
 
-
         public virtual List<UserRole> UserRoles { get; set; }
         public List<Order> Orders { get; set; }
-        public List<DiscountCode> DiscountCodes{ get; set; }
+        public List<DiscountCodeUser>? DiscountCodeUsers{ get; set; }
     }
 }
