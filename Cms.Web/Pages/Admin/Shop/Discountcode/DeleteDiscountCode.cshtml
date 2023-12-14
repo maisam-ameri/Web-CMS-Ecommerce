@@ -1,0 +1,15 @@
+﻿@page "{id}"
+@model Cms.Web.Pages.Admin.Shop.Discountcode.DeleteDiscountCodeModel
+@{
+    ViewData["Title"] = "حذف کد تخفیف";
+}
+
+
+<div class="container alert alert-danger">
+    <p>آیا از حذف " @Model.DiscountCode.Title " مطمئن هستید ؟</p>
+    <form method="post">
+        <input type="hidden" asp-for="DiscountCode.DiscountCodeId" />
+        <input type="hidden" asp-for="DiscountCode.Title" />
+        <input type="submit" value="بلی" class="btn btn-danger" />
+    </form>
+</div>

@@ -24,7 +24,9 @@ namespace Cms.Core.Services.Abstractions
 
         #region DiscountCode
         IEnumerable<DiscountCode> GetDiscountCodes();
+        public DiscountCode GetDiscountCode(int discountCodeId);
         void CreateDiscountCode(DiscountCode discountCode);
+        void DeleteDiscountCode(int discountCodeId);
 
         #endregion
     }

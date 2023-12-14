@@ -79,8 +79,8 @@ namespace Cms.Core.Services
 
             if (discountForDelete != null)
                 _context.Discounts.Remove(discountForDelete);
-            
-            if(!string.IsNullOrEmpty( discount.JobId))
+
+            if (!string.IsNullOrEmpty(discount.JobId))
                 BackgroundJob.Delete(discount.JobId);
 
 
@@ -167,7 +167,7 @@ namespace Cms.Core.Services
         }
         public DiscountCode GetDiscountCode(int discountCodeId)
         {
-            return _context.DiscountCodes.SingleOrDefault(d =>d.DiscountCodeId == discountCodeId);
+            return _context.DiscountCodes.SingleOrDefault(d => d.DiscountCodeId == discountCodeId);
         }
 
         public void CreateDiscountCode(DiscountCode discountCode)
@@ -175,7 +175,7 @@ namespace Cms.Core.Services
             if (discountCode == null) return;
 
             var compareNowWithStartDate = DateTime.Now.CompareTo(discountCode.StartDate);
-            
+
             var newdiscountCode = new DiscountCode
             {
                 Title = discountCode.Title,
@@ -207,6 +207,22 @@ namespace Cms.Core.Services
                 discountCode.IsActive = true;
                 discountCode.JobId = null;
                 _context.Update(discountCode);
+                _context.SaveChanges();
+            }
+        }
+
+        public void DeleteDiscountCode(int discountCodeId)
+        {
+            var discountForDelete = _context.DiscountCodes.SingleOrDefault(d => d.DiscountCodeId == discountCodeId);
+
+            if (discountForDelete != null)
+            {
+
+                if (!string.IsNullOrEmpty(discountForDelete.JobId))
+                    BackgroundJob.Delete(discountForDelete.JobId);
+
+                _context.DiscountCodes.Remove(discountForDelete);
+
                 _context.SaveChanges();
             }
         }
