@@ -2,6 +2,7 @@ using Cms.Core.DTOs.AdminPanel;
 using Cms.Core.Services.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Cms.Web.Pages.Admin.Shop.Discountcode
 {
@@ -9,15 +10,33 @@ namespace Cms.Web.Pages.Admin.Shop.Discountcode
     {
         public UsersDto Users { get; set; }
 
-        private IAdminService _adminService;
+        private IPermissionService _permissionService;
+        private IDiscountService _discountService;
 
-        public AssignDiscountCodeToUserModel(IAdminService adminService)
+        public AssignDiscountCodeToUserModel(IPermissionService permissionService, IDiscountService discountService)
         {
-            _adminService = adminService;
+            _permissionService = permissionService;
+            _discountService = discountService;
         }
-        public void OnGet(int pageId = 1, string emailFilter = "", string usernameFilter = "")
+
+        public void OnGet(int? id)
         {
-            Users = _adminService.GetUsers(pageId, emailFilter, usernameFilter);
+            var roles = new SelectList( _permissionService.GetRolesForSelectList(),"Value","Text");
+            ViewData["discountCodeId"] = id;
+            ViewData["roles"] = roles; 
         }
+
+        public IActionResult OnPost()
+        {
+            var selectedRoles = Request.Form["selectedRoles"].ToString().Split(',').ToList();
+            var discountCodeId = int.Parse( Request.Form["discountCodeId"]);
+            _discountService.AssignDiscountCodeToUsers(discountCodeId, selectedRoles);
+            return RedirectToPage("Index");
+        }
+
+        //public void OnGet(int pageId = 1, string emailFilter = "", string usernameFilter = "")
+        //{
+        //    Users = _adminService.GetUsers(pageId, emailFilter, usernameFilter);
+        //}
     }
 }

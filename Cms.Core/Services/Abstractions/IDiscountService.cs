@@ -28,6 +28,7 @@ namespace Cms.Core.Services.Abstractions
         void CreateDiscountCode(DiscountCode discountCode);
         public void UpdateDiscountCode(DiscountCode discountCode);
         void DeleteDiscountCode(int discountCodeId);
+        void AssignDiscountCodeToUsers(int discountCodeId, List<string> roleIds);
 
         #endregion
     }

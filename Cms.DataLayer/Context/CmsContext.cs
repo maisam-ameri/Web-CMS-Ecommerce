@@ -64,6 +64,7 @@ namespace Cms.DataLayer.Context
         public DbSet<OrderDetail> OrderDetails { get; set; }
         public DbSet<Discount> Discounts { get; set; }
         public DbSet<DiscountCode> DiscountCodes { get; set; }
+        public DbSet<DiscountCodeUser> DiscountCodeUsers { get; set; }
 
         #endregion
 

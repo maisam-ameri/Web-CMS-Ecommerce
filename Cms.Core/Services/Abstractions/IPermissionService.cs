@@ -1,6 +1,7 @@
 ﻿using Cms.DataLayer;
 using Cms.DataLayer.Entities;
 using Cms.DataLayer.Entities.Permission;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,7 @@ namespace Cms.Core.Services.Abstractions
         #region Roles
 
         IEnumerable<Role> GetRoles();
+        List<SelectListItem> GetRolesForSelectList();
         IEnumerable<UserRole> GetUserRoles(string username, List<int> roles);
         UserRole AssignUserRoles(int userId, List<int> roleId);
         void UnassignUserRoles(int userId);

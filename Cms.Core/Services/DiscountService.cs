@@ -2,11 +2,14 @@
 using Cms.Core.FileManager;
 using Cms.Core.Services.Abstractions;
 using Cms.DataLayer.Context;
+using Cms.DataLayer.Entities;
 using Cms.DataLayer.Entities.Shop;
 using Hangfire;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -250,7 +253,29 @@ namespace Cms.Core.Services
             _context.SaveChanges();
         }
 
+        public void AssignDiscountCodeToUsers(int discountCodeId, List<string> roleIds)
+        {
+            if (roleIds == null || roleIds.Count == 0) return;
+            var users = _context.UserRoles.Where(u => roleIds.Any(r => u.RoleId.ToString() == r)).ToList();
 
+            users.ForEach(u =>
+            {
+                var isExistUserInThisDiscountCode = _context.DiscountCodeUsers.Any(d => d.UserId == u.UserId && d.DiscountCodeId == discountCodeId);
+                
+                if (!isExistUserInThisDiscountCode)
+                {
+                    var discountCodeUser = new DiscountCodeUser
+                    {
+                        DiscountCodeId = discountCodeId,
+                        UserId = u.UserId,
+                        Code = Guid.NewGuid().ToString(),
+                    };
+                    _context.Add(discountCodeUser);
+                }
+            });
+
+            _context.SaveChanges();
+        }
 
         #endregion
     }

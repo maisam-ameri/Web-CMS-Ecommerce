@@ -3,6 +3,7 @@ using Cms.DataLayer;
 using Cms.DataLayer.Context;
 using Cms.DataLayer.Entities;
 using Cms.DataLayer.Entities.Permission;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -47,6 +48,16 @@ namespace Cms.Core.Services
         {
             return _context.Roles;
         }
+
+        public List<SelectListItem> GetRolesForSelectList()
+        {
+            return GetRoles().Select(r => new SelectListItem
+            {
+                Value = r.RoleId.ToString(),
+                Text = r.RoleTitle
+            }).ToList();
+        }
+
 
         public IEnumerable<UserRole> GetUserRoles(string username, List<int> roles)
         {
