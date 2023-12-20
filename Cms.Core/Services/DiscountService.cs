@@ -1,5 +1,6 @@
 ﻿using Cms.Core.DTOs.Shop;
 using Cms.Core.FileManager;
+using Cms.Core.Providers;
 using Cms.Core.Services.Abstractions;
 using Cms.DataLayer.Context;
 using Cms.DataLayer.Entities;
@@ -172,6 +173,10 @@ namespace Cms.Core.Services
         {
             return _context.DiscountCodes.SingleOrDefault(d => d.DiscountCodeId == discountCodeId);
         }
+        public IEnumerable<DiscountCodeUser> GetDiscountCodesUserByUserId(int userId)
+        {
+            return _context.DiscountCodeUsers.Where(d => d.UserId == userId).ToList();
+        }
 
         public void CreateDiscountCode(DiscountCode discountCode)
         {
@@ -268,6 +273,7 @@ namespace Cms.Core.Services
                     {
                         DiscountCodeId = discountCodeId,
                         UserId = u.UserId,
+                        RoleId = u.RoleId,
                         Code = Guid.NewGuid().ToString(),
                     };
                     _context.Add(discountCodeUser);
@@ -276,6 +282,13 @@ namespace Cms.Core.Services
 
             _context.SaveChanges();
         }
+
+        public List<string> GetRolesIdsAssignedToDiscountCode(int discountCodeId)
+        {
+            return _context.DiscountCodeUsers.Where(d => d.DiscountCodeId == discountCodeId).Select(d => d.RoleId.ToString()).Distinct().ToList();
+        }
+
+
 
         #endregion
     }

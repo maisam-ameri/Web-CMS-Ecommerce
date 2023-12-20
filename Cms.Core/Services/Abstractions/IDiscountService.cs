@@ -25,10 +25,13 @@ namespace Cms.Core.Services.Abstractions
         #region DiscountCode
         IEnumerable<DiscountCode> GetDiscountCodes();
         public DiscountCode GetDiscountCode(int discountCodeId);
+        public IEnumerable<DiscountCodeUser> GetDiscountCodesUserByUserId(int userId);
+        public List<string> GetRolesIdsAssignedToDiscountCode(int discountCodeId);
         void CreateDiscountCode(DiscountCode discountCode);
         public void UpdateDiscountCode(DiscountCode discountCode);
         void DeleteDiscountCode(int discountCodeId);
         void AssignDiscountCodeToUsers(int discountCodeId, List<string> roleIds);
+
 
         #endregion
     }

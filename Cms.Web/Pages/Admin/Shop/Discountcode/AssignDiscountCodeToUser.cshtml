@@ -3,6 +3,7 @@
 @{
     var roles = ViewData["roles"] as SelectList;
     ViewData["Title"] = "کاربران";
+    var selectedRoles = ViewData["selectedRoles"] as List<string>;
     var discountCodeId = ViewData["discountCodeId"]?.ToString();
 }
 
@@ -36,7 +37,28 @@
                                     <li>
                                         <div class=" checkbox">
                                             <label>
-                                                <input type="checkbox" name="selectedRoles" value="@item.Value">@item.Text
+
+                                                @if (selectedRoles != null)
+                                                {
+
+                                                    @if (selectedRoles.Any(r => r == item.Value))
+                                                    {
+                                                        <input type="checkbox" checked="checked" name="selectedRoles" value="@item.Value">
+                                                        @item.Text
+                                                    }
+                                                    else
+                                                    {
+                                                        <input type="checkbox" name="selectedRoles" value="@item.Value">
+                                                        @item.Text
+                                                    }
+
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" name="selectedRoles" value="@item.Value">
+                                                    @item.Text
+
+                                                }
                                             </label>
                                         </div>
                                     </li>

@@ -17,7 +17,10 @@ namespace Cms.DataLayer.Entities.Shop
         
         [Required]
         public int UserId { get; set; }
-        
+
+        [Required]
+        public int RoleId { get; set; }
+
         [Required]
         public string Code { get; set; }
 
