@@ -1,5 +1,4 @@
 ﻿using Cms.Core.DTOs.AdminPanel.Product;
-
 using Cms.DataLayer.Entities.Shop;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -28,6 +27,7 @@ namespace Cms.Core.Services.Abstractions
         IEnumerable<SelectListItem> GetProductsForDiscountEdition(int discountId);
         Product GetProduct(int? id);
         ProductDto GetProductForEditInAdmin(int? id);
+        Cms.Core.DTOs.Shop.ShowProductDto GetProductForShow(int id);
         void CreateProduct(ProductDto product);
         void UpdateProduct(ProductDto product);
         void DeleteProduct(int id);

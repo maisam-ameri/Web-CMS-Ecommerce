@@ -1,5 +1,5 @@
 ﻿@using Cms.Core.Convertors
-@model Cms.DataLayer.Entities.Shop.Product
+@model Cms.Core.DTOs.Shop.ShowProductDto
 @{
     ViewData["Title"] = Model.Title;
 }
@@ -22,7 +22,7 @@
             <div class="col-md-8 col-sm-12 col-xs-12 pull-left">
                 <section class="term-description">
                 
-                    <img src="/images/product/@Model.Image">
+                    <img src="/images/product/@Model.ImageName">
                     @Html.Raw(Model.Content)
                 
                 </section>
@@ -154,7 +154,21 @@
         
                     @if (Model.Price != 0)
                     {
-                        <a href="/shop/BuyProduct/@Model.ProductId"> خرید محصول : @Model.Price.ToString("#,0") تومان </a>
+                        if (Model.Discount == null)
+                        {
+                            <a href="/shop/BuyProduct/@Model.ProductId"> خرید محصول : @Model.Price.ToString("#,0") تومان </a>
+                        }
+                        else
+                        {
+                            <a href="/shop/BuyProduct/@Model.ProductId"> خرید محصول :<del>@Model.Price.ToString("#,0") تومان </del> 
+                                <br />
+                                @{
+                                    var calPriceWithDiscount = Model.Price - (Model.Price * (Model.Discount.Amount * 0.01f));
+                                }
+                                 @Model.Discount.Amount% تخفیف : @calPriceWithDiscount.ToString("#,0") تومان
+                                </a>
+                        }
+
                     }
                 </div>
 

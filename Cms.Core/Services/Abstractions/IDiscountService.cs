@@ -14,7 +14,7 @@ namespace Cms.Core.Services.Abstractions
         #region Discount
 
         IEnumerable<Discount> GetDiscounts();
-        Discount GetDiscount(int discountId);
+        Discount GetDiscount(int? discountId);
         public void CreateDiscount(DiscountDto discount);
         public void DeleteDiscount(int discountId);
         List<int>? GetDiscountProductIds(int discountId);

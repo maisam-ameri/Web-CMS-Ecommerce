@@ -33,7 +33,7 @@ namespace Cms.Core.Services
         {
             return _context.Discounts;
         }
-        public Discount GetDiscount(int discountId)
+        public Discount GetDiscount(int? discountId)
         {
             return _context.Discounts.SingleOrDefault(d => d.DiscountId == discountId);
         }

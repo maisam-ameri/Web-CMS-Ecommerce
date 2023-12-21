@@ -9,13 +9,13 @@ namespace Cms.Web.Areas.Shop.Controllers
     public class HomeController : Controller
     {
         private IProductService _productService;
+        private int _pageId;
 
         public HomeController(IProductService productService)
         {
             _productService = productService;
         }
 
-        private int _pageId;
 
         public IActionResult Index(int pageId = 1, string keyword="",int minPrice=0,int maxPrice=int.MaxValue, List<int>? selectedCategories =null)
         {
@@ -29,18 +29,13 @@ namespace Cms.Web.Areas.Shop.Controllers
             return View(products);
 
         }
+
+
         [Route("shop/ShowProdcut/{id}")]
         public IActionResult ShowProduct(int id)
         {
-            var product = _productService.GetProduct(id);
+            var product = _productService.GetProductForShow(id);
             return View(product);
         }
-
-        //[Route("Shop/AddOrder")]
-        //public IActionResult AddOrder()
-        //{
-
-        //    return View();
-        //}
     }
 }

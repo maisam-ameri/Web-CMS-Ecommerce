@@ -23,7 +23,6 @@ namespace Cms.Core.Services
         /// if yes: create new order ,so assign its id to the orderDetail
         /// if no: get the order ,so assign its id to the orderDetail
         /// </summary>
-
         public void AddOrderDetail(int userId, int productId)
         {
             var product = _productService.GetProduct(productId);

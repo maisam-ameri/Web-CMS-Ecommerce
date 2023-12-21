@@ -17,13 +17,16 @@ namespace Cms.Core.Services
     public class ProductService : IProductService
     {
         private CmsContext _context;
+        private IDiscountService _discountService;
         private ImageManager _imageManager { get; set; }
         private const string PRODUCT_PATH = "images/product/";
+        
 
-        public ProductService(CmsContext context, ImageManager imageManager)
+        public ProductService(CmsContext context, ImageManager imageManager,IDiscountService discountService)
         {
             _context = context;
             _imageManager = imageManager;
+            _discountService = discountService;
         }
 
         #region Category
@@ -122,6 +125,7 @@ namespace Cms.Core.Services
         {
             return _context.Products.Find(id);
         }
+       
 
         public void CreateProduct(ProductDto productDto)
         {
@@ -142,9 +146,9 @@ namespace Cms.Core.Services
             _context.SaveChanges();
         }
 
-        public ProductDto GetProductForEditInAdmin(int? id)
+        public DTOs.AdminPanel.Product.ProductDto GetProductForEditInAdmin(int? id)
         {
-            return _context.Products.Where(p => p.ProductId == id.Value).Select(p => new ProductDto
+            return _context.Products.Where(p => p.ProductId == id.Value).Select(p => new DTOs.AdminPanel.Product.ProductDto
             {
                 Content = p.Content,
                 ProductId = id.Value,
@@ -206,7 +210,7 @@ namespace Cms.Core.Services
 
         private readonly int _takeValue = 8;
 
-        public IEnumerable<Cms.Core.DTOs.Shop.ProductDto> GetLastProducts()
+        public IEnumerable<DTOs.Shop.ProductDto> GetLastProducts()
         {
             return _context.Products.Select(p => new DTOs.Shop.ProductDto
             {
@@ -216,7 +220,7 @@ namespace Cms.Core.Services
             }).ToList();
         }
 
-        public List<Cms.Core.DTOs.Shop.ProductDto> GetProductsForShop(int pageId = 1, string keyword = "", int minPrice = 0, int maxPrice = int.MaxValue, List<int>? selectedCategories = null)
+        public List<DTOs.Shop.ProductDto> GetProductsForShop(int pageId = 1, string keyword = "", int minPrice = 0, int maxPrice = int.MaxValue, List<int>? selectedCategories = null)
         {
             IEnumerable<Product> products = _context.Products;
 
@@ -241,7 +245,7 @@ namespace Cms.Core.Services
             var skip = (pageId - 1) * _takeValue;
             products = products.Skip(skip).Take(pageId * _takeValue).ToList();
 
-            var productDtos = products.Select(p => new Cms.Core.DTOs.Shop.ProductDto()
+            var productDtos = products.Select(p => new DTOs.Shop. ProductDto()
             {
                 Id = p.ProductId,
                 ImageName = p.Image,
@@ -252,11 +256,34 @@ namespace Cms.Core.Services
             return productDtos;
         }
 
+        public DTOs.Shop.ShowProductDto GetProductForShow(int id)
+        {
+            var product = GetProduct(id);
+            if (product == null) return null;
+
+            var discount = _discountService.GetDiscount(product.DiscountId);
+
+            return new DTOs.Shop.ShowProductDto
+            {
+                ProductId = product.ProductId,
+                Title = product.Title,
+                Price = product.Price,
+                Content = product.Content,
+                Description = product.Description,
+                ImageName = product.Image,
+                Tags = product.Tags,
+                Discount = discount,
+                RegisterDate = product.RegisterDate,
+            };
+        }
+
         public int GetTotalProductPageCount()
         {
             return  (int) Math.Ceiling(_context.Products.Count() / (float)_takeValue);
            
         }
+
+    
 
         #endregion
     }
