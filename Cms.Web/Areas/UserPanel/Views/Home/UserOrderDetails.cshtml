@@ -1,5 +1,5 @@
 ﻿@using Cms.Core.Convertors
-@model IEnumerable<Cms.DataLayer.Entities.Shop.OrderDetail>
+@model IEnumerable<Cms.Core.DTOs.UserPanel.UserOrderDetailDto>
 @{
     ViewData["Title"] = "سفارشات من";
 }
@@ -36,6 +36,7 @@
                                                         <th style="width: 219px;">عنوان</th>
                                                         <th style="width: 219px;">تعداد </th>
                                                         <th style="width: 101px;">قیمت</th>
+                                                        <th style="width: 101px;">تخفیف</th>
                                                         <th style="width: 219px;">تاریخ</th>
                                                         <th style="width: 101px;">جزئیات</th>
                                                     </tr>
@@ -49,6 +50,7 @@
                                                             <td class="sorting_1">@item.Title</td>
                                                             <td class="sorting_1">@item.Count</td>
                                                             <td class="sorting_1">@item.Price</td>
+                                                            <td class="sorting_1">@(item.DiscountAmount == 0 ? "ندارد" : item.DiscountAmount+ "%")</td>
                                                             <td class="sorting_1">@item.RegisterDate.MiladiToShamsi()</td>
                                                             @if (ViewData["isOrderFinally"] == null)
                                                             {
@@ -69,14 +71,15 @@
                                     </div>
                                     <!-- /.table-responsive -->
 
+
                                     <div class="input-group">
-                                        جمع کل : @Model.Sum(o => o.Price)  تومان
+                                        جمع کل : @ViewData["TotalPrice"]  تومان
                                     </div>
                                     @if (ViewData["isOrderFinally"] == null)
                                     {
 
                                         <div class="input-group">
-                                            <a asp-area="UserPanel" asp-action="PayOrder" asp-route-orderId="@Model.FirstOrDefault().OrderId" class="btn btn-success form-control"> پرداخت</a>
+                                            <a asp-controller="payment" asp-action="PayOrder" asp-route-orderId="@Model.First().OrderId" class="btn btn-success form-control"> پرداخت</a>
                                         </div>
 
                                     }

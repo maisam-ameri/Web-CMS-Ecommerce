@@ -137,6 +137,8 @@ namespace Cms.Web.Areas.UserPanel.Controllers
         {
             var orderDetails = _orderService.GetOrderDetailsInOpenOrder(orderId);
             ViewData["isOrderFinally"] = _orderService.GetOrder(orderId).IsFinally ? true : null;
+
+            ViewData["TotalPrice"] = _orderService.GetTotalOpenOrderPrice(orderId);
             return View(orderDetails);
         }
 

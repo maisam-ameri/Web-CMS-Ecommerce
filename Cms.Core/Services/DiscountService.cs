@@ -37,6 +37,17 @@ namespace Cms.Core.Services
         {
             return _context.Discounts.SingleOrDefault(d => d.DiscountId == discountId);
         }
+
+        public int GetDiscountAmountByProductId(int ProductId)
+        {
+            var product = _context.Products.SingleOrDefault(d => d.ProductId == ProductId);
+            if (product == null) return 0;
+            var discount = _context.Discounts.SingleOrDefault(d => d.DiscountId == product.DiscountId);
+            return discount == null ? 0 : discount.Amount;
+        }
+
+
+
         public void CreateDiscount(DiscountDto discount)
         {
             var compareNowWithStartDate = DateTime.Now.CompareTo(discount.StartDate);

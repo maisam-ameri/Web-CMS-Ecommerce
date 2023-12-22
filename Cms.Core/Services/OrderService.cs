@@ -11,11 +11,13 @@ namespace Cms.Core.Services
     {
         private CmsContext _context;
         private IProductService _productService;
+        private IDiscountService _discountService;
 
-        public OrderService(CmsContext context, IProductService productService)
+        public OrderService(CmsContext context, IProductService productService, IDiscountService discountService)
         {
             _context = context;
             _productService = productService;
+            _discountService = discountService;
         }
 
         /// <summary>
@@ -85,6 +87,25 @@ namespace Cms.Core.Services
         {
             return _context.Orders.SingleOrDefault(o => o.OrderId == orderId);
         }
+        public int GetTotalOpenOrderPrice(int orderId)
+        {
+            var price = 0;
+            var orderDetails = GetOrderDetailsInOpenOrder(orderId);
+            foreach (var orderDetail in orderDetails)
+            {
+                var discount = _discountService.GetDiscountAmountByProductId(orderDetail.ProductId);
+
+                for (int i = 0; i < orderDetail.Count; i++)
+                {
+                    price += (int)(orderDetail.Price - (orderDetail.Price * discount * 0.01));
+
+                }
+            }
+
+            return price;
+
+        }
+
         public int? GetOrderIdByOrderDetailId(int orderdetailId)
         {
             var orderDetail = _context.OrderDetails.FirstOrDefault(o => o.OrderDetailId == orderdetailId);
@@ -92,14 +113,24 @@ namespace Cms.Core.Services
             return null;
         }
 
-        public List<OrderDetail> GetOrderDetailsInOpenOrder(int orderId)
+        public List<UserOrderDetailDto> GetOrderDetailsInOpenOrder(int orderId)
         {
-
-            return _context.OrderDetails.Where(o => o.OrderId == orderId).ToList();
+            return _context.OrderDetails.Where(o => o.OrderId == orderId).Select(o => new UserOrderDetailDto
+            {
+                Count = o.Count,
+                Price = o.Price,
+                ProductId = o.ProductId,
+                RegisterDate = o.RegisterDate,
+                Title = o.Title,
+                OrderDetailId = o.OrderDetailId,
+                OrderId = o.OrderId,
+                DiscountAmount = _discountService.GetDiscountAmountByProductId(o.ProductId),
+            }).ToList();
         }
-        public OrderDetail GetOrderDetailByProductId(int productId)
+        public OrderDetail? GetOrderDetailByProductId(int userId,int productId)
         {
-            return _context.OrderDetails.SingleOrDefault(o => o.ProductId == productId);
+            var orderId = GetOpenOrder(userId).OrderId;
+            return _context.OrderDetails.SingleOrDefault(o => o.ProductId == productId && o.OrderId == orderId);
         }
 
         public Order GetOpenOrder(int userId) => _context.Orders.SingleOrDefault(o => o.UserId == userId && o.IsFinally == false);
@@ -128,10 +159,10 @@ namespace Cms.Core.Services
             _context.SaveChanges();
         }
 
-        public int? DeleteOrderDetail(int userId,int orderDetailId)
+        public int? DeleteOrderDetail(int userId, int orderDetailId)
         {
             var order = GetOpenOrder(userId);
-            var orderDetail = _context.OrderDetails.FirstOrDefault(o => o.OrderDetailId == orderDetailId && o .OrderId == order.OrderId);
+            var orderDetail = _context.OrderDetails.FirstOrDefault(o => o.OrderDetailId == orderDetailId && o.OrderId == order.OrderId);
 
             if (orderDetail != null)
             {
@@ -170,7 +201,7 @@ namespace Cms.Core.Services
             if (order != null)
             {
                 var orderDetail = _context.OrderDetails.FirstOrDefault(o => o.OrderId == order.OrderId && o.OrderDetailId == orderDetailId);
-                
+
                 if (orderDetail != null) return orderDetail;
             }
 

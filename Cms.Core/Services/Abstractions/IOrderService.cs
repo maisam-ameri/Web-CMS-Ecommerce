@@ -10,6 +10,7 @@ namespace Cms.Core.Services.Abstractions
 {
     public interface IOrderService
     {
+
         #region Order
         public Order GetOpenOrder(int userId);
         Order GetOrder(int orderId);
@@ -17,13 +18,16 @@ namespace Cms.Core.Services.Abstractions
         void DeleteOrder(int orderId);
         public int? GetOrderIdByOrderDetailId(int orderdetailId);
         public void UpdateOrder(Order order);
+
+        public int GetTotalOpenOrderPrice(int orderId);
+        
         #endregion
 
         #region OrderDetail
         void AddOrderDetail(int userId, int productId);
         OrderDetail? GetOrderDetailInOpenOrder(int userId, int orderDetailId);
-        public OrderDetail GetOrderDetailByProductId(int productId);
-        public List<OrderDetail> GetOrderDetailsInOpenOrder(int orderId);
+        public OrderDetail GetOrderDetailByProductId(int userId, int productId);
+        public List<UserOrderDetailDto> GetOrderDetailsInOpenOrder(int orderId);
         public int? DeleteOrderDetail(int userId,int orderDetailId);
 
         #endregion

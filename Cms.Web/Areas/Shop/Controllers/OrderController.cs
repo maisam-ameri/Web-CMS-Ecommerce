@@ -23,7 +23,7 @@ namespace Cms.Web.Areas.Shop.Controllers
             var userName= User.Identity.Name;
             var userId = _userService.GetCurrentUserIdByUserName(userName);
             _orderService.AddOrderDetail(userId,id);
-            var orderDetail =_orderService.GetOrderDetailByProductId(id);
+            var orderDetail =_orderService.GetOrderDetailByProductId(userId, id);
             return PartialView("_AddOrderDetailToCard", orderDetail);
         }
 
