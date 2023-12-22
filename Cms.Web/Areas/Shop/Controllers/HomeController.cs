@@ -37,5 +37,6 @@ namespace Cms.Web.Areas.Shop.Controllers
             var product = _productService.GetProductForShow(id);
             return View(product);
         }
+
     }
 }

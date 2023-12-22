@@ -22,9 +22,9 @@ namespace Cms.Core.Services.Abstractions
         #region OrderDetail
         void AddOrderDetail(int userId, int productId);
         OrderDetail? GetOrderDetailInOpenOrder(int userId, int orderDetailId);
+        public OrderDetail GetOrderDetailByProductId(int productId);
         public List<OrderDetail> GetOrderDetailsInOpenOrder(int orderId);
         public int? DeleteOrderDetail(int userId,int orderDetailId);
-
 
         #endregion
 

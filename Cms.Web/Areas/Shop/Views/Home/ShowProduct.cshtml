@@ -21,10 +21,10 @@
 
             <div class="col-md-8 col-sm-12 col-xs-12 pull-left">
                 <section class="term-description">
-                
+
                     <img src="/images/product/@Model.ImageName">
                     @Html.Raw(Model.Content)
-                
+
                 </section>
 
                 <section class="user-comments">
@@ -151,33 +151,37 @@
 
             <aside class="col-md-4 col-sm-12 col-xs-12 pull-right">
                 <div class="statistics">
-        
+
                     @if (Model.Price != 0)
                     {
-                        if (Model.Discount == null)
-                        {
-                            <a href="/shop/BuyProduct/@Model.ProductId"> خرید محصول : @Model.Price.ToString("#,0") تومان </a>
-                        }
-                        else
-                        {
-                            <a href="/shop/BuyProduct/@Model.ProductId"> خرید محصول :<del>@Model.Price.ToString("#,0") تومان </del> 
-                                <br />
-                                @{
-                                    var calPriceWithDiscount = Model.Price - (Model.Price * (Model.Discount.Amount * 0.01f));
+                            <button onclick="addOrderDetailToCard(@Model.ProductId)" class="btn btn-success">
+                                @if (Model.Discount == null)
+                                {
+                                <span> خرید محصول : @Model.Price.ToString("#,0") تومان </span>
                                 }
-                                 @Model.Discount.Amount% تخفیف : @calPriceWithDiscount.ToString("#,0") تومان
-                                </a>
-                        }
+                                else
+                                {
+                                    <span>
+                                        خرید محصول :<del>@Model.Price.ToString("#,0") تومان </del>
+                                        <br />
+                                        @{
+                                            var calPriceWithDiscount = Model.Price - (Model.Price * (Model.Discount.Amount * 0.01f));
+                                        }
+                                        @Model.Discount.Amount% تخفیف : @calPriceWithDiscount.ToString("#,0") تومان
+                                    </span>
+                                }
+                            </button>
+                        
 
                     }
                 </div>
 
-      
+
 
                 <article class="term-info">
                     <h2> اطلاعات این محصول </h2>
                     <ul>
-                        @if (Model.Price!= 0)
+                        @if (Model.Price != 0)
                         {
                             <li>قیمت : @Model.Price.ToString("#,0") تومان</li>
                         }
@@ -212,3 +216,33 @@
     </section>
 </div>
 
+
+<!-- Modal -->
+<div class="modal" id="addOrderDetailToCardModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel"></h4>
+            </div>
+            <div class="modal-body" id="modalBody">
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- End Modal -->
+@section Scripts{
+    <script>
+        function addOrderDetailToCard(productId) {
+            console.log(productId);
+            $.get('/shop/AddOrderDetail/' + productId, function (result) {
+                $('#addOrderDetailToCardModal').modal();
+                $('#myModalLabel').html('افزودن سفارش');
+                $('#modalBody').html(result);
+            });
+        }
+
+    </script>
+}

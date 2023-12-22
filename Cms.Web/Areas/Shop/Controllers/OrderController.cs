@@ -17,13 +17,14 @@ namespace Cms.Web.Areas.Shop.Controllers
         }
 
 
-        [Route("shop/BuyProduct/{id}")]
+        [Route("shop/AddOrderDetail/{id}")]
         public IActionResult AddOrderDetail(int id)
         {
             var userName= User.Identity.Name;
-            var userId = _userService.GetUserByUserName(userName).Id;
+            var userId = _userService.GetCurrentUserIdByUserName(userName);
             _orderService.AddOrderDetail(userId,id);
-            return Content("Added");
+            var orderDetail =_orderService.GetOrderDetailByProductId(id);
+            return PartialView("_AddOrderDetailToCard", orderDetail);
         }
 
     }

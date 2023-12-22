@@ -97,6 +97,10 @@ namespace Cms.Core.Services
 
             return _context.OrderDetails.Where(o => o.OrderId == orderId).ToList();
         }
+        public OrderDetail GetOrderDetailByProductId(int productId)
+        {
+            return _context.OrderDetails.SingleOrDefault(o => o.ProductId == productId);
+        }
 
         public Order GetOpenOrder(int userId) => _context.Orders.SingleOrDefault(o => o.UserId == userId && o.IsFinally == false);
 
