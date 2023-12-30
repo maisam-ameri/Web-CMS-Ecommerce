@@ -1,0 +1,28 @@
+﻿@using Cms.Core.Convertors
+@inject Cms.Core.Services.Abstractions.IContentService _contentService
+
+@{
+    var contents = _contentService.GetLatesContents();
+}
+
+
+<!-- Lates news -->
+<section class="panel panel-success">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            آخرین مطالب
+        </h3>
+    </div>
+    <ul>
+        @foreach (var item in contents)
+        {
+
+            <li>
+                <img class="border-radius thumbnail" width="100px" height="100px" src="/images/content/thumbnail/@item.ImageName">
+                <h2> <a href="/News/1">@item.Title</a></h2>
+                <span>انتشار : @item.PublishDate.MiladiToShamsi()</span>
+            </li>
+        }
+    </ul>
+</section>
+<!-- Lates  news -->

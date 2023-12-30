@@ -7,6 +7,7 @@ using Cms.Core.Generators;
 //using Cms.DataLayer.Entities.Shop;
 using Hangfire;
 using Microsoft.AspNetCore.Http;
+using Cms.Core.DTOs.Content;
 
 namespace Cms.Core.Services
 {
@@ -196,6 +197,42 @@ namespace Cms.Core.Services
 
             _context.Update(content);
             _context.SaveChanges();
+        }
+
+        public List<ContentDto>? GetLatesContents()
+        {
+            return _context.BaseContents.OrderByDescending(c => c.PublishDate).Take(10).Select(c => new ContentDto
+            {
+                Title = c.Title,
+                ShortDescription = c.ShortDescription,
+                ImageName = c.ImageName,
+                PublishDate = c.PublishDate,
+
+            }).ToList();
+        }
+
+        public List<ContentDto>? GetMostViewsContents()
+        {
+            return _context.BaseContents.OrderByDescending(c => c.ViewCount).Take(10).Select(c => new ContentDto
+            {
+                Title = c.Title,
+                ShortDescription = c.ShortDescription,
+                ImageName = c.ImageName,
+                PublishDate = c.PublishDate,
+
+            }).ToList();
+        }
+
+        public List<ContentDto>? GetContentsForSlider()
+        {
+            return _context.BaseContents.Where(c => c.ShowInMainMenu).OrderByDescending(c => c.ViewCount).Select(c => new ContentDto
+            {
+                Title = c.Title,
+                ShortDescription = c.ShortDescription,
+                ImageName = c.ImageName,
+                PublishDate = c.PublishDate,
+
+            }).ToList();
         }
 
         #endregion

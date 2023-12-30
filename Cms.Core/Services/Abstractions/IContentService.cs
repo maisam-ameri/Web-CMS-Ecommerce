@@ -1,5 +1,7 @@
 ﻿using Cms.Core.DTOs.AdminPanel.Content;
+using Cms.Core.DTOs.Content;
 using Cms.DataLayer.Entities.Content;
+using Cms.DataLayer.Migrations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,6 +29,10 @@ namespace Cms.Core.Services.Abstractions
         void UpdateBaseContent(BaseContentDto content);
         List<ContentCategoryDto> GetContentCategoryDtos();
         BaseContentDto GetContentForEditInAdmin(int id);
+
+        List<ContentDto>? GetLatesContents();
+        List<ContentDto>? GetMostViewsContents();
+        List<ContentDto>? GetContentsForSlider();
 
         #endregion
     }

@@ -15,16 +15,20 @@ namespace Cms.Core.FileManager
 
         public ImageManager(IWebHostEnvironment webHostEnvironment)
         {
-                _webHostEnvi = webHostEnvironment;
+            _webHostEnvi = webHostEnvironment;
         }
 
         public string UploadImage(string image, IFormFile file, string imagePath)
         {
             var imageName = $"{Guid.NewGuid()}{DateTime.Now.ToString("yymmssfff")}{Path.GetExtension(file.FileName)}";
             var rootPath = _webHostEnvi.WebRootPath;
-            var oldPath = Path.Combine(rootPath, imagePath, image);
             var path = Path.Combine(rootPath, imagePath, imageName.ToString());
-            RemoveLastAvatar(oldPath);
+            if (image != null)
+            {
+                var oldPath = Path.Combine(rootPath, imagePath, image);
+                RemoveLastAvatar(oldPath);
+
+            }
 
 
             using (FileStream stream = new FileStream(path, FileMode.Create))
@@ -48,7 +52,7 @@ namespace Cms.Core.FileManager
 
         }
 
-        public void GenerateThumbnail(string fileName, string resourcePath, string savePath,int width)
+        public void GenerateThumbnail(string fileName, string resourcePath, string savePath, int width)
         {
 
             var rootPath = _webHostEnvi.WebRootPath;
