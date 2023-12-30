@@ -50,12 +50,12 @@
                                                             <td class="sorting_1">@item.Title</td>
                                                             <td class="sorting_1">@item.Count</td>
                                                             <td class="sorting_1">@item.Price</td>
-                                                            <td class="sorting_1">@(item.DiscountAmount == 0 ? "ندارد" : item.DiscountAmount+ "%")</td>
+                                                            <td class="sorting_1">@(item.DiscountAmount == 0 ? "ندارد" : item.DiscountAmount + "%")</td>
                                                             <td class="sorting_1">@item.RegisterDate.MiladiToShamsi()</td>
                                                             @if (ViewData["isOrderFinally"] == null)
                                                             {
                                                                 <td>
-                                                                    <button class="btn btn-danger btn-sm" onclick="deleteOrderDetail(@item.OrderDetailId)" >حذف</button>
+                                                                    <button class="btn btn-danger btn-sm" onclick="deleteOrderDetail(@item.OrderDetailId)">حذف</button>
 
                                                                 </td>
                                                             }
@@ -80,6 +80,9 @@
 
                                         <div class="input-group">
                                             <a asp-controller="payment" asp-action="PayOrder" asp-route-orderId="@Model.First().OrderId" class="btn btn-success form-control"> پرداخت</a>
+                                        </div>
+                                        <div class="input-group">
+                                            <a asp-action="UserOrderReport" class="btn btn-primary form-control"> چاپ</a>
                                         </div>
 
                                     }

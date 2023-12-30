@@ -1,5 +1,6 @@
 ﻿using Cms.Core.DTOs.UserPanel;
 using Cms.DataLayer.Entities.Shop;
+using Microsoft.Identity.Client;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +20,9 @@ namespace Cms.Core.Services.Abstractions
         public int? GetOrderIdByOrderDetailId(int orderdetailId);
         public void UpdateOrder(Order order);
 
-        public int GetTotalOpenOrderPrice(int orderId);
+        public int GetTotalOpenOrderPrice(int userId);
+        public UserOrderReportDto GetUserOrderReport(int userId);
+
         
         #endregion
 
@@ -27,7 +30,7 @@ namespace Cms.Core.Services.Abstractions
         void AddOrderDetail(int userId, int productId);
         OrderDetail? GetOrderDetailInOpenOrder(int userId, int orderDetailId);
         public OrderDetail GetOrderDetailByProductId(int userId, int productId);
-        public List<UserOrderDetailDto> GetOrderDetailsInOpenOrder(int orderId);
+        public List<UserOrderDetailDto>? GetOrderDetailsInOpenOrder(int userId);
         public int? DeleteOrderDetail(int userId,int orderDetailId);
 
         #endregion

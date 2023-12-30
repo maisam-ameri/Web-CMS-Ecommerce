@@ -87,10 +87,10 @@ namespace Cms.Core.Services
         {
             return _context.Orders.SingleOrDefault(o => o.OrderId == orderId);
         }
-        public int GetTotalOpenOrderPrice(int orderId)
+        public int GetTotalOpenOrderPrice(int userId)
         {
             var price = 0;
-            var orderDetails = GetOrderDetailsInOpenOrder(orderId);
+            var orderDetails = GetOrderDetailsInOpenOrder(userId);
             foreach (var orderDetail in orderDetails)
             {
                 var discount = _discountService.GetDiscountAmountByProductId(orderDetail.ProductId);
@@ -113,9 +113,12 @@ namespace Cms.Core.Services
             return null;
         }
 
-        public List<UserOrderDetailDto> GetOrderDetailsInOpenOrder(int orderId)
+        public List<UserOrderDetailDto>? GetOrderDetailsInOpenOrder(int userId)
         {
-            return _context.OrderDetails.Where(o => o.OrderId == orderId).Select(o => new UserOrderDetailDto
+            var order = _context.Orders.SingleOrDefault(o =>o.UserId == userId && o.IsFinally == false);
+            if (order == null) return null;
+
+            return _context.OrderDetails.Where(o => o.OrderId == order.OrderId).Select(o => new UserOrderDetailDto
             {
                 Count = o.Count,
                 Price = o.Price,
@@ -127,7 +130,7 @@ namespace Cms.Core.Services
                 DiscountAmount = _discountService.GetDiscountAmountByProductId(o.ProductId),
             }).ToList();
         }
-        public OrderDetail? GetOrderDetailByProductId(int userId,int productId)
+        public OrderDetail? GetOrderDetailByProductId(int userId, int productId)
         {
             var orderId = GetOpenOrder(userId).OrderId;
             return _context.OrderDetails.SingleOrDefault(o => o.ProductId == productId && o.OrderId == orderId);
@@ -213,6 +216,21 @@ namespace Cms.Core.Services
             if (order == null) return;
             _context.Update(order);
             _context.SaveChanges();
+        }
+
+        public UserOrderReportDto GetUserOrderReport(int userId)
+        {
+
+            var orderDetails = GetOrderDetailsInOpenOrder(userId);
+            if (orderDetails == null) return null;
+
+            var finalPrice = GetTotalOpenOrderPrice(userId);
+            return new UserOrderReportDto
+            {
+                OrderDetails = orderDetails,
+                FinalPrice = finalPrice,
+            };
+
         }
     }
 }

@@ -25,7 +25,8 @@ namespace Cms.Web.Areas.UserPanel.Controllers
         [Route("Payment/PayOrder/{orderId}")]
         public IActionResult PayOrder(int orderId)
         {
-            var totalPrice = _orderService.GetTotalOpenOrderPrice(orderId);
+            var userId = _userService.GetCurrentUserIdByUserName(User.Identity.Name);
+            var totalPrice = _orderService.GetTotalOpenOrderPrice(userId);
 
             var payment = new Payment(totalPrice);
             var response = payment.PaymentRequest($"پرداخت فاکتور {orderId}", PAYMENT_REQUEST_CALLBACK_URL);
@@ -71,8 +72,8 @@ namespace Cms.Web.Areas.UserPanel.Controllers
 
         public long? VerifyPayment(int orderId, string authority)
         {
-
-            var totalPrice = _orderService.GetTotalOpenOrderPrice(orderId);
+            var userId = _userService.GetCurrentUserIdByUserName(User.Identity?.Name);
+            var totalPrice = _orderService.GetTotalOpenOrderPrice(userId);
 
             var payment = new Payment(totalPrice);
             var result = payment.Verification(authority);

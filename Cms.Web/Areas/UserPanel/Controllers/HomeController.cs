@@ -9,6 +9,8 @@ using Cms.DataLayer.Entities.Shop;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Build.Framework;
+using Stimulsoft.Report.Mvc;
+using Stimulsoft.Report;
 using System.Drawing.Imaging;
 using System.Security.Policy;
 using System.Text;
@@ -135,11 +137,44 @@ namespace Cms.Web.Areas.UserPanel.Controllers
         [Route("UserPanel/UserOrderDetails/{orderId}")]
         public IActionResult UserOrderDetails(int orderId)
         {
-            var orderDetails = _orderService.GetOrderDetailsInOpenOrder(orderId);
+            var userId = _userService.GetCurrentUserIdByUserName(User.Identity.Name);
+            var orderDetails = _orderService.GetOrderDetailsInOpenOrder(userId);
             ViewData["isOrderFinally"] = _orderService.GetOrder(orderId).IsFinally ? true : null;
 
-            ViewData["TotalPrice"] = _orderService.GetTotalOpenOrderPrice(orderId);
+            ViewData["TotalPrice"] = _orderService.GetTotalOpenOrderPrice(userId);
             return View(orderDetails);
+        }
+
+
+        [Route("UserPanel/UserOrderReport")]
+        public IActionResult UserOrderReport()
+        {
+            return View();
+        }
+        
+        [Route("UserPanel/GetReport")]
+        public IActionResult GetReport()
+        {
+            var userId = _userService.GetCurrentUserIdByUserName(User.Identity.Name);
+
+            var report = new StiReport();
+
+            report.Load(StiNetCoreHelper.MapPath(this, "UserOrderTemplate/UserOrderTemplate.mrt"));
+            report.Compile();
+            var orderDetails = _orderService.GetUserOrderReport(userId);
+            var orders = _orderService.GetOrderDetailsInOpenOrder(userId);
+            int? totalPrice = _orderService.GetTotalOpenOrderPrice(userId);
+            report.RegData("dt", orders);
+            report["TotalPrice"]= totalPrice;
+            report["UserName"]= User.Identity.Name;
+            return StiNetCoreViewer.GetReportResult(this, report);
+
+        }
+        
+        [Route("UserPanel/ViewerEvent")]
+        public IActionResult ViewerEvent()
+        {
+            return StiNetCoreViewer.ViewerEventResult(this);
         }
 
 
