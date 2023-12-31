@@ -1,0 +1,129 @@
+﻿@using Cms.Core.Convertors
+@model Cms.DataLayer.Entities.Content.BaseContent
+@{
+    ViewBag.Title = Model.Title;
+}
+
+<style>
+    .single-news img {
+        max-width: 100%;
+    }
+
+    #contentBox {
+        background-color: #dae1e3;
+    }
+</style>
+
+<div class="container">
+    <div class="row">
+
+
+
+        <aside class="col-md-4 col-sm-12 col-xs-12 pull-right">
+
+
+            <!-- most views news -->
+            <partial name="_MostViewsContets" />
+            <!-- end most views news -->
+            <!-- Lates news -->
+            <partial name="_LatesContents" />
+            <!-- Lates  news -->
+
+        </aside>
+
+
+
+
+
+
+
+
+
+
+
+
+        <div class="col-md-8 col-sm-12 col-xs-12 pull-right " id="contentBox">
+            <section class=" border-radius">
+                <header>
+                    <h2> @Model.Title </h2>
+                    <span> <i class="fa fa-calendar"></i>  انتشار : @Model.ModifiedDate.MiladiToShamsi()</span>
+                </header>
+                <article>
+                    <p>
+                        @Model.ShortDescription
+                    </p>
+                    <di>
+                        <img src="/images/content/@Model.ImageName" class="thumbnail" style="max-width: auto; margin: 10px auto" />
+                    </di>
+                    <p>
+                        @Html.Raw(Model.MainText)
+                    </p>
+                </article>
+            </section>
+            <hr />
+            <div class="keywords border-radius">
+                <span> کلید واژه ها: </span>
+                @foreach (var item in Model.Tags.Split(','))
+                {
+
+                    <a href="/" type="button" class="btn btn-default">
+                        @item
+                    </a>
+
+                }
+
+            </div>
+
+            @* <section class="comment-layer">
+            <header> <i class="fa fa-comments"></i><h5> دیدگاه کاربران </h5><span> @Model.PageComments.Count دیدگاه </span> </header>
+            <ul id="commentList">
+
+            @Html.Action("ShowComments")
+
+            </ul>
+
+            <h6> شما هم دیدگاه خود را ارسال کنید </h6>
+            <form class="comment-form" action="" method="post">
+            <div>
+            <input placeholder=" نام و نام خانوادگی" type="text" id="txtName">
+            <input placeholder=" ایمیل خود را وارد نمایید " type="email" id="txtEmail">
+
+            </div>
+            <textarea placeholder=" متن دیدگاه" id="txtComment"> </textarea>
+            <input value="ثبت دیدگاه ارزشمند شما " type="button" onclick="addComment()">
+            </form>
+            </section> *@
+
+
+
+
+
+
+
+
+
+
+
+
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        function addComment() {
+            $.ajax({
+                url: "/Content/AddComment/" + @Model.ContentId,
+                type: "Get",
+                data: { name: $("#txtName").val(), email: $("#txtEmail").val(), comment: $("#txtComment").val() }
+            }).done(function (result) {
+
+                $("#commentList").html(result);
+                $("#txtName").val("");
+                $("#txtEmail").val("");
+                $("#txtComment").val("");
+
+            });
+        }
+    </script>
+}

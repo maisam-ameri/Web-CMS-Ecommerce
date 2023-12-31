@@ -86,6 +86,7 @@ namespace Cms.Core.Services
                 IsDeleted = false,
                 MainText = content.MainText,
                 PublishDate = content.PublishDate,
+                ModifiedDate = content.PublishDate,
                 ShortDescription = content.ShortDescription,
                 ShowInMainMenu = content.ShowInMainMenu,
                 Tags = content.Tags,
@@ -203,6 +204,7 @@ namespace Cms.Core.Services
         {
             return _context.BaseContents.OrderByDescending(c => c.PublishDate).Take(10).Select(c => new ContentDto
             {
+                Id = c.ContentId,
                 Title = c.Title,
                 ShortDescription = c.ShortDescription,
                 ImageName = c.ImageName,
@@ -215,6 +217,7 @@ namespace Cms.Core.Services
         {
             return _context.BaseContents.OrderByDescending(c => c.ViewCount).Take(10).Select(c => new ContentDto
             {
+                Id = c.ContentId,
                 Title = c.Title,
                 ShortDescription = c.ShortDescription,
                 ImageName = c.ImageName,
@@ -227,6 +230,7 @@ namespace Cms.Core.Services
         {
             return _context.BaseContents.Where(c => c.ShowInMainMenu).OrderByDescending(c => c.ViewCount).Select(c => new ContentDto
             {
+                Id = c.ContentId,
                 Title = c.Title,
                 ShortDescription = c.ShortDescription,
                 ImageName = c.ImageName,

@@ -24,7 +24,7 @@
                         @item.ShortDescription
                     </p>
                     <span class="date-publish"><i class="fa fa-calendar"></i> انتشار : @item.PublishDate.MiladiToShamsi() </span>
-                    <p><a href="#" class="btn btn-primary btn-lg" role="button">ادامه مطلب</a></p>
+                    <p><a asp-controller="Content" asp-action="ShowContent" asp-route-id="@item.Id" class="btn btn-primary btn-lg" role="button">ادامه مطلب</a></p>
 
             </ul>
         </section>

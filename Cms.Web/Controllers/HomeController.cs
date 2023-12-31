@@ -12,9 +12,6 @@ namespace Cms.Web.Controllers
             return View();
         }
 
-        public IActionResult MostViews()
-        {
-            return View();
-        }
+
     }
 }
