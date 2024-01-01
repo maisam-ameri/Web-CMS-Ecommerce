@@ -33,6 +33,8 @@ namespace Cms.Core.Services.Abstractions
         List<ContentDto>? GetLatesContents();
         List<ContentDto>? GetMostViewsContents();
         List<ContentDto>? GetContentsForSlider();
+        List<ContentDto>? GetContentsByCategoryId(int CategoryId);
+        List<ContentDto>? GetContentsByKeyword(string keyword);
 
         #endregion
 

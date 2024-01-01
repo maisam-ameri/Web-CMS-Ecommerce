@@ -16,7 +16,7 @@
                                 @foreach (var subItem in Model.Where(c => c.ParentId == item.Id))
                                 {
 
-                                    <li><a href=""> @subItem.Title</a></li>
+                                    <li><a asp-controller="Content" asp-action="ShowContentsByCategoryId" asp-route-categoryId="@subItem.Id" > @subItem.Title</a></li>
                                 }
                             }
                         </ul>

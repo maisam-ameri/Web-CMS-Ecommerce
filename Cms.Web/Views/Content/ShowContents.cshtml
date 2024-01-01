@@ -1,0 +1,10 @@
+﻿@model IEnumerable<Cms.Core.DTOs.Content.ContentDto>
+@{
+    ViewData["Title"] = "عناوین";
+}
+<div class="container">
+    <div class="row">
+        <partial name="_ArchiveContents" model="@Model" />
+    </div>
+
+</div>

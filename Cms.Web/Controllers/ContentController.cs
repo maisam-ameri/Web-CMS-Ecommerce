@@ -19,22 +19,40 @@ namespace Cms.Web.Controllers
             return View();
         }
 
-        //[Route("Content/showContent/{id}")]
+
+        #region Content
+
         public IActionResult ShowContent(int id)
         {
             var content = _contentService.GetBaseContent(id);
             ViewData["comments"] = _contentService.GetComments(id);
-            return View(content);   
+            return View(content);
         }
+
+        public IActionResult ShowContentsByCategoryId(int categoryId)
+        {
+            var contents = _contentService.GetContentsByCategoryId(categoryId);
+            return View("ShowContents", contents);
+        }
+
+        public IActionResult ShowContentsByKeyword(string keyword)
+        {
+            var contents = _contentService.GetContentsByKeyword(keyword);
+            return View("ShowContents",contents);
+        }
+
+        #endregion
+
+        #region Comment
 
         [HttpPost]
         public IActionResult AddComment(int id)
         {
             var name = HttpContext.Request.Form["name"].FirstOrDefault();
             var email = HttpContext.Request.Form["email"].FirstOrDefault();
-            var comment = HttpContext.Request.Form["comment"].FirstOrDefault(); 
+            var comment = HttpContext.Request.Form["comment"].FirstOrDefault();
             var data = new { name, email, comment };
-            var json = Json(new {status = "ok", data});
+            var json = Json(new { status = "ok", data });
 
             var newComment = new ContentComment
             {
@@ -50,11 +68,13 @@ namespace Cms.Web.Controllers
             return GetComments(id);
         }
 
-        public IActionResult GetComments(int id)    
+        public IActionResult GetComments(int id)
         {
             var comments = _contentService.GetComments(id);
 
             return PartialView("_ShowComment", comments);
         }
+
+        #endregion
     }
 }

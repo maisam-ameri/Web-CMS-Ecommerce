@@ -1,36 +1,56 @@
 ﻿@using Cms.Core.Convertors
-@inject Cms.Core.Services.Abstractions.IContentService _contentService
-
-@{
-    var contents = _contentService.GetLatesContents();
-}
+@model List<Cms.Core.DTOs.Content.ContentDto>
 
 
+<aside class="col-md-4 col-sm-12 col-xs-12 pull-right">
+
+
+    <!-- most views news -->
+    <partial name="_MostViewsContets" />
+    <!-- end most views news -->
+    <!-- Lates news -->
+    <partial name="_LatesContents" />
+    <!-- Lates  news -->
+    
+    <!-- Search Contents -->
+    <partial name="_ContentSearchBox" />
+    <!-- Search Contents -->
+
+    
+
+</aside>
 <div class="col-md-8 col-sm-12 col-xs-12 ">
 
-    @foreach (var item in contents)
+    @if (Model.Count == 0)
     {
-        <section class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">
-                    @item.Title
-                </h3>
-            </div>
-            <ul>
+        <h2 class="text text-danger">موردی یافت نشد!</h2>
+    }
+    else
+    {
 
-                <li>
-                    <a asp-controller="Content" asp-action="ShowContent" asp-route-id="@item.Id">
-                        <img class="border-radius" width="200px" height="200px" src="/images/content/@item.ImageName">
-                    </a>
-                    <p>
-                        @item.ShortDescription
-                    </p>
-                    <span class="date-publish"><i class="fa fa-calendar"></i> انتشار : @item.PublishDate.MiladiToShamsi() </span>
-                    <p><a asp-controller="Content" asp-action="ShowContent" asp-route-id="@item.Id" class="btn btn-primary btn-lg" role="button">ادامه مطلب</a></p>
+        @foreach (var item in Model)
+        {
+            <section class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        @item.Title
+                    </h3>
+                </div>
+                <ul>
 
-            </ul>
-        </section>
+                    <li>
+                        <a asp-controller="Content" asp-action="ShowContent" asp-route-id="@item.Id">
+                            <img class="border-radius" width="200px" height="200px" src="/images/content/@item.ImageName">
+                        </a>
+                        <p>
+                            @item.ShortDescription
+                        </p>
+                        <span class="date-publish"><i class="fa fa-calendar"></i> انتشار : @item.PublishDate.MiladiToShamsi() </span>
+                        <p><a asp-controller="Content" asp-action="ShowContent" asp-route-id="@item.Id" class="btn btn-primary btn-lg" role="button">ادامه مطلب</a></p>
 
+                </ul>
+            </section>
+        }
     }
 
 </div>

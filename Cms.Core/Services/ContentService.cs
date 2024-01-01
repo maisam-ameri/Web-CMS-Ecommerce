@@ -3,11 +3,10 @@ using Cms.Core.FileManager;
 using Cms.Core.Services.Abstractions;
 using Cms.DataLayer.Context;
 using Cms.DataLayer.Entities.Content;
-using Cms.Core.Generators;
-//using Cms.DataLayer.Entities.Shop;
 using Hangfire;
-using Microsoft.AspNetCore.Http;
 using Cms.Core.DTOs.Content;
+using Cms.DataLayer.Entities.Shop;
+using Category = Cms.DataLayer.Entities.Content.Category;
 
 namespace Cms.Core.Services
 {
@@ -229,6 +228,38 @@ namespace Cms.Core.Services
         public List<ContentDto>? GetContentsForSlider()
         {
             return _context.BaseContents.Where(c => c.ShowInMainMenu).OrderByDescending(c => c.ViewCount).Select(c => new ContentDto
+            {
+                Id = c.ContentId,
+                Title = c.Title,
+                ShortDescription = c.ShortDescription,
+                ImageName = c.ImageName,
+                PublishDate = c.PublishDate,
+
+            }).ToList();
+        }
+
+        public List<ContentDto>? GetContentsByCategoryId(int CategoryId)
+        {
+            return _context.BaseContents.Where(c => c.CategoryId == CategoryId).Select(c => new ContentDto
+            {
+                Id = c.ContentId,
+                Title = c.Title,
+                ShortDescription = c.ShortDescription,
+                ImageName = c.ImageName,
+                PublishDate = c.PublishDate,
+
+            }).ToList();
+        }
+
+        public List<ContentDto>? GetContentsByKeyword(string keyword)
+        {
+            var key = keyword.ToLower();
+
+            return _context.BaseContents.Where(c => 
+            c.Title.ToLower().Contains(key) ||
+            c.ShortDescription.ToLower().Contains(key) ||
+            c.MainText.ToLower().Contains(key))
+                .Select(c => new ContentDto
             {
                 Id = c.ContentId,
                 Title = c.Title,
