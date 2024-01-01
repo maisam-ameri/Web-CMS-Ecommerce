@@ -35,5 +35,11 @@ namespace Cms.Core.Services.Abstractions
         List<ContentDto>? GetContentsForSlider();
 
         #endregion
+
+        #region Comment
+
+        List<ContentComment>? GetComments(int contentId);
+        void CreateContentComment(ContentComment comment);
+        #endregion
     }
 }

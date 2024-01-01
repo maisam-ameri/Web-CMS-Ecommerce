@@ -73,7 +73,10 @@ namespace Cms.DataLayer.Context
         public DbSet<Cms.DataLayer.Entities.Content.Category> ContentCategories { get; set; }
         public DbSet<BaseContent> BaseContents { get; set; }
 
+        public DbSet<ContentComment> Comments { get; set; }
+
         #endregion
+
 
     }
 }

@@ -68,5 +68,6 @@ namespace Cms.DataLayer.Entities.Content
         public int? CategoryId { get; set; }
 
         public Category? Category { get; set; }
+        public List<ContentComment>? Comments { get; set; }
     }
 }

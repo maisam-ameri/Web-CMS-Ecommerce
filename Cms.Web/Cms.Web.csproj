@@ -40,7 +40,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\UserPanel\Views\Report\" />
     <Folder Include="UserOrderTemplate\" />
     <Folder Include="wwwroot\images\content\thumbnail\" />
     <Folder Include="wwwroot\images\myImages\" />

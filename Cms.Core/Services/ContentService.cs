@@ -240,5 +240,29 @@ namespace Cms.Core.Services
         }
 
         #endregion
+
+        #region Comment
+
+        public List<ContentComment>? GetComments(int contentId)
+        {
+            return _context.Comments.Where(c => c.ContentId == contentId).ToList();
+        }
+
+
+        public void CreateContentComment(ContentComment comment)
+        {
+            var newComment = new ContentComment
+            {
+                Name = comment.Name,
+                Email = comment.Email,
+                Comment = comment.Comment,
+                ContentId = comment.ContentId,
+                CreateDate = comment.CreateDate,
+            };
+
+            _context.Comments.Add(newComment);
+            _context.SaveChanges();
+        }
+        #endregion
     }
 }

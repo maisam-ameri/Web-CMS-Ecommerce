@@ -1,7 +1,8 @@
 ﻿@using Cms.Core.Convertors
 @model Cms.DataLayer.Entities.Content.BaseContent
 @{
-    ViewBag.Title = Model.Title;
+    ViewData["Title"] = Model.Title;
+    var comments = ViewData["comments"] as List<Cms.DataLayer.Entities.Content.ContentComment>;
 }
 
 <style>
@@ -32,16 +33,6 @@
         </aside>
 
 
-
-
-
-
-
-
-
-
-
-
         <div class="col-md-8 col-sm-12 col-xs-12 pull-right " id="contentBox">
             <section class=" border-radius">
                 <header>
@@ -60,13 +51,13 @@
                     </p>
                 </article>
             </section>
-            <hr />
+
             <div class="keywords border-radius">
                 <span> کلید واژه ها: </span>
                 @foreach (var item in Model.Tags.Split(','))
                 {
 
-                    <a href="/" type="button" class="btn btn-default">
+                    <a href="/Content/SearchContent?keyword=@item" type="button" class="btn btn-default">
                         @item
                     </a>
 
@@ -74,25 +65,46 @@
 
             </div>
 
-            @* <section class="comment-layer">
-            <header> <i class="fa fa-comments"></i><h5> دیدگاه کاربران </h5><span> @Model.PageComments.Count دیدگاه </span> </header>
-            <ul id="commentList">
+            <hr />
+            <section class="comment-layer">
 
-            @Html.Action("ShowComments")
+                <div class="form-group">
+                    <header> <i class="fa fa-comments"></i><h5> دیدگاه کاربران (@(comments == null ? "0" : comments.Count)) </h5> </header>
+                </div>
+                <div class="form-group">
 
-            </ul>
+                    <ul id="commentList">
+                    </ul>
+                </div>
 
-            <h6> شما هم دیدگاه خود را ارسال کنید </h6>
-            <form class="comment-form" action="" method="post">
-            <div>
-            <input placeholder=" نام و نام خانوادگی" type="text" id="txtName">
-            <input placeholder=" ایمیل خود را وارد نمایید " type="email" id="txtEmail">
 
-            </div>
-            <textarea placeholder=" متن دیدگاه" id="txtComment"> </textarea>
-            <input value="ثبت دیدگاه ارزشمند شما " type="button" onclick="addComment()">
-            </form>
-            </section> *@
+                <br />
+                <form role="form">
+                    <div class="form-group">
+                        <label>نام و نام خانوادگی</label>
+                        <input class="form-control" id="txtName">
+                        <p class="help-block"></p>
+                    </div>
+                    <div class="form-group">
+                        <label>ایمیل</label>
+                        <input class="form-control" id="txtEmail">
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>دیدگاه</label>
+                        <textarea class="form-control" rows="3" id="txtComment"></textarea>
+                    </div>
+
+
+
+
+
+                    <div class="form-group">
+                        <input type="button" class="btn btn-success" onclick="addComment()" value="ثبت دیدگاه">
+                    </div>
+                </form>
+            </section>
 
 
 
@@ -111,14 +123,44 @@
 
 @section Scripts{
     <script>
+
+        $(document).ready(function () {
+            getComments(@Model.ContentId);
+        });
+
+        function getComments(contentId) {
+
+            console.log(contentId);
+            $.ajax({
+                url: "/Content/GetComments/" + @Model.ContentId,
+                type: "Get",
+
+            }).done(function (result) {
+                $("#commentList").html(result);
+            });
+        }
+
         function addComment() {
+
+            var name = $("#txtName").val();
+            var email = $("#txtEmail").val();
+            var comment = $("#txtComment").val();
+
             $.ajax({
                 url: "/Content/AddComment/" + @Model.ContentId,
-                type: "Get",
-                data: { name: $("#txtName").val(), email: $("#txtEmail").val(), comment: $("#txtComment").val() }
-            }).done(function (result) {
+                type: "Post",
 
+                data: {
+                    name: name,
+                    email: email,
+                    comment: comment
+                },
+
+                contentType: "application/x-www-form-urlencoded"
+
+            }).done(function (result) {
                 $("#commentList").html(result);
+
                 $("#txtName").val("");
                 $("#txtEmail").val("");
                 $("#txtComment").val("");
