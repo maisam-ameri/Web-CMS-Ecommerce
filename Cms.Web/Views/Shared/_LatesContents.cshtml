@@ -18,8 +18,10 @@
         {
 
             <li>
-                <img class="border-radius thumbnail" width="100px" height="100px" src="/images/content/thumbnail/@item.ImageName">
-                <h2> <a href="/News/1">@item.Title</a></h2>
+                <a asp-controller="Content" asp-action="ShowContent" asp-route-id="@item.Id">
+                    <img class="border-radius thumbnail" width="100" height="100" src="/images/content/thumbnail/@item.ImageName">
+                    <h2> @item.Title</h2>
+                </a>
                 <span>انتشار : @item.PublishDate.MiladiToShamsi()</span>
             </li>
         }

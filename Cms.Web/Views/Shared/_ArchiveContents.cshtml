@@ -19,7 +19,9 @@
             <ul>
 
                 <li>
-                    <img class="border-radius" width="200px" height="200px" src="/images/content/@item.ImageName">
+                    <a asp-controller="Content" asp-action="ShowContent" asp-route-id="@item.Id">
+                        <img class="border-radius" width="200px" height="200px" src="/images/content/@item.ImageName">
+                    </a>
                     <p>
                         @item.ShortDescription
                     </p>
