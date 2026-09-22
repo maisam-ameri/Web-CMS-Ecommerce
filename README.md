@@ -1,0 +1,1 @@
+An ASP.NET Core web application that combines a content management system with an e-commerce store. The project includes content management features alongside product, order, and store management functionality.
